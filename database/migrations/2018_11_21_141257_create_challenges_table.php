@@ -13,7 +13,7 @@ class CreateChallangesTable extends Migration
      */
     public function up()
     {
-        Schema::create('challanges', function (Blueprint $table) {
+        Schema::create('challenges', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
         });
@@ -26,6 +26,6 @@ class CreateChallangesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('challanges');
+        Schema::dropIfExists('challenges');
     }
 }
