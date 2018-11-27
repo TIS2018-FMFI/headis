@@ -15,6 +15,11 @@ class CreateChallengesTable extends Migration
     {
         Schema::create('challenges', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id_1');
+            $table->integer('user_id_2');
+            $table->date('created_date');
+            $table->foreign('user_id_1')->references('id')->on('users');
+            $table->foreign('user_id_2')->references('id')->on('users');
             $table->timestamps();
         });
     }
