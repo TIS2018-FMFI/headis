@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->integer('level');
+            $table->integer('position');
             $table->string('first_name');
             $table->string('last_name');
             $table->boolean('isRedactor')->default(false);
