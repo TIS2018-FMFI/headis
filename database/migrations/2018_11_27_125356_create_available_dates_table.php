@@ -15,6 +15,10 @@ class CreateAvailableDatesTable extends Migration
     {
         Schema::create('available_dates', function (Blueprint $table) {
             $table->increments('id');
+            $table->date('date_from');
+            $table->date('date_to');
+            $table->integer('season_id');
+            $table->foreign('season_id')->references('id')->on('seasons');
             $table->timestamps();
         });
     }
