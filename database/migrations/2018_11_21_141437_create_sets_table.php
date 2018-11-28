@@ -19,7 +19,6 @@ class CreateSetsTable extends Migration
             $table->integer('score_1');
             $table->integer('score_2');
             $table->foreign('match_id')->references('id')->on('matches');
-            $table->timestamps();
         });
     }
 

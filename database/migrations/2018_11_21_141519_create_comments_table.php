@@ -21,7 +21,6 @@ class CreateCommentsTable extends Migration
             $table->foreign('challenge_id')->references('id')->on('challenges');
             $table->date('date');
             $table->text('text');
-            $table->timestamps();
         });
     }
 

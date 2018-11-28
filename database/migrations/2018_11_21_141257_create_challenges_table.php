@@ -20,7 +20,6 @@ class CreateChallengesTable extends Migration
             $table->date('created_date');
             $table->foreign('user_id_1')->references('id')->on('users');
             $table->foreign('user_id_2')->references('id')->on('users');
-            $table->timestamps();
         });
     }
 

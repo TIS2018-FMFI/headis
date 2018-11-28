@@ -18,7 +18,6 @@ class CreateDatesTable extends Migration
             $table->integer('challenge_id');
             $table->date('date');
             $table->foreign('challenge_id')->references('id')->on('challenges');
-            $table->timestamps();
         });
     }
 

@@ -19,7 +19,6 @@ class CreatePointsTable extends Migration
             $table->date('date');
             $table->integer('point');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->timestamps();
         });
     }
 
