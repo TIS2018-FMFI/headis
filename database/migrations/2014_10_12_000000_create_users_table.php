@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->boolean('isRedactor')->default(false);
             $table->string('image')->default(null);
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
