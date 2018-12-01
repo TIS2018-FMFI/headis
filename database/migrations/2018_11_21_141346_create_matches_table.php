@@ -19,6 +19,7 @@ class CreateMatchesTable extends Migration
             $table->integer('date_id');
             $table->foreign('challenge_id')->references('id')->on('challenges');
             $table->foreign('date_id')->references('id')->on('dates');
+            $table->boolean('confirmed')->default(false);
         });
     }
 
