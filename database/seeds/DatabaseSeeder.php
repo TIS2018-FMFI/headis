@@ -27,5 +27,18 @@ class DatabaseSeeder extends Seeder
             'updated_at' => now(),
         ));
         factory(App\User::class, 10)->create();
+
+        factory(App\Match::class, 30)->create()->each(function ($match) {
+            App\Set::create([
+                'match_id' => $match->id,
+                'score_1' => 11,
+                'score_2' => 6
+            ]);
+            App\Set::create([
+                'match_id' => $match->id,
+                'score_1' => 11,
+                'score_2' => 7
+            ]);
+        });
     }
 }
