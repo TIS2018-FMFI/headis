@@ -40,5 +40,8 @@ class DatabaseSeeder extends Seeder
                 'score_2' => 7
             ]);
         });
+
+        factory(App\Post::class, 10)->create();
+
     }
 }
