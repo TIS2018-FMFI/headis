@@ -49,22 +49,22 @@
                                 @endif
                             </li>
                         @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                            <li class="nav-item">
+                                <a href="{{ route('pyramid') }}" class="nav-link">
+                                    Rebríčková pyramída
                                 </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/users/{{ auth()->user()->id }}" class="nav-link">
+                                    {{ auth()->user()->user_name }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
+                                    <button class="btn-link nav-link border-0" type="submit">Odhlásenie</button>
+                                </form>
                             </li>
                         @endguest
                     </ul>
