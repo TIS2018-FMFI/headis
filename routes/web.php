@@ -35,7 +35,7 @@ Route::post('/dates/{id}/destroy', 'DateController@destroy');
 Route::post('/sets/store', 'SetController@store');
 Route::post('/sets/{id}/update', 'SetController@update');
 
-Route::get('/pyramids', 'PyramidController@index')->name('pyramids');
+Route::get('/pyramid', 'PyramidController@index')->name('pyramid');
 
 Route::get('/posts/{id}', 'PostController@show');
 Route::post('/posts/{id}/edit', 'PostController@edit');
