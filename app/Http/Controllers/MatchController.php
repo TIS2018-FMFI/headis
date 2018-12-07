@@ -8,12 +8,22 @@ class MatchController extends Controller
 {
 
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Match $match
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Match $match)
     {
         //
     }
@@ -21,10 +31,10 @@ class MatchController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Match $match
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Match $match)
     {
         //
     }
@@ -33,10 +43,10 @@ class MatchController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Match $match
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Match $match)
     {
         //
     }

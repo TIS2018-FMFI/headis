@@ -2,10 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Challenge;
 use Illuminate\Http\Request;
 
 class ChallengeController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -20,10 +31,10 @@ class ChallengeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Challenge $challenge
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Challenge $challenge)
     {
         //
     }
