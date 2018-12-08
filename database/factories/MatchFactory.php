@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Faker\Generator as Faker;
 
 /*
@@ -15,6 +16,16 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Match::class, function (Faker $faker) {
     $challenge = factory(App\Challenge::class)->create();
+
+    $user1 = User::find($challenge->user_id_1);
+    $user1->challenges()->attach([
+        $challenge->id
+    ]);
+
+    $user2 = User::find($challenge->user_id_2);
+    $user2->challenges()->attach([
+        $challenge->id
+    ]);
 
     $date = App\Date::create([
         'challenge_id' => $challenge->id,
