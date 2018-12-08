@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Challenge;
+use App\Match;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\Integer;
+use function PHPSTORM_META\type;
 
 class UserController extends Controller
 {
@@ -18,16 +23,6 @@ class UserController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  User $user
@@ -35,7 +30,12 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        $challenges = Challenge::where('user_id_1', $user->id)->orWhere('user_id_2', $user->id)->pluck('id')->toArray();
+        $matches = Match::whereIn('challenge_id', $challenges)->get();
+        return view('user.show', [
+            'user' => $user,
+            'matches' => $matches
+        ]);
     }
 
 
