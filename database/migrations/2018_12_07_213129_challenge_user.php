@@ -29,6 +29,6 @@ class ChallengeUser extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('challenge_user');
     }
 }
