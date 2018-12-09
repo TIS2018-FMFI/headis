@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ));
-        factory(App\User::class, 10)->create()->each(function ($user) {
+        factory(App\User::class, 20)->create()->each(function ($user) {
             static $point = 1;
             App\Point::create([
                 'user_id' => $user->id,

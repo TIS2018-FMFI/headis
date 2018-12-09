@@ -37,6 +37,7 @@ Route::post('/sets/{set}/update', 'SetController@update');
 
 Route::get('/pyramid', 'PyramidController@index')->name('pyramid');
 
+Route::get('/posts', 'PostController@index');
 Route::get('/posts/{post}', 'PostController@show');
 Route::get('/posts/{post}/edit', 'PostController@edit');
 Route::post('/posts/{post}/update', 'UserController@update');

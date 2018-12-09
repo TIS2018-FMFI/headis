@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -15,6 +17,22 @@ class PostController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
+        $this->middleware('redactor')->except('index');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $posts = Post::allAvailable();
+
+        return view('post.index', [
+            'posts' => $posts
+        ]);
     }
 
     /**
@@ -25,7 +43,9 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return view('post.show', [
+            'post' => $post
+        ]);
     }
 
     /**
