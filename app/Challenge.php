@@ -8,14 +8,20 @@ class Challenge extends Model
 {
     public $timestamps = false;
 
-    public function user1()
+
+    public function challenger()
     {
         return $this->belongsTo(User::class, 'user_id_1');
     }
 
-    public function user2()
+    public function asked()
     {
         return $this->belongsTo(User::class, 'user_id_2');
+    }
+
+    public function players()
+    {
+        return $this->challenger()->union($this->asked()->getBaseQuery());
     }
 
     public function comments()
