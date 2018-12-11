@@ -49,6 +49,15 @@
                                 @endif
                             </li>
                         @else
+                            @if ($currentAuthUser && $currentAuthUser->currentMatch())
+                                <li class="nav-item">
+                                    <a href="/matches/{{ $currentAuthUser->currentMatch()->id }}" class="nav-link">Aktuálny zápas</a>
+                                </li>
+                            @elseif ($currentAuthUser && $currentAuthUser->currentChallenge($currentAuthUser))
+                                <li class="nav-item">
+                                    <a href="/challenges/{{ $currentAuthUser->currentChallenge($currentAuthUser)->id }}" class="nav-link">Aktuálna výzva</a>
+                                </li>
+                            @endif
                             <li class="nav-item">
                                 <a href="{{ route('pyramid') }}" class="nav-link">
                                     Rebríčková pyramída
