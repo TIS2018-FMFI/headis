@@ -40,6 +40,16 @@ class User extends Authenticatable
 
     public function challenges()
     {
-        return $this->belongsToMany(Challenge::class,'challenge_user');
+        return $this->challengesChallenger()->union($this->challengesAsked()->getBaseQuery());
+    }
+
+    public function challengesChallenger()
+    {
+        return $this->hasMany(Challenge::class,'user_id_1');
+    }
+
+    public function challengesAsked()
+    {
+        return $this->hasMany(Challenge::class,'user_id_2');
     }
 }

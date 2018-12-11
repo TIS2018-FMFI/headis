@@ -14,8 +14,8 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(App\Challenge::class, function (Faker $faker) {
-    $user1 = \App\User::inRandomOrder()->first();
-    $user2 = \App\User::where('id', '!=', $user1->id)->inRandomOrder()->first();
+    $user1 = \App\User::where('id', '!=', 1)->inRandomOrder()->first();
+    $user2 = \App\User::where('id', '!=', 1)->where('id', '!=', $user1->id)->inRandomOrder()->first();
 
     return [
         'user_id_1' => $user1->id,
