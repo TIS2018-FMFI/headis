@@ -64,18 +64,21 @@ class User extends Authenticatable
         return $this->challengesAsAsked->whereMonth('created_date', Carbon::now())->count();
     }
 
-    public static function currentChallenge(User $user)
+    public function currentChallenge(User $user)
     {
-        return Challenge::where('user_id_1', $user->id)->orWhere('user_id_2', $user->id)->whereNotIn('id', Match::all()->pluck('challenge_id')->toArray())->get();
+        return Challenge::where(function ($query) use ($user) {
+            $query->where('user_id_1', $user->id);
+            $query->orWhere('user_id_1', $user->id);
+        })->whereNotIn('id', Match::all()->pluck('challenge_id')->toArray())->first();
     }
 
-    public static function currentMatch(User $user)
+    public function currentMatch()
     {
-        return $user->matches()->where('confirmed', false)->get();
+        return Match::whereIn('challenge_id', $this->challenges->pluck('id')->toArray())->where('confirmed', false)->first();
     }
 
     public function matches()
     {
-        return Match::whereIn('challenge_id', $this->challenges->pluck('id')->toArray());
+        return Match::whereIn('challenge_id', $this->challenges->pluck('id')->toArray())->get();
     }
 }

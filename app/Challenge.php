@@ -11,12 +11,12 @@ class Challenge extends Model
 
     public function challenger()
     {
-        return $this->belongsToMany(User::class, 'users', 'user_id_1', 'user_id_2');
+        return $this->belongsTo(User::class, 'user_id_1');
     }
 
     public function asked()
     {
-        return $this->belongsToMany(User::class, 'users', 'user_id_2', 'user_id_1');
+        return $this->belongsTo(User::class, 'user_id_2');
     }
 
     public function players()
