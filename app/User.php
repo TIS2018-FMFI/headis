@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -40,16 +41,41 @@ class User extends Authenticatable
 
     public function challenges()
     {
-        return $this->challengesChallenger()->union($this->challengesAsked()->getBaseQuery());
+        return $this->challengesAsAsked()->union($this->challengesAsAsked());
     }
 
-    public function challengesChallenger()
+    public function challengesAsChallenger()
     {
         return $this->hasMany(Challenge::class,'user_id_1');
     }
 
-    public function challengesAsked()
+    public function challengesAsAsked()
     {
         return $this->hasMany(Challenge::class,'user_id_2');
+    }
+
+    public function countOfChallengesAsChallenger()
+    {
+        return $this->challengesAsChallenger->whereMonth('created_date', Carbon::now())->count();
+    }
+
+    public function countOfChallengesAsAsked()
+    {
+        return $this->challengesAsAsked->whereMonth('created_date', Carbon::now())->count();
+    }
+
+    public static function currentChallenge(User $user)
+    {
+        return Challenge::where('user_id_1', $user->id)->orWhere('user_id_2', $user->id)->whereNotIn('id', Match::all()->pluck('challenge_id')->toArray())->get();
+    }
+
+    public static function currentMatch(User $user)
+    {
+        return $user->matches()->where('confirmed', false)->get();
+    }
+
+    public function matches()
+    {
+        return Match::whereIn('challenge_id', $this->challenges->pluck('id')->toArray());
     }
 }
