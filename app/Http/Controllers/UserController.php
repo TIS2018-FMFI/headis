@@ -30,8 +30,18 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $challenges = Challenge::where('user_id_1', $user->id)->orWhere('user_id_2', $user->id)->pluck('id')->toArray();
-        $matches = Match::whereIn('challenge_id', $challenges)->get();
+//        dd($user->currentChallenge($user));
+//        dd(auth()->user()->currentMatch());
+//        $match = $user->currentMatch();
+//        if ($match == null){
+//            die();
+//        }
+//        dd($user->currentMatch()->id);
+        $matches = $user->matches()->get();
+//        dd($matches->first());
+//        die('tu');
+//        $challenges = Challenge::where('user_id_1', $user->id)->orWhere('user_id_2', $user->id)->pluck('id')->toArray();
+//        $matches = Match::whereIn('challenge_id', $user->challenges->pluck('id')->toArray());
         return view('user.show', [
             'user' => $user,
             'matches' => $matches

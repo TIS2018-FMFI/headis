@@ -36,6 +36,6 @@ class ChallengeController extends Controller
      */
     public function show(Challenge $challenge)
     {
-        //
+        dd($challenge->match);
     }
 }
