@@ -56,29 +56,26 @@ class User extends Authenticatable
 
     public function countOfChallengesAsChallenger()
     {
-        return $this->challengesAsChallenger->whereMonth('created_date', Carbon::now())->count();
+        return $this->challengesAsChallenger()->whereMonth('created_date', Carbon::now())->count();
     }
 
     public function countOfChallengesAsAsked()
     {
-        return $this->challengesAsAsked->whereMonth('created_date', Carbon::now())->count();
+        return $this->challengesAsAsked()->whereMonth('created_date', Carbon::now())->count();
     }
 
-    public function currentChallenge(User $user)
+    public static function currentChallenge(User $user)
     {
-        return Challenge::where(function ($query) use ($user) {
-            $query->where('user_id_1', $user->id);
-            $query->orWhere('user_id_1', $user->id);
-        })->whereNotIn('id', Match::all()->pluck('challenge_id')->toArray())->first();
+        return Challenge::where('user_id_1', $user->id)->orWhere('user_id_2', $user->id)->whereNotIn('id', Match::all()->pluck('challenge_id')->toArray())->first();
     }
 
     public function currentMatch()
     {
-        return Match::whereIn('challenge_id', $this->challenges->pluck('id')->toArray())->where('confirmed', false)->first();
+        return $this->matches()->where('confirmed', false)->first();
     }
 
     public function matches()
     {
-        return Match::whereIn('challenge_id', $this->challenges->pluck('id')->toArray())->get();
+        return Match::whereIn('challenge_id', $this->challenges->pluck('id')->toArray());
     }
 }

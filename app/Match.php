@@ -20,6 +20,6 @@ class Match extends Model
 
     public function sets()
     {
-        return $this->hasMany(Challenge::class);
+        return $this->hasMany(Set::class);
     }
 }
