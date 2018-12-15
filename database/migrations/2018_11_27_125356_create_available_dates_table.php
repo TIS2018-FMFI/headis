@@ -17,7 +17,7 @@ class CreateAvailableDatesTable extends Migration
             $table->increments('id');
             $table->date('date_from');
             $table->date('date_to');
-            $table->integer('season_id');
+            $table->integer('season_id')->unsigned();
             $table->foreign('season_id')->references('id')->on('seasons');
         });
     }

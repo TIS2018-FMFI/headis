@@ -15,7 +15,7 @@ class CreateSetsTable extends Migration
     {
         Schema::create('sets', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('match_id');
+            $table->integer('match_id')->unsigned();
             $table->integer('score_1');
             $table->integer('score_2');
             $table->foreign('match_id')->references('id')->on('matches');

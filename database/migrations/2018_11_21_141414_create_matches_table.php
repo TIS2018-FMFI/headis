@@ -15,8 +15,8 @@ class CreateMatchesTable extends Migration
     {
         Schema::create('matches', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('challenge_id');
-            $table->integer('date_id');
+            $table->integer('challenge_id')->unsigned();
+            $table->integer('date_id')->unsigned();
             $table->foreign('challenge_id')->references('id')->on('challenges');
             $table->foreign('date_id')->references('id')->on('dates');
             $table->boolean('confirmed')->default(null);
