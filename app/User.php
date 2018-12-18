@@ -66,7 +66,10 @@ class User extends Authenticatable
 
     public static function currentChallenge(User $user)
     {
-        return Challenge::where('user_id_1', $user->id)->orWhere('user_id_2', $user->id)->whereNotIn('id', Match::all()->pluck('challenge_id')->toArray())->first();
+        return Challenge::where(function ($query) use ($user) {
+            $query->where('user_id_1', $user->id);
+            $query->orWhere('user_id_1', $user->id);
+        })->whereNotIn('id', Match::all()->pluck('challenge_id')->toArray())->first();
     }
 
     public function currentMatch()
@@ -76,6 +79,6 @@ class User extends Authenticatable
 
     public function matches()
     {
-        return Match::whereIn('challenge_id', $this->challenges->pluck('id')->toArray());
+        return Match::whereIn('challenge_id', $this->challenges->pluck('id')->toArray())->get();
     }
 }

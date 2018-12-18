@@ -37,7 +37,7 @@ class UserController extends Controller
 //            die();
 //        }
 //        dd($user->currentMatch()->id);
-        $matches = $user->matches()->get();
+        $matches = $user->matches();
 //        dd($matches->first());
 //        die('tu');
 //        $challenges = Challenge::where('user_id_1', $user->id)->orWhere('user_id_2', $user->id)->pluck('id')->toArray();
