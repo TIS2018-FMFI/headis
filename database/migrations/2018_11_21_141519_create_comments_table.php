@@ -19,7 +19,7 @@ class CreateCommentsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->integer('challenge_id')->unsigned();
             $table->foreign('challenge_id')->references('id')->on('challenges');
-            $table->date('date');
+            $table->timestamp('date');
             $table->text('text');
         });
     }

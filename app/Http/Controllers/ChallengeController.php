@@ -36,6 +36,12 @@ class ChallengeController extends Controller
      */
     public function show(Challenge $challenge)
     {
-        dd($challenge->match);
+        return view('challenge.show', [
+            'challenge' => $challenge,
+            'challenger' => $challenge->challenger,
+            'asked' => $challenge->asked,
+            'dates' => $challenge->dates,
+            'comments' => $challenge->comments
+        ]);
     }
 }

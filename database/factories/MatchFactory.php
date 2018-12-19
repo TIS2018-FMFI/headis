@@ -1,6 +1,7 @@
 <?php
 
 use App\User;
+use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 /*
@@ -26,14 +27,14 @@ $factory->define(App\Match::class, function (Faker $faker) {
         'text' => $faker->sentence(),
         'challenge_id' => $challenge->id,
         'user_id' => $challenge->user_id_1,
-        'date' => $challenge->created_date
+        'date' => Carbon::now()
     ]);
 
     App\Comment::create([
         'text' => $faker->sentence(),
         'challenge_id' => $challenge->id,
         'user_id' => $challenge->user_id_2,
-        'date' => $challenge->created_date
+        'date' => Carbon::now()
     ]);
 
     return [
