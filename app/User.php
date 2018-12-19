@@ -41,7 +41,7 @@ class User extends Authenticatable
 
     public function challenges()
     {
-        return $this->challengesAsAsked()->union($this->challengesAsAsked());
+        return $this->challengesAsChallenger()->union($this->challengesAsAsked());
     }
 
     public function challengesAsChallenger()
@@ -79,6 +79,11 @@ class User extends Authenticatable
 
     public function matches()
     {
-        return Match::whereIn('challenge_id', $this->challenges->pluck('id')->toArray())->get();
+//        dd(Match::whereIn('matches.challenge_id', $this->challenges->pluck('id')->toArray())->join('dates', 'matches.date_id','=','dates.id')->
+//        orderBy('date')->get());
+        return Match::whereIn('matches.challenge_id', $this->challenges->pluck('id')->toArray())
+            ->join('dates', 'matches.date_id','=','dates.id')
+            ->orderBy('date')
+            ->get();
     }
 }

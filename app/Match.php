@@ -22,4 +22,19 @@ class Match extends Model
     {
         return $this->hasMany(Set::class);
     }
+
+    public function winner()
+    {
+        $sets = $this->sets;
+        $user1 = 0;
+        foreach ($sets as $set){
+            if ($set->score_1 > $set->score_2){
+                $user1 = $user1 + 1;
+            }
+        }
+        if ($user1 == 2){
+            return $this->challenge->challenger();
+        }
+        return $this->challenge->asked();
+    }
 }

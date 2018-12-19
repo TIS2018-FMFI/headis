@@ -21,7 +21,7 @@ class Challenge extends Model
 
     public function players()
     {
-        return $this->challenger()->union($this->asked()->getBaseQuery());
+        return $this->challenger()->union($this->asked());
     }
 
     public function comments()

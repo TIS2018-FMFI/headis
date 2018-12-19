@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="offset-1 text-center col-sm-4">
+            <div class="text-center col-sm-4">
                 <h3> {{ $user->user_name }} </h3>
                 <img class="img-fluid mb-4" src="{{ url('images/'.$user->image)}}"  alt="{{ $user->user_name }}">
                 @if(\App\User::currentChallenge($user) && $currentAuthUser->id == $user->id)
@@ -21,40 +21,62 @@
                         <strong>e-mail: </strong>{{ $user->email }}<br>
                     </p>
                     @if($currentAuthUser->id !== $user->id)
-                        @if($user->deleted_at !== null)
-                                <a href="/users/{{$user->id}}/destroy" class="btn btn-primary">Aktivácia hráča!</a>
-                        @else
-                                <a href="/users/{{$user->id}}/destroy" class="btn btn-primary">Deaktivácia hráča!</a>
+                        @if($user->deleted_at == null)
+                            <a href="/users/{{$user->id}}/destroy" class="btn btn-primary">Deaktivácia hráča!</a>
                         @endif
                     @endif
                 @endif
             </div>
-            <div class="row">
-                <div class="offset-5 text-center col-sm-6">
-                    <table class="table">
-                        <tr>
-                            <th>Súper</th>
-                            <th>Dátum</th>
-                            <th>Set1</th>
-                            <th>Set2</th>
-                            <th>Set3</th>
-                            <th>Výherca</th>
-                        </tr>
-                        @foreach($matches as $match)
-{{--                            {{dd($match->challenge->asked)}}--}}
-                            <th><a href="/users/{{$match->challenge->first()->challenger->id}}">{{$match->challenge->first()->challenger->user_name}}</a></th>
-                            <th>{{$match->date->date}}</th>
-                            @foreach($match->sets as $set)
-                                <th>{{$set->score_1}}:{{$set->score_2}}</th>
+            <div class="col-sm-8">
+                <div class="row">
+                    <div class="offset-1 text-center col-sm-11">
+                        <div class="row">
+                            <div class="col-4 font-weight-bold">Súper</div>
+                            <div class="col-8">
+                                <div class="row mb-4">
+                                    <div class="col-4 font-weight-bold">Dátum zápasu</div>
+                                    <div class="col-2 font-weight-bold">Set1</div>
+                                    <div class="col-2 font-weight-bold">Set2</div>
+                                    <div class="col-2 font-weight-bold">Set3</div>
+                                    <div class="col-2 font-weight-bold">Výherca</div>
+                                </div>
+                            </div>
+                        </div>
+                            @foreach($matches as $match)
+                            <div class="row mb-4">
+                                <div class="col-4">
+                                    @if($user->id == $match->challenge->challenger->id)
+                                        <a href="/users/{{$match->challenge->asked->id}}">{{$match->challenge->asked->user_name}}</a>
+                                    @else
+                                        <a href="/users/{{$match->challenge->challenger->id}}">{{$match->challenge->challenger->user_name}}</a>
+                                    @endif
+                                </div>
+                                <div class="col-8">
+                                    <div class="row">
+                                        <div class="col-4">{{$match->date}}</div>
+                                        @foreach($match->sets as $set)
+                                            @if($user->id == $match->challenge->challenger->id)
+                                                <div class="col-2">{{$set->score_1}}:{{$set->score_2}}</div>
+                                            @else
+                                                <div class="col-2">{{$set->score_2}}:{{$set->score_1}}</div>
+                                            @endif
+                                        @endforeach
+                                        @if(sizeof($match->sets) == 2)
+                                            <div class="col-2">0:0</div>
+                                        @endif
+                                        @if($user->id == $match->winner->id)
+                                            <div class="col-2">✓</div>
+                                        @else
+                                            <div class="col-2">✗</div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
                             @endforeach
-                            @if(sizeof($match->sets) == 2)
-                                <th>0:0</th>
-                            @endif
-                        @endforeach
-                    </table>
+
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 
