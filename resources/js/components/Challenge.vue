@@ -1,8 +1,9 @@
 <template>
+
     <div class="container">
         <div class="row text-center mb-5">
             <div class="col-md-12">
-                <h1>Výzva č. {{ challenge.id }}</h1>
+                <h1>Výzva č. {{ challenge.id }} </h1>
 
             </div>
         </div>
@@ -12,10 +13,10 @@
         -->
         <div class="row mb-5">
             <div class="col-md-6 text-left">
-                <h2><b>Vyzývateľ: {{ challenger.user_name }}</b></h2>
+                <h2><b>Vyzývateľ: {{ challenge.challenger.user_name }}</b></h2>
             </div>
             <div class="col-md-6 text-right">
-                <h2><b>Vyzývaný: {{ asked.user_name }}</b></h2>
+                <h2><b>Vyzývaný: {{ challenge.asked.user_name }}</b></h2>
             </div>
         </div>
 
@@ -64,36 +65,32 @@
                         <!--
                         TODO: use bootstrap rather than new styles
                         -->
-                        <div v-for="comment in allComments">
-                            <div class="chatcontainer darker" v-if="comment.user_id == challenger.id">
-                                <img :src="'/images/' + challenger.image" alt="Avatar" style="width:100%;">
-                                <p> <b>{{ challenger.user_name }}:</b> {{ comment.text }} </p>
+                        <div v-for="comment in sortedItems">
+
+                            <div class="chatcontainer darker" v-if="comment.user_id == challenge.challenger.id">
+                                <img :src="'/images/' + challenge.challenger.image" alt="Avatar" style="width:100%;">
+                                <p> <b>{{ challenge.challenger.user_name }}:</b> {{ comment.text }} </p>
                                 <span class="time-right">{{ comment.date }}</span>
                             </div>
 
                             <div class="chatcontainer reply" v-else>
-                                <img :src="'/images/'+asked.image" alt="Avatar" style="width:100%;">
-                                <p> <b>{{ asked.user_name }}:</b> {{ comment.text }} </p>
+                                <img :src="'/images/'+challenge.asked.image" alt="Avatar" style="width:100%;">
+                                <p> <b>{{ challenge.asked.user_name }}:</b> {{ comment.text }} </p>
                                 <span class="time-left">{{ comment.date }}</span>
                             </div>
 
                         </div>
 
                         <div class="input-group">
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" v-model="commentText">
                             <span class="input-group-btn">
-                                <button class="btn btn-primary" type="button">Pošli</button>
+                                <button @click.prevent="addComment()" class="btn-primary" type="button">Pošli</button>
                             </span>
                         </div>
                     </div>
-
                 </div>
-
             </div>
-
-
         </div>
-
     </div>
 
 </template>
@@ -101,12 +98,13 @@
 <script>
     export default {
         name: "Challenge",
-        props: ['challenge', 'dates', 'challenger', 'asked', 'comments'],
+        props: ['challenge', 'current_user'],
         data: () => {
             return {
                 axiosComments: null,
                 axiosDates: null,
-                selectedDate: null
+                selectedDate: null,
+                commentText: null
             }
         },
         computed: {
@@ -114,13 +112,16 @@
                 if (this.axiosDates) {
                     return this.axiosDates;
                 }
-                return this.dates;
+                return this.challenge.dates;
             },
             allComments() {
                 if (this.axiosComments) {
                     return this.axiosComments;
                 }
-                return this.comments;
+                return this.challenge.comments;
+            },
+            sortedItems() {
+                return this.allComments.sort((a, b) => new Date(a.date) - new Date(b.date))
             }
         },
         methods: {
@@ -132,6 +133,18 @@
                     }
                 }).then(response => {
                     this.axiosDates = response['data']['dates'];
+                    console.log(response);
+                });
+            },
+            addComment() {
+                axios.post('/comments/store', {
+                    data: {
+                        challenge: this.challenge.id,
+                        user_id: this.current_user.id,
+                        text: this.commentText
+                    }
+                }).then(response => {
+                    this.axiosComments = response['data']['comments'];
                     console.log(response);
                 });
             }

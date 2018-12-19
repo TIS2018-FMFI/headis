@@ -37,11 +37,7 @@ class ChallengeController extends Controller
     public function show(Challenge $challenge)
     {
         return view('challenge.show', [
-            'challenge' => $challenge,
-            'challenger' => $challenge->challenger,
-            'asked' => $challenge->asked,
-            'dates' => $challenge->dates,
-            'comments' => $challenge->comments
+            'challenge' => $challenge->load(['challenger', 'asked', 'dates', 'comments']),
         ]);
     }
 }
