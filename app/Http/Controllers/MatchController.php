@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Match;
 use Illuminate\Http\Request;
 
 class MatchController extends Controller
@@ -26,18 +27,13 @@ class MatchController extends Controller
     public function show(Match $match)
     {
         //
+        return view('match.show', [
+            'match' => $match->load(['sets']),
+        ]);
+
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  Match $match
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Match $match)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.

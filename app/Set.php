@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Set extends Model
 {
+    protected $guarded = [];
     public $timestamps = false;
 
     public function match()
