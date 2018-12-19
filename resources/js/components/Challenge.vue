@@ -1,6 +1,6 @@
 <template>
 
-    <div class="container">
+    <div class="container" v-if="current_user.id == challenge.challenger.id || current_user.id == challenge.asked.id">
         <div class="row text-center mb-5">
             <div class="col-md-12">
                 <h1>Výzva č. {{ challenge.id }} </h1>
@@ -13,10 +13,10 @@
         -->
         <div class="row mb-5">
             <div class="col-md-6 text-left">
-                <h2><b>Vyzývateľ: {{ challenge.challenger.user_name }}</b></h2>
+                <h2><b>Vyzývateľ: <a :href="'/users/' + challenge.challenger.id">{{ challenge.challenger.user_name }}</a></b></h2>
             </div>
             <div class="col-md-6 text-right">
-                <h2><b>Vyzývaný: {{ challenge.asked.user_name }}</b></h2>
+                <h2><b>Vyzvaný: <a :href="'/users/' + challenge.asked.id">{{ challenge.asked.user_name }}</a></b></h2>
             </div>
         </div>
 
@@ -55,7 +55,8 @@
             Comments for the given challenge
             TODO: replace date with a timestamp
             -->
-            <div class="col-lg-6 offset-2">
+
+            <div class="col-lg-6 offset-2" v-if="!current_user.isRedactor">
                 <div class="col mb-5">
                     <div class="card border-dark">
                         <div class="card-header bg-dark text-white">
@@ -63,8 +64,9 @@
                         </div>
 
                         <!--
-                        TODO: use bootstrap rather than new styles
+                        TODO: use bootstrap rather than new styles and verify ID's
                         -->
+                        <div class="pre-scrollable">
                         <div v-for="comment in sortedItems">
 
                             <div class="chatcontainer darker" v-if="comment.user_id == challenge.challenger.id">
@@ -79,6 +81,7 @@
                                 <span class="time-left">{{ comment.date }}</span>
                             </div>
 
+                        </div>
                         </div>
 
                         <div class="input-group">

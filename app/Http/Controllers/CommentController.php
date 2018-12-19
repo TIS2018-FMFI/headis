@@ -42,7 +42,7 @@ class CommentController extends Controller
 
         $comments = Comment::where('challenge_id', $request['data']['challenge'])->get();
         return response()->json([
-            'comment' => $comments,
+            'comments' => $comments,
             'status' => 'ok'
         ]);
     }

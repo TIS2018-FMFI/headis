@@ -47508,7 +47508,7 @@ exports = module.exports = __webpack_require__(46)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -47959,6 +47959,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "Challenge",
@@ -48029,209 +48032,247 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row text-center mb-5" }, [
-      _c("div", { staticClass: "col-md-12" }, [
-        _c("h1", [_vm._v("Výzva č. " + _vm._s(_vm.challenge.id) + " ")])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "row mb-5" }, [
-      _c("div", { staticClass: "col-md-6 text-left" }, [
-        _c("h2", [
-          _c("b", [
-            _vm._v("Vyzývateľ: " + _vm._s(_vm.challenge.challenger.user_name))
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6 text-right" }, [
-        _c("h2", [
-          _c("b", [
-            _vm._v("Vyzývaný: " + _vm._s(_vm.challenge.asked.user_name))
-          ])
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-lg-4" }, [
-        _c("div", { staticClass: "col mb-5" }, [
-          _c("div", { staticClass: "card border-dark" }, [
-            _c("div", { staticClass: "card-header bg-dark text-white" }, [
-              _vm._v("\n                        Dátumy\n                    ")
-            ]),
-            _vm._v(" "),
-            _c(
-              "ul",
-              { staticClass: "list-group list-group-flush" },
-              _vm._l(_vm.allDates, function(date) {
-                return _c(
-                  "li",
-                  { staticClass: "list-group-item text-center" },
-                  [
-                    _c("input", {
-                      staticClass: "form-check-input",
-                      attrs: { type: "checkbox" }
-                    }),
-                    _vm._v(" " + _vm._s(date.date) + "  ")
-                  ]
-                )
-              })
-            )
+  return _vm.current_user.id == _vm.challenge.challenger.id ||
+    _vm.current_user.id == _vm.challenge.asked.id
+    ? _c("div", { staticClass: "container" }, [
+        _c("div", { staticClass: "row text-center mb-5" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("h1", [_vm._v("Výzva č. " + _vm._s(_vm.challenge.id) + " ")])
           ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "col mb-5" }, [
-          _c("div", { staticClass: "card-header bg-dark text-white" }, [
-            _vm._v("\n                    Pridať dátum\n                ")
+        _c("div", { staticClass: "row mb-5" }, [
+          _c("div", { staticClass: "col-md-6 text-left" }, [
+            _c("h2", [
+              _c("b", [
+                _vm._v("Vyzývateľ: "),
+                _c(
+                  "a",
+                  { attrs: { href: "/users/" + _vm.challenge.challenger.id } },
+                  [_vm._v(_vm._s(_vm.challenge.challenger.user_name))]
+                )
+              ])
+            ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "card border-dark" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.selectedDate,
-                  expression: "selectedDate"
-                }
-              ],
-              staticClass: "input-group date",
-              attrs: { type: "date" },
-              domProps: { value: _vm.selectedDate },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.selectedDate = $event.target.value
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn-primary",
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    _vm.addDate()
-                  }
-                }
-              },
-              [_vm._v("Pridaj")]
-            )
+          _c("div", { staticClass: "col-md-6 text-right" }, [
+            _c("h2", [
+              _c("b", [
+                _vm._v("Vyzvaný: "),
+                _c(
+                  "a",
+                  { attrs: { href: "/users/" + _vm.challenge.asked.id } },
+                  [_vm._v(_vm._s(_vm.challenge.asked.user_name))]
+                )
+              ])
+            ])
           ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-lg-6 offset-2" }, [
-        _c("div", { staticClass: "col mb-5" }, [
-          _c(
-            "div",
-            { staticClass: "card border-dark" },
-            [
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-lg-4" }, [
+            _c("div", { staticClass: "col mb-5" }, [
+              _c("div", { staticClass: "card border-dark" }, [
+                _c("div", { staticClass: "card-header bg-dark text-white" }, [
+                  _vm._v(
+                    "\n                        Dátumy\n                    "
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "ul",
+                  { staticClass: "list-group list-group-flush" },
+                  _vm._l(_vm.allDates, function(date) {
+                    return _c(
+                      "li",
+                      { staticClass: "list-group-item text-center" },
+                      [
+                        _c("input", {
+                          staticClass: "form-check-input",
+                          attrs: { type: "checkbox" }
+                        }),
+                        _vm._v(" " + _vm._s(date.date) + "  ")
+                      ]
+                    )
+                  })
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col mb-5" }, [
               _c("div", { staticClass: "card-header bg-dark text-white" }, [
-                _vm._v("\n                        Správy\n                    ")
+                _vm._v("\n                    Pridať dátum\n                ")
               ]),
               _vm._v(" "),
-              _vm._l(_vm.sortedItems, function(comment) {
-                return _c("div", [
-                  comment.user_id == _vm.challenge.challenger.id
-                    ? _c("div", { staticClass: "chatcontainer darker" }, [
-                        _c("img", {
-                          staticStyle: { width: "100%" },
-                          attrs: {
-                            src: "/images/" + _vm.challenge.challenger.image,
-                            alt: "Avatar"
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("p", [
-                          _c("b", [
-                            _vm._v(
-                              _vm._s(_vm.challenge.challenger.user_name) + ":"
-                            )
-                          ]),
-                          _vm._v(" " + _vm._s(comment.text) + " ")
-                        ]),
-                        _vm._v(" "),
-                        _c("span", { staticClass: "time-right" }, [
-                          _vm._v(_vm._s(comment.date))
-                        ])
-                      ])
-                    : _c("div", { staticClass: "chatcontainer reply" }, [
-                        _c("img", {
-                          staticStyle: { width: "100%" },
-                          attrs: {
-                            src: "/images/" + _vm.challenge.asked.image,
-                            alt: "Avatar"
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("p", [
-                          _c("b", [
-                            _vm._v(_vm._s(_vm.challenge.asked.user_name) + ":")
-                          ]),
-                          _vm._v(" " + _vm._s(comment.text) + " ")
-                        ]),
-                        _vm._v(" "),
-                        _c("span", { staticClass: "time-left" }, [
-                          _vm._v(_vm._s(comment.date))
-                        ])
-                      ])
-                ])
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "input-group" }, [
+              _c("div", { staticClass: "card border-dark" }, [
                 _c("input", {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.commentText,
-                      expression: "commentText"
+                      value: _vm.selectedDate,
+                      expression: "selectedDate"
                     }
                   ],
-                  staticClass: "form-control",
-                  attrs: { type: "text" },
-                  domProps: { value: _vm.commentText },
+                  staticClass: "input-group date",
+                  attrs: { type: "date" },
+                  domProps: { value: _vm.selectedDate },
                   on: {
                     input: function($event) {
                       if ($event.target.composing) {
                         return
                       }
-                      _vm.commentText = $event.target.value
+                      _vm.selectedDate = $event.target.value
                     }
                   }
                 }),
                 _vm._v(" "),
-                _c("span", { staticClass: "input-group-btn" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn-primary",
-                      attrs: { type: "button" },
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          _vm.addComment()
-                        }
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn-primary",
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        _vm.addDate()
                       }
-                    },
-                    [_vm._v("Pošli")]
-                  )
+                    }
+                  },
+                  [_vm._v("Pridaj")]
+                )
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          !_vm.current_user.isRedactor
+            ? _c("div", { staticClass: "col-lg-6 offset-2" }, [
+                _c("div", { staticClass: "col mb-5" }, [
+                  _c("div", { staticClass: "card border-dark" }, [
+                    _c(
+                      "div",
+                      { staticClass: "card-header bg-dark text-white" },
+                      [
+                        _vm._v(
+                          "\n                        Správy\n                    "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "pre-scrollable" },
+                      _vm._l(_vm.sortedItems, function(comment) {
+                        return _c("div", [
+                          comment.user_id == _vm.challenge.challenger.id
+                            ? _c(
+                                "div",
+                                { staticClass: "chatcontainer darker" },
+                                [
+                                  _c("img", {
+                                    staticStyle: { width: "100%" },
+                                    attrs: {
+                                      src:
+                                        "/images/" +
+                                        _vm.challenge.challenger.image,
+                                      alt: "Avatar"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("p", [
+                                    _c("b", [
+                                      _vm._v(
+                                        _vm._s(
+                                          _vm.challenge.challenger.user_name
+                                        ) + ":"
+                                      )
+                                    ]),
+                                    _vm._v(" " + _vm._s(comment.text) + " ")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("span", { staticClass: "time-right" }, [
+                                    _vm._v(_vm._s(comment.date))
+                                  ])
+                                ]
+                              )
+                            : _c(
+                                "div",
+                                { staticClass: "chatcontainer reply" },
+                                [
+                                  _c("img", {
+                                    staticStyle: { width: "100%" },
+                                    attrs: {
+                                      src:
+                                        "/images/" + _vm.challenge.asked.image,
+                                      alt: "Avatar"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("p", [
+                                    _c("b", [
+                                      _vm._v(
+                                        _vm._s(_vm.challenge.asked.user_name) +
+                                          ":"
+                                      )
+                                    ]),
+                                    _vm._v(" " + _vm._s(comment.text) + " ")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("span", { staticClass: "time-left" }, [
+                                    _vm._v(_vm._s(comment.date))
+                                  ])
+                                ]
+                              )
+                        ])
+                      })
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "input-group" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.commentText,
+                            expression: "commentText"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.commentText },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.commentText = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "input-group-btn" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn-primary",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.addComment()
+                              }
+                            }
+                          },
+                          [_vm._v("Pošli")]
+                        )
+                      ])
+                    ])
+                  ])
                 ])
               ])
-            ],
-            2
-          )
+            : _vm._e()
         ])
       ])
-    ])
-  ])
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
