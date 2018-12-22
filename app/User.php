@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,6 +11,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
+    use SoftDeletes;
+
 
     /**
      * The attributes that are mass assignable.
@@ -28,6 +31,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 
     public function posts()
     {
@@ -85,5 +96,11 @@ class User extends Authenticatable
             ->join('dates', 'matches.date_id','=','dates.id')
             ->orderBy('date')
             ->get();
+    }
+
+
+    public static function pyramid()
+    {
+        return User::where('deleted_at', '=', null)->where('isRedactor', '=', false)->orderBy('position')->get();
     }
 }

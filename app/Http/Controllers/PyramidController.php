@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
 class PyramidController extends Controller
@@ -23,7 +24,11 @@ class PyramidController extends Controller
      */
     public function index()
     {
-        //
+//        dd(Point::pyramid());
+//        dd(User::pyramid());
+        return view('pyramid.index', [
+            'users' => User::pyramid()
+        ]);
     }
 
 }
