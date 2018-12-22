@@ -26,22 +26,31 @@ class DatabaseSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ));
+
+        \App\Season::create([
+            'date_from' => \Carbon\Carbon::createFromDate(2018, 9, 1),
+            'date_to' => \Carbon\Carbon::createFromDate(2019, 6, 1),
+        ]);
+
         factory(App\User::class, 20)->create()->each(function ($user) {
             static $point = 1;
             App\Point::create([
                 'user_id' => $user->id,
                 'date' => \Carbon\Carbon::now(),
-                'point' => $point
+                'point' => $point,
+                'season_id' => \App\Season::current()->id,
             ]);
             App\Point::create([
                 'user_id' => $user->id,
                 'date' => \Carbon\Carbon::now()->addMonth(1),
-                'point' => $point
+                'point' => $point,
+                'season_id' => \App\Season::current()->id,
             ]);
             App\Point::create([
                 'user_id' => $user->id,
                 'date' => \Carbon\Carbon::now()->addMonth(2),
-                'point' => $point++
+                'point' => $point++,
+                'season_id' => \App\Season::current()->id,
             ]);
         });
 
@@ -62,10 +71,7 @@ class DatabaseSeeder extends Seeder
 
         factory(App\Post::class, 10)->create();
 
-        \App\Season::create([
-            'date_from' => \Carbon\Carbon::createFromDate(2018, 9, 1),
-            'date_to' => \Carbon\Carbon::createFromDate(2019, 6, 1),
-        ]);
+
 
     }
 }

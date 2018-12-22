@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Point;
+use App\Season;
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -66,21 +69,39 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $file = $data['image'];
         $fileName = 'default.png';
-        if ($file) {
+        if (isset($data['image'])) {
+            $file = $data['image'];
             $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
             $file->move(public_path('/images'), $fileName);
         }
+        $currentSeason = Season::current();
+        $maxPoint = Point::where('season_id', $currentSeason->id)->max('point');
+        $points = Point::groupby(DB::raw('MONTH(date)'))->get();
 
+        $user = DB::transaction(function () use ($data, $fileName, $maxPoint, $points) {
+            $user = User::create([
+                'user_name' => $data['user_name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'image' => $fileName,
+                'position' => User::max('position') + 1
+            ]);
 
-        return User::create([
-            'user_name' => $data['user_name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'image' => $fileName
-        ]);
+            foreach ($points as $point) {
+                Point::create([
+                    'user_id' => $user->id,
+                    'date' => $point->date,
+                    'season_id' => $point->season_id,
+                    'point' => $maxPoint + 1
+                ]);
+            }
+
+            return $user;
+        });
+
+        return $user;
     }
 }
