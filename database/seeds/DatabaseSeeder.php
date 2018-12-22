@@ -30,7 +30,17 @@ class DatabaseSeeder extends Seeder
             static $point = 1;
             App\Point::create([
                 'user_id' => $user->id,
-                'date' => now(),
+                'date' => \Carbon\Carbon::now(),
+                'point' => $point
+            ]);
+            App\Point::create([
+                'user_id' => $user->id,
+                'date' => \Carbon\Carbon::now()->addMonth(1),
+                'point' => $point
+            ]);
+            App\Point::create([
+                'user_id' => $user->id,
+                'date' => \Carbon\Carbon::now()->addMonth(2),
                 'point' => $point++
             ]);
         });
@@ -51,6 +61,11 @@ class DatabaseSeeder extends Seeder
         });
 
         factory(App\Post::class, 10)->create();
+
+        \App\Season::create([
+            'date_from' => \Carbon\Carbon::createFromDate(2018, 9, 1),
+            'date_to' => \Carbon\Carbon::createFromDate(2019, 6, 1),
+        ]);
 
     }
 }
