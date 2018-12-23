@@ -90,14 +90,18 @@ class RegisterController extends Controller
                 'position' => User::max('position') + 1
             ]);
 
+            $pointCount = 0;
             foreach ($points as $point) {
-                Point::create([
+                $temp = Point::create([
                     'user_id' => $user->id,
                     'date' => $point->date,
                     'season_id' => $point->season_id,
                     'point' => $maxPoint + 1
                 ]);
+                if ($temp) $pointCount++;
             }
+
+            if(!$user || $pointCount != count($points)) throw new \Exception('Something wrong');
 
             return $user;
         });
