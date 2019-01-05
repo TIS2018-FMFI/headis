@@ -12,7 +12,7 @@
                         @csrf
 
                         <div class="form-group row">
-                            <label for="user_name" class="col-md-4 col-form-label text-md-right">User nane</label>
+                            <label for="user_name" class="col-md-4 col-form-label text-md-right">User name</label>
 
                             <div class="col-md-6">
                                 <input id="user_name" type="text" class="form-control{{ $errors->has('user_name') ? ' is-invalid' : '' }}" name="user_name" value="{{ old('user_name') }}" required autofocus>
@@ -86,6 +86,24 @@
                                         <strong>{{ $errors->first('last_name') }}</strong>
                                     </span>
                                 @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-6 offset-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input{{ $errors->has('terms') ? ' is-invalid' : '' }}" type="checkbox" name="terms" id="terms" {{ old('terms') ? 'checked' : '' }}>
+
+                                    <label class="form-check-label" for="terms">
+                                        Suhlasim s podmienkami
+                                    </label>
+
+                                    @if ($errors->has('terms'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('terms') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
                             </div>
                         </div>
 
