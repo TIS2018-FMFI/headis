@@ -18,10 +18,13 @@ $factory->define(App\Post::class, function (Faker $faker) {
 
     return [
         'title' => $faker->sentence,
-        'text' => $faker->paragraph,
+        'text' => $faker->paragraphs(3, true),
+        'intro_text' => $faker->paragraph,
         'date_from' => now(),
         'date_to' => $faker->dateTimeBetween($startDate = 'now', $endDate = '+2years' , $timezone = null),
         'image' => '//via.placeholder.com/350x150',
         'user_id' => $redactor->id,
+        'created_at' => \Carbon\Carbon::now(),
+        'updated_at' => \Carbon\Carbon::now()
     ];
 });

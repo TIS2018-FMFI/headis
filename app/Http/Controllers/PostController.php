@@ -16,9 +16,9 @@ class PostController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except('index');
+        $this->middleware('auth')->except(['index', 'show']);
 
-        $this->middleware('redactor')->except('index');
+        $this->middleware('redactor')->except(['index', 'show']);
     }
 
     /**
@@ -46,17 +46,6 @@ class PostController extends Controller
         return view('post.show', [
             'post' => $post
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  Post $post
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Post $post)
-    {
-        //
     }
 
     /**

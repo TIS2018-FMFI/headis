@@ -13,12 +13,15 @@
                     <img class="card-img-top" src="{{ $post->image }}" alt="{{ $post->title }}">
 
                     <div class="card-body">
-                        <h5 class="card-title">{{ $post->title }}</h5>
-                        <p class="card-text">{{ str_limit($post->text, $limit = 100, $end = '...') }}</p>
+                        <h5 class="card-title"><a href="/posts/{{ $post->id }}">{{ $post->title }}</a></h5>
                     </div>
-                    <a href="/posts/{{ $post->id }}" class="btn btn-primary">Detail</a>
                 </div>
             @endforeach
+        </div>
+        <div class="row">
+            <div class="col">
+                {{ $posts->links() }}
+            </div>
         </div>
     </div>
 @endsection
