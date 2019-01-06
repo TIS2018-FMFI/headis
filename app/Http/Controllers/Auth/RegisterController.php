@@ -6,6 +6,8 @@ use App\Point;
 use App\Season;
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -109,4 +111,20 @@ class RegisterController extends Controller
 
         return $user;
     }
+
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        return redirect()->route('login')->with(['success' => __('Congratulations! your account is registered, you will shortly receive an email to activate your account.')]);
+    }
+
 }

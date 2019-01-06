@@ -41,11 +41,11 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">Prihlásenie</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login page') }}</a>
                             </li>
                             <li class="nav-item">
                                 @if (Route::has('register'))
-                                    <a class="nav-link" href="{{ route('register') }}">Registrácia</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register page') }}</a>
                                 @endif
                             </li>
                         @else
@@ -60,7 +60,7 @@
                             @endif
                             <li class="nav-item">
                                 <a href="{{ route('pyramid') }}" class="nav-link">
-                                    Rebríčková pyramída
+                                    {{ __('Pyramid') }}
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -72,7 +72,7 @@
                                 <form action="{{ route('logout') }}" method="POST">
                                     @csrf
 
-                                    <button class="btn-link nav-link border-0" type="submit">Odhlásenie</button>
+                                    <button class="btn-link nav-link border-0" type="submit">{{ __('Logout') }}</button>
                                 </form>
                             </li>
                         @endguest
