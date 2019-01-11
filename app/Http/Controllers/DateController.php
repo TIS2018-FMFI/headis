@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Challenge;
 use App\Date;
 use Illuminate\Http\Request;
+use Illuminate\Queue\RedisQueue;
 
 class DateController extends Controller
 {
@@ -39,13 +41,28 @@ class DateController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Update the specified resource from storage.
      *
-     * @param  Date $date
+     * @param  Request $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Date $date)
+    public function update(Request $request)
     {
-        //
+        $challenge = null;
+
+        foreach ($request["data"]["dates"] as $id) {
+            $date = Date::find($id);
+            $date->rejected = true;
+            $date->save();
+            if (!$challenge) {
+                $challenge = Challenge::find($date->challenge_id);
+            }
+        }
+
+        $allCurrentDates = Date::where('challenge_id', $challenge->id)->where('rejected', false)->get();
+
+        return response()->json([
+           'dates' => $allCurrentDates
+        ]);
     }
 }

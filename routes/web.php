@@ -33,7 +33,8 @@ Route::post('/matches/{match}/update', 'MatchController@update');
 Route::post('/comments/store', 'CommentController@store');
 
 Route::post('/dates/store', 'DateController@store');
-Route::post('/dates/{date}/destroy', 'DateController@destroy');
+Route::post('/dates/update', 'DateController@update');
+
 
 Route::post('/sets/store', 'SetController@store');
 Route::post('/sets/{set}/update', 'SetController@update');

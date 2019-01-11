@@ -1,6 +1,9 @@
 <template>
 
-    <div class="container" v-if="current_user.id == challenge.challenger.id || current_user.id == challenge.asked.id">
+    <!--
+    v-if="current_user.id == challenge.challenger.id || current_user.id == challenge.asked.id"
+    -->
+    <div class="container" >
         <div class="row text-center mb-5">
             <div class="col-md-12">
                 <h1>Výzva č. {{ challenge.id }} </h1>
@@ -31,8 +34,11 @@
                             Dátumy
                         </div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item text-center" v-for="date in allDates"> <input class="form-check-input" type="checkbox"> {{ date.date }}  </li>
+                            <li class="list-group-item text-center" v-for="date in allDates" v-if="!date.rejected">
+                                <input v-model="deletedDates" :value="date.id" class="form-check-input" type="checkbox"> {{ date.date }}  </li>
                         </ul>
+
+                        <button @click.prevent="updateDates()" class="btn-primary">Odstrániť označené</button>
                     </div>
                 </div>
 
@@ -54,44 +60,38 @@
             <!--
             Comments for the given challenge
             TODO: replace date with a timestamp
+            v-if="!current_user.isRedactor"
             -->
 
-            <div class="col-lg-6 offset-2" v-if="!current_user.isRedactor">
-                <div class="col mb-5">
-                    <div class="card border-dark">
-                        <div class="card-header bg-dark text-white">
-                            Správy
-                        </div>
+            <div class="col-lg-6 offset-2" >
+                <div class="card-header bg-dark text-white">
+                    Správy
+                </div>
+                    <div class="msg_history">
 
-                        <!--
-                        TODO: use bootstrap rather than new styles and verify ID's
-                        -->
-                        <div class="pre-scrollable">
                         <div v-for="comment in sortedItems">
-
-                            <div class="chatcontainer darker" v-if="comment.user_id == challenge.challenger.id">
-                                <img :src="'/images/' + challenge.challenger.image" alt="Avatar" style="width:100%;">
-                                <p> <b>{{ challenge.challenger.user_name }}:</b> {{ comment.text }} </p>
-                                <span class="time-right">{{ comment.date }}</span>
+                            <div class="incoming_msg" v-if="comment.user_id != current_user.id">
+                                <div class="incoming_msg_img"> <img :src="'/images/' + challenge.challenger.image" alt="Avatar" > </div>
+                                <div class="received_msg">
+                                    <div class="received_withd_msg">
+                                        <p>{{ comment.text }}</p>
+                                        <span class="time_date">{{ comment.date }}</span></div>
+                                </div>
                             </div>
-
-                            <div class="chatcontainer reply" v-else>
-                                <img :src="'/images/'+challenge.asked.image" alt="Avatar" style="width:100%;">
-                                <p> <b>{{ challenge.asked.user_name }}:</b> {{ comment.text }} </p>
-                                <span class="time-left">{{ comment.date }}</span>
+                            <div class="outgoing_msg" v-else>
+                                <div class="sent_msg">
+                                    <p>{{ comment.text }}</p>
+                                    <span class="time_date">{{ comment.date }}</span> </div>
                             </div>
-
-                        </div>
                         </div>
 
-                        <div class="input-group">
-                            <input type="text" class="form-control" v-model="commentText">
-                            <span class="input-group-btn">
-                                <button @click.prevent="addComment()" class="btn-primary" type="button">Pošli</button>
-                            </span>
+                    </div>
+                    <div class="type_msg">
+                        <div class="input_msg_write">
+                            <input v-model="commentText" type="text" class="write_msg" placeholder="Type a message" />
+                            <button @click.prevent="addComment()" class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
     </div>
@@ -107,7 +107,8 @@
                 axiosComments: null,
                 axiosDates: null,
                 selectedDate: null,
-                commentText: null
+                commentText: null,
+                deletedDates: []
             }
         },
         computed: {
@@ -150,6 +151,16 @@
                     this.axiosComments = response['data']['comments'];
                     console.log(response);
                 });
+            },
+            updateDates() {
+                axios.post('/dates/update', {
+                  data: {
+                      dates: this.deletedDates
+                  }
+                }).then(response => {
+                    this.axiosDates = response['data']['dates'];
+                    console.log(response);
+                })
             }
         }
     }
