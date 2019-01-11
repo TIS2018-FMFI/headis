@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Point;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PyramidController extends Controller
 {
@@ -26,8 +28,13 @@ class PyramidController extends Controller
     {
 //        dd(Point::pyramid());
 //        dd(User::pyramid());
+        $res = DB::select("SELECT season_id, user_id FROM
+            (SELECT user_id, season_id FROM points group by user_id, season_id ORDER by SUM(point) ASC) 
+            as ahoj GROUP BY season_id ORDER BY season_id DESC");
+        $points = Point::hydrate($res);
         return view('pyramid.index', [
-            'users' => User::pyramid()
+            'users' => User::pyramid(),
+            'statistics' => $points
         ]);
     }
 
