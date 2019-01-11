@@ -16,29 +16,24 @@
                 <h5>Aktuálna pozícia: {{ $user->position }}.</h5>
                 @if($currentAuthUser->isRedactor)
                     <p>
-                        <strong>Meno: </strong>{{ $user->first_name }}<br>
-                        <strong>Priezvisko: </strong>{{ $user->last_name }}<br>
+                        <strong>{{ __('users.First name') }}: </strong>{{ $user->first_name }}<br>
+                        <strong>{{ __('users.Last name') }}: </strong>{{ $user->last_name }}<br>
                         <strong>e-mail: </strong>{{ $user->email }}<br>
                     </p>
-                    @if($currentAuthUser->id !== $user->id)
-                        @if($user->deleted_at == null)
-                            <a href="/users/{{$user->id}}/destroy" class="btn btn-primary">Deaktivácia hráča!</a>
-                        @endif
-                    @endif
                 @endif
             </div>
             <div class="col-sm-8">
                 <div class="row">
                     <div class="offset-1 text-center col-sm-11">
                         <div class="row">
-                            <div class="col-4 font-weight-bold">Súper</div>
+                            <div class="col-4 font-weight-bold">{{ __('users.Opponent') }}</div>
                             <div class="col-8">
                                 <div class="row mb-4">
-                                    <div class="col-4 font-weight-bold">Dátum zápasu</div>
-                                    <div class="col-2 font-weight-bold">Set1</div>
-                                    <div class="col-2 font-weight-bold">Set2</div>
-                                    <div class="col-2 font-weight-bold">Set3</div>
-                                    <div class="col-2 font-weight-bold">Výherca</div>
+                                    <div class="col-4 font-weight-bold">{{ __('users.Challenge date') }}</div>
+                                    <div class="col-2 font-weight-bold">{{ __('users.Set') }}1</div>
+                                    <div class="col-2 font-weight-bold">{{ __('users.Set') }}2</div>
+                                    <div class="col-2 font-weight-bold">{{ __('users.Set') }}3</div>
+                                    <div class="col-2 font-weight-bold">{{ __('users.Winner') }}</div>
                                 </div>
                             </div>
                         </div>

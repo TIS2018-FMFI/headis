@@ -14,4 +14,9 @@ class Point extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function season()
+    {
+        return $this->belongsTo(Season::class);
+    }
 }

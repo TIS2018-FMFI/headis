@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Challenge;
 use App\Match;
 use App\User;
+use foo\bar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\Types\Integer;
@@ -30,18 +31,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-//        dd($user->currentChallenge($user));
-//        dd(auth()->user()->currentMatch());
-//        $match = $user->currentMatch();
-//        if ($match == null){
-//            die();
-//        }
-//        dd($user->currentMatch()->id);
         $matches = $user->matches();
-//        dd($matches->first());
-//        die('tu');
-//        $challenges = Challenge::where('user_id_1', $user->id)->orWhere('user_id_2', $user->id)->pluck('id')->toArray();
-//        $matches = Match::whereIn('challenge_id', $user->challenges->pluck('id')->toArray());
         return view('user.show', [
             'user' => $user,
             'matches' => $matches
@@ -69,6 +59,12 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        if ($user->currentMatch() != null || User::currentChallenge($user) != null){
+            return back();
+        }
+        $success = $user->delete();
+        return back()->with([
+            'success' => $success
+        ]);
     }
 }
