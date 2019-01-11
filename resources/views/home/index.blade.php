@@ -23,7 +23,7 @@
             @endforeach
         </div>
         <div class="text-center">
-            <a href="/posts" class="btn btn-primary">Dalsie</a>
+            <a href="/posts" class="btn btn-primary">{{ __('posts.more') }}</a>
         </div>
     </div>
 @endsection
