@@ -53,9 +53,9 @@
                                 <li class="nav-item">
                                     <a href="/matches/{{ $currentAuthUser->currentMatch()->id }}" class="nav-link">Aktuálny zápas</a>
                                 </li>
-                            @elseif ($currentAuthUser && $currentAuthUser->currentChallenge($currentAuthUser))
+                            @elseif ($currentAuthUser && \App\User::currentChallenge($currentAuthUser))
                                 <li class="nav-item">
-                                    <a href="/challenges/{{ $currentAuthUser->currentChallenge($currentAuthUser)->id }}" class="nav-link">Aktuálna výzva</a>
+                                    <a href="/challenges/{{ \App\User::currentChallenge($currentAuthUser)->id }}" class="nav-link">Aktuálna výzva</a>
                                 </li>
                             @endif
                             <li class="nav-item">

@@ -9,19 +9,21 @@
                 <p>Quisque scelerisque justo eu ante pharetra, ac fringilla massa blandit. Integer ullamcorper dui nec feugiat suscipit. Curabitur interdum sagittis est, ac aliquam magna rhoncus at. Nunc magna sapien, aliquet et pulvinar in, commodo vitae massa. Duis pharetra, nibh ut facilisis venenatis, libero neque tristique neque, eu congue nunc dolor in risus. Nam at ultrices magna. Phasellus ac nisl posuere, laoreet odio eget, vestibulum ipsum. Nullam ex risus, molestie tincidunt quam ut, consectetur sollicitudin risus. Mauris pharetra nisl sed lacus gravida, eu tristique elit vestibulum. Nullam a ullamcorper dui, et aliquam ex. Sed rutrum sollicitudin neque, id lobortis metus.</p>
             </div>
         </div>
-        <div class="card-deck">
+        <div class="row">
             @foreach($posts as $post)
-                <div class="card text-center mb-4" style="flex: 0 0 30%;">
-                    <img class="card-img-top" src="{{ $post->image }}" alt="{{ $post->title }}">
+                <div class="col-md-4 col-sm-6 col-12">
+                    <div class="card text-center mb-4">
+                        <img class="card-img-top" src="{{ $post->image }}" alt="{{ $post->title }}">
 
-                    <div class="card-body">
-                        <h5 class="card-title"><a href="/posts/{{ $post->id }}">{{ $post->title }}</a></h5>
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="/posts/{{ $post->id }}">{{ $post->title }}</a></h5>
+                        </div>
                     </div>
                 </div>
             @endforeach
         </div>
         <div class="text-center">
-            <a href="/posts" class="btn btn-primary">Dalsie</a>
+            <a href="/posts" class="btn btn-primary">{{ __('posts.more') }}</a>
         </div>
     </div>
 @endsection
