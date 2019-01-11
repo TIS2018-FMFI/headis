@@ -9,8 +9,14 @@
                 @if(\App\User::currentChallenge($user) && $currentAuthUser->id == $user->id)
                     <a class="btn btn-primary" href="/challenges/{{\App\User::currentChallenge($user)->id}}">Aktuálna výzva</a>
                 @endif
-                @if($currentAuthUser->id !== $user->id && $user->countOfChallengesAsAsked() < 3)
-                    <a class="btn btn-secondary" href="/challenges/store">Vyzvať!</a>
+                @if($canChallenge)
+                    <form action="/challenges/store" method="POST" >
+                        @csrf
+                        <input type="hidden" name="user" value="{{ $user->id }}">
+                        <button type="submit" class="btn btn-success">Vyzvať!</button>
+                    </form>
+                @else
+                    <button disabled class="btn btn-danger">Nemôžes vyzvať hráča!</button>
                 @endif
 
                 <h5>Aktuálna pozícia: {{ $user->position }}.</h5>

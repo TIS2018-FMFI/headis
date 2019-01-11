@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Challenge;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ChallengeController extends Controller
 {
@@ -25,7 +27,13 @@ class ChallengeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+//        dd($request['user']);
+        $challenge = Challenge::create([
+            'user_id_1' => auth()->user()->id,
+            'user_id_2' => intval($request['user']),
+            'created_date' => Carbon::now()
+        ]);
+        return redirect('/challenges/'.$challenge->id);
     }
 
     /**
