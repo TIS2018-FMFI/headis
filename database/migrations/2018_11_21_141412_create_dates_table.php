@@ -17,7 +17,7 @@ class CreateDatesTable extends Migration
             $table->increments('id');
             $table->integer('challenge_id')->unsigned();
             $table->date('date');
-            $table->boolean('rejected')->default(false);
+            $table->softDeletes();
             $table->foreign('challenge_id')->references('id')->on('challenges');
         });
     }

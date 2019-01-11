@@ -47509,7 +47509,7 @@ exports = module.exports = __webpack_require__(46)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -47963,6 +47963,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "Challenge",
@@ -48020,21 +48030,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             }).then(function (response) {
                 _this2.axiosComments = response['data']['comments'];
-                console.log(response);
+                _this2.scrollToEnd();
             });
         },
-        updateDates: function updateDates() {
+        deleteDate: function deleteDate(id) {
             var _this3 = this;
 
-            axios.post('/dates/update', {
-                data: {
-                    dates: this.deletedDates
-                }
-            }).then(function (response) {
+            axios.post('/dates/' + id + '/destroy', {}).then(function (response) {
                 _this3.axiosDates = response['data']['dates'];
                 console.log(response);
             });
+        },
+        confirmDate: function confirmDate(id) {
+            axios.post('/matches/store', {
+                data: {
+                    challenge_id: this.challenge.id,
+                    date: id
+                }
+            });
+        },
+
+        scrollToEnd: function scrollToEnd() {
+            var container = this.$el.querySelector("#chatbox");
+            container.scrollTop = container.scrollHeight;
         }
+    },
+    mounted: function mounted() {
+        this.scrollToEnd();
     }
 });
 
@@ -48082,214 +48104,223 @@ var render = function() {
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-lg-4" }, [
         _c("div", { staticClass: "col mb-5" }, [
-          _c("div", { staticClass: "card border-dark" }, [
-            _c("div", { staticClass: "card-header bg-dark text-white" }, [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
               _vm._v("\n                        Dátumy\n                    ")
             ]),
             _vm._v(" "),
-            _c(
-              "ul",
-              { staticClass: "list-group list-group-flush" },
-              _vm._l(_vm.allDates, function(date) {
-                return !date.rejected
-                  ? _c("li", { staticClass: "list-group-item text-center" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.deletedDates,
-                            expression: "deletedDates"
-                          }
-                        ],
-                        staticClass: "form-check-input",
-                        attrs: { type: "checkbox" },
-                        domProps: {
-                          value: date.id,
-                          checked: Array.isArray(_vm.deletedDates)
-                            ? _vm._i(_vm.deletedDates, date.id) > -1
-                            : _vm.deletedDates
-                        },
-                        on: {
-                          change: function($event) {
-                            var $$a = _vm.deletedDates,
-                              $$el = $event.target,
-                              $$c = $$el.checked ? true : false
-                            if (Array.isArray($$a)) {
-                              var $$v = date.id,
-                                $$i = _vm._i($$a, $$v)
-                              if ($$el.checked) {
-                                $$i < 0 &&
-                                  (_vm.deletedDates = $$a.concat([$$v]))
-                              } else {
-                                $$i > -1 &&
-                                  (_vm.deletedDates = $$a
-                                    .slice(0, $$i)
-                                    .concat($$a.slice($$i + 1)))
-                              }
-                            } else {
-                              _vm.deletedDates = $$c
-                            }
-                          }
-                        }
-                      }),
-                      _vm._v(" " + _vm._s(date.date) + "  ")
-                    ])
-                  : _vm._e()
-              })
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn-primary",
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    _vm.updateDates()
-                  }
-                }
-              },
-              [_vm._v("Odstrániť označené")]
-            )
+            _vm.allDates.length > 0
+              ? _c(
+                  "ul",
+                  { staticClass: "list-group list-group-flush" },
+                  _vm._l(_vm.allDates, function(date) {
+                    return !date.rejected
+                      ? _c(
+                          "li",
+                          { staticClass: "list-group-item text-center" },
+                          [
+                            _c("div", { staticClass: "row" }, [
+                              _c("div", { staticClass: "col-md-5" }, [
+                                _vm._v(
+                                  "\n                                    " +
+                                    _vm._s(date.date) +
+                                    "\n                                "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _vm.current_user.id == _vm.challenge.challenger.id
+                                ? _c("div", { staticClass: "col-md-3" }, [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-success",
+                                        on: {
+                                          click: function($event) {
+                                            $event.preventDefault()
+                                            _vm.confirmDate(date.id)
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("Potvrdit")]
+                                    )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.current_user.id == _vm.challenge.challenger.id
+                                ? _c("div", { staticClass: "col-md-3" }, [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-danger",
+                                        on: {
+                                          click: function($event) {
+                                            $event.preventDefault()
+                                            _vm.deleteDate(date.id)
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("Vymazať")]
+                                    )
+                                  ])
+                                : _vm._e()
+                            ])
+                          ]
+                        )
+                      : _vm._e()
+                  })
+                )
+              : _c("p", { staticClass: "text-center mt-2" }, [
+                  _vm._v("Neboli pridané žiadne dátumy")
+                ])
           ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "col mb-5" }, [
-          _c("div", { staticClass: "card-header bg-dark text-white" }, [
-            _vm._v("\n                    Pridať dátum\n                ")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card border-dark" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.selectedDate,
-                  expression: "selectedDate"
-                }
-              ],
-              staticClass: "input-group date",
-              attrs: { type: "date" },
-              domProps: { value: _vm.selectedDate },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+        _vm.current_user.id == _vm.challenge.asked.id
+          ? _c("div", { staticClass: "col mb-5" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _vm._v("\n                    Pridať dátum\n                ")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.selectedDate,
+                      expression: "selectedDate"
+                    }
+                  ],
+                  staticClass: "input-group date",
+                  attrs: { type: "date" },
+                  domProps: { value: _vm.selectedDate },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.selectedDate = $event.target.value
+                    }
                   }
-                  _vm.selectedDate = $event.target.value
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn-primary",
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    _vm.addDate()
-                  }
-                }
-              },
-              [_vm._v("Pridaj")]
-            )
-          ])
-        ])
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn-primary",
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        _vm.addDate()
+                      }
+                    }
+                  },
+                  [_vm._v("Pridaj")]
+                )
+              ])
+            ])
+          : _vm._e()
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-lg-6 offset-2" }, [
-        _c("div", { staticClass: "card-header bg-dark text-white" }, [
-          _vm._v("\n                Správy\n            ")
-        ]),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "msg_history" },
-          _vm._l(_vm.sortedItems, function(comment) {
-            return _c("div", [
-              comment.user_id != _vm.current_user.id
-                ? _c("div", { staticClass: "incoming_msg" }, [
-                    _c("div", { staticClass: "incoming_msg_img" }, [
-                      _c("img", {
-                        attrs: {
-                          src: "/images/" + _vm.challenge.challenger.image,
-                          alt: "Avatar"
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "received_msg" }, [
-                      _c("div", { staticClass: "received_withd_msg" }, [
-                        _c("p", [_vm._v(_vm._s(comment.text))]),
-                        _vm._v(" "),
-                        _c("span", { staticClass: "time_date" }, [
-                          _vm._v(_vm._s(comment.date))
-                        ])
-                      ])
-                    ])
-                  ])
-                : _c("div", { staticClass: "outgoing_msg" }, [
-                    _c("div", { staticClass: "sent_msg" }, [
-                      _c("p", [_vm._v(_vm._s(comment.text))]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "time_date" }, [
-                        _vm._v(_vm._s(comment.date))
-                      ])
-                    ])
-                  ])
-            ])
-          })
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "type_msg" }, [
-          _c("div", { staticClass: "input_msg_write" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.commentText,
-                  expression: "commentText"
-                }
-              ],
-              staticClass: "write_msg",
-              attrs: { type: "text", placeholder: "Type a message" },
-              domProps: { value: _vm.commentText },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.commentText = $event.target.value
-                }
-              }
-            }),
+      !_vm.current_user.isRedactor
+        ? _c("div", { staticClass: "col-lg-6 offset-2" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _vm._v("\n                Správy\n            ")
+            ]),
             _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "msg_send_btn",
-                attrs: { type: "button" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    _vm.addComment()
-                  }
-                }
-              },
-              [
-                _c("i", {
-                  staticClass: "fa fa-paper-plane-o",
-                  attrs: { "aria-hidden": "true" }
+            _c("div", { staticClass: "card" }, [
+              _c(
+                "div",
+                {
+                  ref: "chatbox",
+                  staticClass: "msg_history card",
+                  attrs: { id: "chatbox" }
+                },
+                _vm._l(_vm.sortedItems, function(comment) {
+                  return _c("div", [
+                    comment.user_id == _vm.current_user.id
+                      ? _c("div", { staticClass: "outgoing_msg" }, [
+                          _c("div", { staticClass: "sent_msg" }, [
+                            _c("p", [_vm._v(_vm._s(comment.text))]),
+                            _vm._v(" "),
+                            _c("span", { staticClass: "time_date" }, [
+                              _vm._v(_vm._s(comment.date))
+                            ])
+                          ])
+                        ])
+                      : _c("div", { staticClass: "incoming_msg" }, [
+                          _c("div", { staticClass: "incoming_msg_img" }, [
+                            _c("img", {
+                              attrs: {
+                                src:
+                                  "/images/" + _vm.challenge.challenger.image,
+                                alt: "Avatar"
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "received_msg" }, [
+                            _c("div", { staticClass: "received_withd_msg" }, [
+                              _c("p", [_vm._v(_vm._s(comment.text))]),
+                              _vm._v(" "),
+                              _c("span", { staticClass: "time_date" }, [
+                                _vm._v(_vm._s(comment.date))
+                              ])
+                            ])
+                          ])
+                        ])
+                  ])
                 })
-              ]
-            )
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "type_msg" }, [
+                _c("div", { staticClass: "input_msg_write" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.commentText,
+                        expression: "commentText"
+                      }
+                    ],
+                    staticClass: "write_msg",
+                    attrs: { type: "text", placeholder: "Type a message" },
+                    domProps: { value: _vm.commentText },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.commentText = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "msg_send_btn",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.addComment()
+                        }
+                      }
+                    },
+                    [
+                      _c("i", {
+                        staticClass: "fa fa-paper-plane-o",
+                        attrs: { "aria-hidden": "true" }
+                      })
+                    ]
+                  )
+                ])
+              ])
+            ])
           ])
-        ])
-      ])
+        : _vm._e()
     ])
   ])
 }

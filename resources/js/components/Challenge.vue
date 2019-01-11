@@ -29,27 +29,37 @@
         <div class="row">
             <div class="col-lg-4">
                 <div class="col mb-5">
-                    <div class="card border-dark">
-                        <div class="card-header bg-dark text-white">
+                    <div class="card">
+                        <div class="card-header">
                             Dátumy
                         </div>
-                        <ul class="list-group list-group-flush">
+                        <ul v-if="allDates.length > 0" class="list-group list-group-flush">
                             <li class="list-group-item text-center" v-for="date in allDates" v-if="!date.rejected">
-                                <input v-model="deletedDates" :value="date.id" class="form-check-input" type="checkbox"> {{ date.date }}  </li>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        {{ date.date }}
+                                    </div>
+                                    <div class="col-md-3" v-if="current_user.id == challenge.challenger.id">
+                                        <button @click.prevent="confirmDate(date.id)" class="btn btn-success">Potvrdit</button>
+                                    </div>
+                                    <div class="col-md-3" v-if="current_user.id == challenge.challenger.id">
+                                        <button @click.prevent="deleteDate(date.id)" class="btn btn-danger">Vymazať</button>
+                                    </div>
+                                </div>
+                            </li>
                         </ul>
-
-                        <button @click.prevent="updateDates()" class="btn-primary">Odstrániť označené</button>
+                        <p v-else class="text-center mt-2">Neboli pridané žiadne dátumy</p>
                     </div>
                 </div>
 
                 <!--
                 Div for adding new date
                 -->
-                <div class="col mb-5">
-                    <div class="card-header bg-dark text-white">
+                <div class="col mb-5" v-if="current_user.id == challenge.asked.id">
+                    <div class="card-header">
                         Pridať dátum
                     </div>
-                    <div class="card border-dark">
+                    <div class="card">
                         <input type="date" class="input-group date" v-model="selectedDate">
                         <button @click.prevent="addDate()" class="btn-primary">Pridaj</button>
                     </div>
@@ -63,14 +73,19 @@
             v-if="!current_user.isRedactor"
             -->
 
-            <div class="col-lg-6 offset-2" >
-                <div class="card-header bg-dark text-white">
+            <div class="col-lg-6 offset-2" v-if="!current_user.isRedactor">
+                <div class="card-header">
                     Správy
                 </div>
-                    <div class="msg_history">
-
+                <div class="card">
+                    <div class="msg_history card" ref="chatbox" id="chatbox">
                         <div v-for="comment in sortedItems">
-                            <div class="incoming_msg" v-if="comment.user_id != current_user.id">
+                            <div class="outgoing_msg" v-if="comment.user_id == current_user.id">
+                                <div class="sent_msg">
+                                    <p>{{ comment.text }}</p>
+                                    <span class="time_date">{{ comment.date }}</span> </div>
+                            </div>
+                            <div class="incoming_msg" v-else>
                                 <div class="incoming_msg_img"> <img :src="'/images/' + challenge.challenger.image" alt="Avatar" > </div>
                                 <div class="received_msg">
                                     <div class="received_withd_msg">
@@ -78,13 +93,7 @@
                                         <span class="time_date">{{ comment.date }}</span></div>
                                 </div>
                             </div>
-                            <div class="outgoing_msg" v-else>
-                                <div class="sent_msg">
-                                    <p>{{ comment.text }}</p>
-                                    <span class="time_date">{{ comment.date }}</span> </div>
-                            </div>
                         </div>
-
                     </div>
                     <div class="type_msg">
                         <div class="input_msg_write">
@@ -92,6 +101,7 @@
                             <button @click.prevent="addComment()" class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
     </div>
@@ -149,21 +159,36 @@
                     }
                 }).then(response => {
                     this.axiosComments = response['data']['comments'];
-                    console.log(response);
+                    this.scrollToEnd();
                 });
             },
-            updateDates() {
-                axios.post('/dates/update', {
-                  data: {
-                      dates: this.deletedDates
-                  }
+            deleteDate(id) {
+                axios.post('/dates/' + id + '/destroy', {
                 }).then(response => {
                     this.axiosDates = response['data']['dates'];
                     console.log(response);
                 })
+            },
+            confirmDate(id) {
+                axios.post('/matches/store', {
+                  data: {
+                      challenge_id: this.challenge.id,
+                      date: id
+                  }
+                });
+            },
+            scrollToEnd: function() {
+                var container = this.$el.querySelector("#chatbox");
+                container.scrollTop = container.scrollHeight;
             }
+        },
+        mounted() {
+            this.scrollToEnd();
         }
     }
+
+
+
 </script>
 
 <style scoped>

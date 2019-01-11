@@ -41,25 +41,19 @@ class DateController extends Controller
     }
 
     /**
-     * Update the specified resource from storage.
+     * Remove the specified resource from storage.
      *
-     * @param  Request $request
+     * @param  Date $date
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function update(Request $request)
+    public function destroy(Date $date)
     {
-        $challenge = null;
+        $challenge = Challenge::find($date->challenge_id);
 
-        foreach ($request["data"]["dates"] as $id) {
-            $date = Date::find($id);
-            $date->rejected = true;
-            $date->save();
-            if (!$challenge) {
-                $challenge = Challenge::find($date->challenge_id);
-            }
-        }
+        $date->delete();
 
-        $allCurrentDates = Date::where('challenge_id', $challenge->id)->where('rejected', false)->get();
+        $allCurrentDates = Date::where('challenge_id', $challenge->id)->get();
 
         return response()->json([
            'dates' => $allCurrentDates
