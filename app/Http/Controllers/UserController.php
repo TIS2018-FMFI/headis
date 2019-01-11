@@ -31,10 +31,17 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $canChallenge = auth()->user()->id !== $user->id &&
+                        $user->countOfChallengesAsAsked() < 3 &&
+                        auth()->user()->currentMatch() == null &&
+                        User::currentChallenge(auth()->user())== null &&
+                        $user->currentMatch() == null &&
+                        User::currentChallenge($user) == null;
         $matches = $user->matches();
         return view('user.show', [
             'user' => $user,
-            'matches' => $matches
+            'matches' => $matches,
+            'canChallenge' => $canChallenge
         ]);
     }
 
