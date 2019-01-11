@@ -47509,7 +47509,7 @@ exports = module.exports = __webpack_require__(46)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -48047,7 +48047,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     challenge_id: this.challenge.id,
                     date: id
                 }
-            });
+            }).then(function (response) {});
         },
 
         scrollToEnd: function scrollToEnd() {
@@ -48401,14 +48401,69 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "Match",
-    props: ['match'],
+    props: ['match', 'finished', 'current_user', 'confirmed'],
     data: function data() {
         return {
             axiosSets: null,
-            selectedSet: null
+            selectedSet: null,
+            axiosFinished: null,
+            score1: null,
+            score2: null,
+            axiosConfirmed: null
         };
     },
     computed: {
@@ -48418,6 +48473,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
             console.log(this.match.sets);
             return this.match.sets;
+        },
+        isFinished: function isFinished() {
+            if (this.axiosFinished !== null) {
+                return this.axiosFinished;
+            }
+            console.log(this.finished);
+            return this.finished;
+        },
+        isConfirmed: function isConfirmed() {
+            if (this.axiosConfirmed) {
+                return this.axiosConfirmed;
+            }
+            return this.confirmed;
         }
     },
     mounted: function mounted() {
@@ -48425,7 +48493,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
 
-    methods: {}
+    methods: {
+        confirmMatch: function confirmMatch($confirmed) {
+            var _this = this;
+
+            axios.post('/matches/' + this.match.id + '/update', {
+                data: {
+                    confirmed: $confirmed
+                }
+            }).then(function (response) {
+                _this.axiosConfirmed = true;
+            });
+        },
+        addSet: function addSet() {
+            var _this2 = this;
+
+            axios.post('/sets/store', {
+                data: {
+                    match_id: this.match.id,
+                    score1: this.score1,
+                    score2: this.score2
+                }
+            }).then(function (response) {
+                _this2.score1 = null;
+                _this2.score2 = null;
+                _this2.axiosFinished = response['data']['finished'];
+                _this2.axiosSets = response['data']['sets'];
+            });
+        }
+    }
 });
 
 /***/ }),
@@ -48438,30 +48534,203 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-4" }, [
-        _c(
-          "ul",
-          _vm._l(_vm.allSets, function(set) {
-            return _c("li", [_vm._v(" " + _vm._s(set.score_1))])
-          })
-        ),
+      _c("div", { staticClass: "col" }, [
+        _c("div", { staticClass: "row mb-5" }, [
+          _c("div", { staticClass: "col" }, [
+            _c("h2", [
+              _c("b", [
+                _vm._v("Vyzývateľ: "),
+                _c(
+                  "a",
+                  {
+                    attrs: {
+                      href: "/users/" + _vm.match.challenge.challenger.id
+                    }
+                  },
+                  [_vm._v(_vm._s(_vm.match.challenge.challenger.user_name))]
+                )
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col text-right" }, [
+            _c("h2", [
+              _c("b", [
+                _vm._v("Vyzvaný: "),
+                _c(
+                  "a",
+                  { attrs: { href: "/users/" + _vm.match.challenge.asked.id } },
+                  [_vm._v(_vm._s(_vm.match.challenge.asked.user_name))]
+                )
+              ])
+            ])
+          ])
+        ]),
         _vm._v(" "),
         _c(
-          "button",
-          {
-            on: {
-              click: function($event) {
-                $event.preventDefault()
-              }
-            }
-          },
-          [_vm._v("Pridaj")]
-        )
+          "div",
+          { staticClass: "row row-eq-height" },
+          [
+            _vm._m(0),
+            _vm._v(" "),
+            _vm._l(_vm.allSets, function(set, index) {
+              return _c("div", { staticClass: "col-3" }, [
+                _c("div", { staticClass: "card text-center mb-4" }, [
+                  _c("div", { staticClass: "card-header" }, [
+                    _vm._v(_vm._s(index + 1))
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card-body" }, [
+                    _c("h3", [_vm._v(_vm._s(set.score_1))]),
+                    _vm._v(" "),
+                    _c("h3", [_vm._v(_vm._s(set.score_2))])
+                  ])
+                ])
+              ])
+            }),
+            _vm._v(" "),
+            !_vm.isFinished &&
+            _vm.current_user.id === _vm.match.challenge.asked.id
+              ? _c("div", { staticClass: "col-3" }, [
+                  _c("div", { staticClass: "card text-center mb-4" }, [
+                    _c("div", { staticClass: "card-header" }, [
+                      _vm._v("Pridanie setu")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "card-body" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.score1,
+                            expression: "score1"
+                          }
+                        ],
+                        staticClass: "mb-2",
+                        attrs: { min: "0", type: "number" },
+                        domProps: { value: _vm.score1 },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.score1 = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.score2,
+                            expression: "score2"
+                          }
+                        ],
+                        staticClass: "mb-2",
+                        attrs: { min: "0", type: "number" },
+                        domProps: { value: _vm.score2 },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.score2 = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.addSet()
+                            }
+                          }
+                        },
+                        [_vm._v("Pridať")]
+                      )
+                    ])
+                  ])
+                ])
+              : _vm._e()
+          ],
+          2
+        ),
+        _vm._v(" "),
+        _vm.isFinished &&
+        _vm.current_user.id === _vm.match.challenge.challenger.id &&
+        !_vm.isConfirmed
+          ? _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-12 col-md-4 offset-md-4" }, [
+                _c("div", { staticClass: "card text-center mb-4" }, [
+                  _c("div", { staticClass: "card-header" }, [
+                    _vm._v("Potvrdenie zápasu")
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card-body" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-success",
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.confirmMatch(true)
+                          }
+                        }
+                      },
+                      [_vm._v("Potvrdiť")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger",
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.confirmMatch(false)
+                          }
+                        }
+                      },
+                      [_vm._v("Odmietnúť")]
+                    )
+                  ])
+                ])
+              ])
+            ])
+          : _vm._e()
       ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-3" }, [
+      _c("div", { staticClass: "card text-center mb-4" }, [
+        _c("div", { staticClass: "card-header" }, [
+          _vm._v(
+            "\n                            Zápas\n                        "
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c("h3", [_vm._v("Vyzývateľ: ")]),
+          _vm._v(" "),
+          _c("h3", [_vm._v("Vyzývaný: ")])
+        ])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

@@ -175,6 +175,8 @@
                       challenge_id: this.challenge.id,
                       date: id
                   }
+                }).then(response => {
+
                 });
             },
             scrollToEnd: function() {

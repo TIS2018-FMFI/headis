@@ -27,6 +27,7 @@ Route::post('/users/{user}/update', 'UserController@update');
 Route::get('/challenges/{challenge}', 'ChallengeController@show');
 Route::post('/challenges/store', 'ChallengeController@store');
 
+Route::post('/matches/store', 'MatchController@store');
 Route::get('/matches/{match}', 'MatchController@show');
 Route::post('/matches/{match}/update', 'MatchController@update');
 

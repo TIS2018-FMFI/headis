@@ -38,4 +38,22 @@ class Match extends Model
         }
         return $this->challenge->asked();
     }
+
+    public function finished()
+    {
+        $sets = $this->sets;
+        $challenger_points = 0;
+        $asked_points = 0;
+
+        foreach ($sets as $set){
+            if ($set->score_1 > $set->score_2){
+                $challenger_points++;
+            }
+            else{
+                $asked_points++;
+            }
+        }
+
+        return ($asked_points == 2 || $challenger_points == 2);
+    }
 }
