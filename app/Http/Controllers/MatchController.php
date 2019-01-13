@@ -56,7 +56,10 @@ class MatchController extends Controller
             'date_id' => $request['data']['date']
         ]);
 
-        return redirect('matches/'.$match->id);
+        return response()->json([
+            'url' => '/matches/'.$match->id,
+            'status' => 'redirect'
+        ]);
     }
 
     /**
