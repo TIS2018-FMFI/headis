@@ -16,7 +16,9 @@
                         <button type="submit" class="btn btn-success">Vyzvať!</button>
                     </form>
                 @else
-                    <button disabled class="btn btn-danger">Nemôžes vyzvať hráča!</button>
+                    @if($user->id != $currentAuthUser->id)
+                        <button disabled class="btn btn-danger">Nemôžes vyzvať hráča!</button>
+                    @endif
                 @endif
 
                 <h5>Aktuálna pozícia: {{ $user->position }}.</h5>

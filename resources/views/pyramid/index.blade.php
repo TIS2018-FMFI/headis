@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="container">
-        <div class="row mt-4">
+        <div class="row border-bottom mt-4">
             <div class="col-sm-2 border-bottom">
                 {{ __('pyramids.Date of start season') }}
             </div>

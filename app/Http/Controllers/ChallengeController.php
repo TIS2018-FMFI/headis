@@ -31,7 +31,7 @@ class ChallengeController extends Controller
         $challenge = Challenge::create([
             'user_id_1' => auth()->user()->id,
             'user_id_2' => intval($request['user']),
-            'created_date' => Carbon::now()
+            'created_date' => Carbon::now()->toDateString()
         ]);
         return redirect('/challenges/'.$challenge->id);
     }
