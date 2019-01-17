@@ -13,7 +13,14 @@
                     <form action="/challenges/store" method="POST" >
                         @csrf
                         <input type="hidden" name="user" value="{{ $user->id }}">
-                        <button type="submit" class="btn btn-success">Vyzvať!</button>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success form-control {{ $errors->has('user') ? ' is-invalid' : '' }}">Vyzvať!</button>
+                            @if($errors->has('user'))
+                                <span class="invalid-feedback">
+                                    <strong>{{ $errors->first('user') }}</strong>
+                                </span>
+                            @endif
+                        </div>
                     </form>
                 @else
                     @if($user->id != $currentAuthUser->id)

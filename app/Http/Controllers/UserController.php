@@ -69,7 +69,16 @@ class UserController extends Controller
         if ($user->currentMatch() != null || User::currentChallenge($user) != null){
             return back();
         }
+        $oldPosition = $user->position;
+        $user->position = 0;
+        $user->save();
         $success = $user->delete();
+        $users = User::where('position' , '>', $oldPosition)->get();
+//        dd($users);
+        foreach ($users as $user1){
+            $user1->position--;
+            $user1->save();
+        }
         return back()->with([
             'success' => $success
         ]);

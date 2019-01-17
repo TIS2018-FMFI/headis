@@ -101,6 +101,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public static function pyramid()
     {
-        return User::where('deleted_at', '=', null)->where('isRedactor', '=', false)->orderBy('position')->get();
+        return User::where('isRedactor', false)->orderBy('position')->get();
     }
 }
