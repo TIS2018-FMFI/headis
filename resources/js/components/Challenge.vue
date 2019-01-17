@@ -6,7 +6,7 @@
     <div class="container" >
         <div class="row text-center mb-5">
             <div class="col-md-12">
-                <h1>Výzva č. {{ challenge.id }} </h1>
+                <h1>Výzva</h1>
 
             </div>
         </div>
@@ -27,7 +27,7 @@
         Display the the dates for the given challenge
         -->
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-5">
                 <div class="col mb-5">
                     <div class="card">
                         <div class="card-header">
@@ -39,10 +39,15 @@
                                     <div class="col-md-5">
                                         {{ date.date }}
                                     </div>
-                                    <div class="col-md-3" v-if="current_user.id == challenge.challenger.id">
-                                        <button @click.prevent="confirmDate(date.id)" class="btn btn-success">Potvrdit</button>
+                                    <div class="col-md-3" v-if="current_user.id === challenge.challenger.id">
+                                        <form action="/matches/store" method="post">
+                                            <input type="hidden" name="_token" :value="csrf">
+                                            <input type="hidden" name="date" :value="date.id">
+                                            <input type="hidden" name="challenge_id" :value="challenge.id">
+                                            <button class="btn btn-success">Potvrdit</button>
+                                        </form>
                                     </div>
-                                    <div class="col-md-3" v-if="current_user.id == challenge.challenger.id">
+                                    <div class="col-md-3" v-if="current_user.id === challenge.challenger.id">
                                         <button @click.prevent="deleteDate(date.id)" class="btn btn-danger">Vymazať</button>
                                     </div>
                                 </div>
@@ -55,7 +60,7 @@
                 <!--
                 Div for adding new date
                 -->
-                <div class="col mb-5" v-if="current_user.id == challenge.asked.id">
+                <div class="col mb-5" v-if="current_user.id === challenge.asked.id">
                     <div class="card-header">
                         Pridať dátum
                     </div>
@@ -73,7 +78,7 @@
             v-if="!current_user.isRedactor"
             -->
 
-            <div class="col-lg-6 offset-2" v-if="!current_user.isRedactor">
+            <div class="col-lg-6 offset-1" v-if="!current_user.isRedactor">
                 <div class="card-header">
                     Správy
                 </div>
@@ -118,7 +123,8 @@
                 axiosDates: null,
                 selectedDate: null,
                 commentText: null,
-                deletedDates: []
+                deletedDates: [],
+                csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
         },
         computed: {
@@ -168,16 +174,6 @@
                     this.axiosDates = response['data']['dates'];
                     console.log(response);
                 })
-            },
-            confirmDate(id) {
-                axios.post('/matches/store', {
-                  data: {
-                      challenge_id: this.challenge.id,
-                      date: id
-                  }
-                }).then(response => {
-
-                });
             },
             scrollToEnd: function() {
                 var container = this.$el.querySelector("#chatbox");

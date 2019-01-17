@@ -47509,7 +47509,7 @@ exports = module.exports = __webpack_require__(46)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -47973,6 +47973,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "Challenge",
@@ -47983,7 +47988,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axiosDates: null,
             selectedDate: null,
             commentText: null,
-            deletedDates: []
+            deletedDates: [],
+            csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         };
     },
     computed: {
@@ -48041,14 +48047,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log(response);
             });
         },
-        confirmDate: function confirmDate(id) {
-            axios.post('/matches/store', {
-                data: {
-                    challenge_id: this.challenge.id,
-                    date: id
-                }
-            }).then(function (response) {});
-        },
 
         scrollToEnd: function scrollToEnd() {
             var container = this.$el.querySelector("#chatbox");
@@ -48069,11 +48067,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row text-center mb-5" }, [
-      _c("div", { staticClass: "col-md-12" }, [
-        _c("h1", [_vm._v("Výzva č. " + _vm._s(_vm.challenge.id) + " ")])
-      ])
-    ]),
+    _vm._m(0),
     _vm._v(" "),
     _c("div", { staticClass: "row mb-5" }, [
       _c("div", { staticClass: "col-md-6 text-left" }, [
@@ -48102,7 +48096,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-lg-4" }, [
+      _c("div", { staticClass: "col-lg-5" }, [
         _c("div", { staticClass: "col mb-5" }, [
           _c("div", { staticClass: "card" }, [
             _c("div", { staticClass: "card-header" }, [
@@ -48128,25 +48122,54 @@ var render = function() {
                                 )
                               ]),
                               _vm._v(" "),
-                              _vm.current_user.id == _vm.challenge.challenger.id
+                              _vm.current_user.id ===
+                              _vm.challenge.challenger.id
                                 ? _c("div", { staticClass: "col-md-3" }, [
                                     _c(
-                                      "button",
+                                      "form",
                                       {
-                                        staticClass: "btn btn-success",
-                                        on: {
-                                          click: function($event) {
-                                            $event.preventDefault()
-                                            _vm.confirmDate(date.id)
-                                          }
+                                        attrs: {
+                                          action: "/matches/store",
+                                          method: "post"
                                         }
                                       },
-                                      [_vm._v("Potvrdit")]
+                                      [
+                                        _c("input", {
+                                          attrs: {
+                                            type: "hidden",
+                                            name: "_token"
+                                          },
+                                          domProps: { value: _vm.csrf }
+                                        }),
+                                        _vm._v(" "),
+                                        _c("input", {
+                                          attrs: {
+                                            type: "hidden",
+                                            name: "date"
+                                          },
+                                          domProps: { value: date.id }
+                                        }),
+                                        _vm._v(" "),
+                                        _c("input", {
+                                          attrs: {
+                                            type: "hidden",
+                                            name: "challenge_id"
+                                          },
+                                          domProps: { value: _vm.challenge.id }
+                                        }),
+                                        _vm._v(" "),
+                                        _c(
+                                          "button",
+                                          { staticClass: "btn btn-success" },
+                                          [_vm._v("Potvrdit")]
+                                        )
+                                      ]
                                     )
                                   ])
                                 : _vm._e(),
                               _vm._v(" "),
-                              _vm.current_user.id == _vm.challenge.challenger.id
+                              _vm.current_user.id ===
+                              _vm.challenge.challenger.id
                                 ? _c("div", { staticClass: "col-md-3" }, [
                                     _c(
                                       "button",
@@ -48175,7 +48198,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm.current_user.id == _vm.challenge.asked.id
+        _vm.current_user.id === _vm.challenge.asked.id
           ? _c("div", { staticClass: "col mb-5" }, [
               _c("div", { staticClass: "card-header" }, [
                 _vm._v("\n                    Pridať dátum\n                ")
@@ -48223,7 +48246,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       !_vm.current_user.isRedactor
-        ? _c("div", { staticClass: "col-lg-6 offset-2" }, [
+        ? _c("div", { staticClass: "col-lg-6 offset-1" }, [
             _c("div", { staticClass: "card-header" }, [
               _vm._v("\n                Správy\n            ")
             ]),
@@ -48324,7 +48347,16 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row text-center mb-5" }, [
+      _c("div", { staticClass: "col-md-12" }, [_c("h1", [_vm._v("Výzva")])])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
