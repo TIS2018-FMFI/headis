@@ -1,12 +1,10 @@
 <template>
 
-    <!--
-    v-if="current_user.id == challenge.challenger.id || current_user.id == challenge.asked.id"
-    -->
     <div class="container" >
         <div class="row text-center mb-5">
             <div class="col-md-12">
                 <h1>Výzva</h1>
+                <p>{{ challenge.created_date }}</p>
 
             </div>
         </div>
@@ -122,7 +120,7 @@
                 axiosComments: null,
                 axiosDates: null,
                 selectedDate: null,
-                commentText: null,
+                commentText: "",
                 deletedDates: [],
                 csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
@@ -157,16 +155,25 @@
                 });
             },
             addComment() {
-                axios.post('/comments/store', {
-                    data: {
-                        challenge: this.challenge.id,
-                        user_id: this.current_user.id,
-                        text: this.commentText
-                    }
-                }).then(response => {
-                    this.axiosComments = response['data']['comments'];
-                    this.scrollToEnd();
-                });
+                if (this.commentText != "") {
+                    var text = this.commentText;
+                    this.commentText = "";
+
+                    axios.post('/comments/store', {
+                        data: {
+                            challenge: this.challenge.id,
+                            user_id: this.current_user.id,
+                            text: text
+                        }
+                    }).then(response => {
+                        this.axiosComments = response['data']['comments'];
+                        this.$nextTick(
+                            () => {
+                                this.scrollToEnd();
+                            }
+                        )
+                    });
+                }
             },
             deleteDate(id) {
                 axios.post('/dates/' + id + '/destroy', {
