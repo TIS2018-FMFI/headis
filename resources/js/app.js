@@ -20,9 +20,13 @@ window.Vue = require('vue');
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('vue-challenge', require('./components/Challenge.vue'));
 Vue.component('match-component', require('./components/Match.vue'));
+Vue.component('field-error', require('./components/FieldError.vue'));
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key)))
+
+import {Form} from './Form.js';
+import {Errors} from './Errors.js';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
