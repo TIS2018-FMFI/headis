@@ -21,6 +21,10 @@
                             <div class="card-body" >
                                 <h3>Vyzývateľ: </h3>
                                 <h3>Vyzývaný: </h3>
+                                <div v-if="current_user.id === match.challenge.asked.id">
+                                    <button v-if="isFinished" @click.prevent="" class="btn btn-success">Potvrdiť</button>
+                                    <button v-if="!isFinished && vueSets.length>0" @click.prevent="resetSets()" class="btn btn-danger">Reset</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -38,9 +42,13 @@
                         <div class="card text-center mb-4">
                             <div class="card-header">Pridanie setu</div>
                             <div class="card-body" >
-                                <input class="mb-2" v-model="score1" min="0" type="number">
-                                <input class="mb-2" v-model="score2" min="0" type="number">
-                                <button @click.prevent="addSet()">Pridať</button>
+                                <form @submit.prevent="addSet()">
+                                    <input class="mb-2" v-model="formSet.score1" min="0" type="number">
+                                    <field-error :form="formSet" field="score1"></field-error>
+                                    <input class="mb-2" v-model="formSet.score2" min="0" type="number">
+                                    <field-error :form="formSet" field="score2"></field-error>
+                                    <button class="btn btn-info" type="submit">Pridať</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -49,7 +57,7 @@
                     <div class="col-12 col-md-4 offset-md-4">
                         <div class="card text-center mb-4">
                             <div class="card-header">Potvrdenie zápasu</div>
-                            <div class="card-body" >
+                            <div class="card-body">
                                 <button @click.prevent="confirmMatch(true)" class="btn btn-success">Potvrdiť</button>
                                 <button @click.prevent="confirmMatch(false)" class="btn btn-danger">Odmietnúť</button>
                             </div>
@@ -64,6 +72,8 @@
 </template>
 
 <script>
+    import Form from "../Form.js";
+
     export default {
         name: "Match",
         props: ['match', 'finished', 'current_user', 'confirmed'],
@@ -72,9 +82,12 @@
                 axiosSets: null,
                 selectedSet: null,
                 axiosFinished: null,
-                score1: null,
-                score2: null,
-                axiosConfirmed: null
+                axiosConfirmed: null,
+                vueSets: [],
+                formSet: new Form({
+                    score1: '',
+                    score2: ''
+                })
             }
         },
         computed: {
@@ -82,8 +95,10 @@
                 if (this.axiosSets) {
                     return this.axiosSets;
                 }
-                console.log(this.match.sets);
-                return this.match.sets;
+                if (this.match.sets && this.match.sets.length > 0) {
+                    return this.match.sets;
+                }
+                return this.vueSets;
             },
             isFinished(){
                if (this.axiosFinished !== null){
@@ -116,6 +131,12 @@
             },
 
             addSet() {
+                this.formSet.post('/sets/validateSet').catch(error => {
+                    console.log(error);
+                });
+            },
+
+            sendSets(){
                 axios.post('/sets/store', {
                     data: {
                         match_id: this.match.id,
@@ -128,6 +149,9 @@
                     this.axiosFinished = response['data']['finished'];
                     this.axiosSets = response['data']['sets'];
                 });
+            },
+            resetSets(){
+                this.vueSets = [];
             }
         }
     }

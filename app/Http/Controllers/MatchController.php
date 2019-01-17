@@ -47,19 +47,16 @@ class MatchController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'data.challenge_id' => 'required|exists:challenges,id',
-            'data.date' => 'required|exists:dates,id'
+            'challenge_id' => 'required|exists:challenges,id',
+            'date' => 'required|exists:dates,id'
         ]);
 
         $match = Match::create([
-            'challenge_id' => $request['data']['challenge_id'],
-            'date_id' => $request['data']['date']
+            'challenge_id' => $request['challenge_id'],
+            'date_id' => $request['date']
         ]);
 
-        return response()->json([
-            'url' => '/matches/'.$match->id,
-            'status' => 'redirect'
-        ]);
+        return redirect('/matches/'.$match->id);
     }
 
     /**
