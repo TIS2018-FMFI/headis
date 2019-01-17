@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Match;
+use App\Rules\SetValidator;
 use App\Set;
 use Illuminate\Http\Request;
 
@@ -52,6 +53,26 @@ class SetController extends Controller
     public function update(Request $request, Set $set)
     {
         //
+    }
+
+    /**
+     * Validates set.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return boolean
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function validateSet(Request $request)
+    {
+
+        $this->validate($request, [
+            'score1' => ['required'],
+            'score2' => ['required', new SetValidator($request['score1'])]
+        ]);
+
+        return response()->json([
+            'status' => 'ok'
+        ]);
     }
 
 }

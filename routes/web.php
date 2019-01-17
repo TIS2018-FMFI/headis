@@ -39,6 +39,7 @@ Route::post('/dates/{date}/destroy', 'DateController@destroy');
 
 Route::post('/sets/store', 'SetController@store');
 Route::post('/sets/{set}/update', 'SetController@update');
+Route::post('/sets/validateSet', 'SetController@validateSet');
 
 Route::get('/pyramid', 'PyramidController@index')->name('pyramid');
 
