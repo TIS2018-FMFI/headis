@@ -79,7 +79,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return Challenge::where(function ($query) use ($user) {
             $query->where('user_id_1', $user->id);
-            $query->orWhere('user_id_1', $user->id);
+            $query->orWhere('user_id_2', $user->id);
         })->whereNotIn('id', Match::all()->pluck('challenge_id')->toArray())->first();
     }
 
@@ -101,6 +101,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public static function pyramid()
     {
-        return User::where('deleted_at', '=', null)->where('isRedactor', '=', false)->orderBy('position')->get();
+        return User::where('isRedactor', false)->orderBy('position')->get();
     }
 }

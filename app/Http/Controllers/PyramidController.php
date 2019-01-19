@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Point;
+use App\Season;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -30,11 +31,14 @@ class PyramidController extends Controller
 //        dd(User::pyramid());
         $res = DB::select("SELECT season_id, user_id FROM
             (SELECT user_id, season_id FROM points group by user_id, season_id ORDER by SUM(point) ASC) 
-            as ahoj GROUP BY season_id ORDER BY season_id DESC");
-        $points = Point::hydrate($res);
+            as ahoj WHERE season_id = ".Season::current()->id." GROUP BY season_id ORDER BY season_id DESC");
+
+        $res2 = DB::select("SELECT date, user_id FROM points WHERE season_id = ".Season::current()->id." and point = 1");
+//        dd(Point::hydrate($res2));
         return view('pyramid.index', [
             'users' => User::pyramid(),
-            'statistics' => $points
+            'actualStatistics' => Point::hydrate($res2),
+            'statistics' => Point::hydrate($res)
         ]);
     }
 

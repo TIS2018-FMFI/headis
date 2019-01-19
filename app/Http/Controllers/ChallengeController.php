@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Challenge;
+use App\Rules\CanChallenge;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,16 +23,22 @@ class ChallengeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
+
+
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'user' => ['required', 'exists:users,id', new CanChallenge(auth()->user()->id, $request['user'])]
+        ]);
 //        dd($request['user']);
         $challenge = Challenge::create([
             'user_id_1' => auth()->user()->id,
             'user_id_2' => intval($request['user']),
-            'created_date' => Carbon::now()
+            'created_date' => Carbon::now()->toDateString()
         ]);
         return redirect('/challenges/'.$challenge->id);
     }
