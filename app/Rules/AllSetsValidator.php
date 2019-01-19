@@ -4,17 +4,16 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class SetValidator implements Rule
+class AllSetsValidator implements Rule
 {
-    public $score1;
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($score1)
+    public function __construct()
     {
-        $this->score1 = $score1;
+        //
     }
 
     /**
@@ -26,14 +25,17 @@ class SetValidator implements Rule
      */
     public function passes($attribute, $value)
     {
+        foreach ($value as $item) {
+            $score1 = (int) $item['score_1'];
+            $score2 = (int) $item['score_2'];
 
-        $score1 = (int) $this->score1;
-        $score2 = (int) $value;
-
-        if ( ($score1 >= 10 && $score2 >= 10 && abs($score1 - $score2) == 2) || (($score1 == 11 || $score2 == 11) && abs($score1 - $score2) > 1)) {
-            return true;
+            if ( ($score1 >= 10 && $score2 >= 10 && abs($score1 - $score2) == 2) || (($score1 == 11 || $score2 == 11) && abs($score1 - $score2) > 1)) {
+                continue;
+            }
+            return false;
         }
-        return false;
+
+        return true;
     }
 
     /**

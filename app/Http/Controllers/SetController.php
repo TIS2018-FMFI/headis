@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Match;
+use App\Rules\AllSetsValidator;
 use App\Rules\SetValidator;
 use App\Set;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SetController extends Controller
 {
@@ -23,17 +25,28 @@ class SetController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
 
     public function store(Request $request)
     {
-        Set::create([
-            'match_id' => $request['data']['match_id'],
-            'score_1' => $request['data']['score1'],
-            'score_2' => $request['data']['score2']
-        ]);
+
+        DB::transaction(function () use ($request) {
+            $this->validate($request, [
+                'data.match_id' => 'required|exists:matches,id',
+                'data.sets' => ['required', new AllSetsValidator()]
+            ]);
+
+            foreach ($request['data']['sets'] as $set) {
+                Set::create([
+                    'match_id' => $request['data']['match_id'],
+                    'score_1' => $set['score_1'],
+                    'score_2' => $set['score_2']
+                ]);
+            }
+        });
+
         $match = Match::find($request['data']['match_id']);
         $sets = $match->sets;
 
@@ -47,12 +60,40 @@ class SetController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  Set $set
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Set $set)
+    public function update(Request $request)
     {
-        //
+        $match = Match::find($request['match_id']);
+
+        DB::transaction(function () use ($request, $match) {
+            $this->validate($request, [
+                'match_id' => 'required|exists:matches,id',
+                'sets' => ['required', new AllSetsValidator()]
+            ]);
+
+            Set::where('match_id', $request['match_id'])->delete();
+
+            foreach ($request['sets'] as $set) {
+                Set::create([
+                    'match_id' => $request['match_id'],
+                    'score_1' => $set['score_1'],
+                    'score_2' => $set['score_2']
+                ]);
+            }
+
+            if ($match->finished()) {
+                $match->confirmed = true;
+                $match->save();
+            }
+        });
+
+        return response()->json([
+            'status' => 'ok',
+            'confirmed' => $match->confirmed,
+            'finished' => $match->finished(),
+            'sets' => $match->sets
+        ]);
     }
 
     /**
@@ -64,14 +105,15 @@ class SetController extends Controller
      */
     public function validateSet(Request $request)
     {
-
         $this->validate($request, [
-            'score1' => ['required'],
-            'score2' => ['required', new SetValidator($request['score1'])]
+            'score_1' => ['required', new SetValidator($request['score_2'])],
+            'score_2' => ['required', new SetValidator($request['score_1'])]
         ]);
 
         return response()->json([
-            'status' => 'ok'
+            'status' => 'ok',
+            'score_1' => $request['score_1'],
+            'score_2' => $request['score_2']
         ]);
     }
 
