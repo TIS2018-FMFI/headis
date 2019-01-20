@@ -16,7 +16,7 @@ class CreateDatesTable extends Migration
         Schema::create('dates', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('challenge_id')->unsigned();
-            $table->date('date');
+            $table->timestamp('date');
             $table->softDeletes();
             $table->foreign('challenge_id')->references('id')->on('challenges');
         });
