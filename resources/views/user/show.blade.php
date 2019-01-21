@@ -63,7 +63,7 @@
                                 </div>
                                 <div class="col-8">
                                     <div class="row">
-                                        <div class="col-4">{{$match->date}}</div>
+                                        <div class="col-4">{{date('d-m-Y', strtotime($match->date->date))}}</div>
                                         @foreach($match->sets as $set)
                                             @if($user->id == $match->challenge->challenger->id)
                                                 <div class="col-2">{{$set->score_1}}:{{$set->score_2}}</div>

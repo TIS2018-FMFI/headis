@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -90,9 +91,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function matches()
     {
-//        dd(Match::whereIn('matches.challenge_id', $this->challenges->pluck('id')->toArray())->join('dates', 'matches.date_id','=','dates.id')->
-//        orderBy('date')->get());
-        return Match::whereIn('matches.challenge_id', $this->challenges->pluck('id')->toArray())
+        return Match::select('matches.*')->whereIn('matches.challenge_id', $this->challenges->pluck('id')->toArray())
             ->join('dates', 'matches.date_id','=','dates.id')
             ->orderBy('date')
             ->get();

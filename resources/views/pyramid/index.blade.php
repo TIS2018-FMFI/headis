@@ -5,7 +5,11 @@
         <div class="row flex-nowrap flex-row text-center justify-content-center">
             @foreach($users as $user)
                 <div class="col-lg-2">
-                    <div class="card"><a href="/users/{{$user->id}}">{{$user->position}}.<br> {{$user->user_name}}</a></div>
+                    @if($user->id == $currentAuthUser->id)
+                        <div class="card"><a class="text-success" href="/users/{{$user->id}}">{{$user->position}}.<br> {{$user->user_name}}</a></div>
+                    @else
+                        <div class="card"><a href="/users/{{$user->id}}">{{$user->position}}.<br> {{$user->user_name}}</a></div>
+                    @endif
                 </div>
                 @if(floor(sqrt($user->position)) == ceil(sqrt($user->position)))
                     </div>

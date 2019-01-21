@@ -33,8 +33,8 @@ class CanChallenge implements Rule
     public function passes($attribute, $value)
     {
         return ($this->challenger->position > $this->asked->position) &&
-            (floor(sqrt($this->challenger->position)) === floor(sqrt($this->asked->position)) ||
-             floor(sqrt($this->challenger->position)) - 1 === floor(sqrt($this->asked->position))) &&
+            (floor(sqrt($this->challenger->position - 1)) === floor(sqrt($this->asked->position - 1)) ||
+             floor(sqrt($this->challenger->position - 1)) - 1 === floor(sqrt($this->asked->position - 1))) &&
             ($this->challenger->currentMatch() == null && $this->asked->currentMatch() == null) &&
             (User::currentChallenge($this->challenger) == null && User::currentChallenge($this->asked) == null) &&
             ($this->asked->countOfChallengesAsAsked() < 3 && $this->challenger->countOfChallengesAsChallenger() < 3) &&
