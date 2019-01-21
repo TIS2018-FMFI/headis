@@ -1,19 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid pre-scrollable">
-        <div class="row flex-nowrap flex-row text-center justify-content-center">
+    <div class="container-fluid" style="overflow-x: scroll">
+        <div class="row mb-4 text-center justify-content-center">
             @foreach($users as $user)
-                <div class="col-lg-2">
-                    @if($user->id == $currentAuthUser->id)
-                        <div class="card"><a class="text-success" href="/users/{{$user->id}}">{{$user->position}}.<br> {{$user->user_name}}</a></div>
-                    @else
-                        <div class="card"><a href="/users/{{$user->id}}">{{$user->position}}.<br> {{$user->user_name}}</a></div>
-                    @endif
-                </div>
+                @if($user->id == $currentAuthUser->id)
+                    <div class="mr-4 border rounded-circle bg-secondary" style="width: 150px; height: 150px"><a class="text-success" href="/users/{{$user->id}}">{{$user->position}}.<br><br> {{$user->user_name}}</a></div>
+                @else
+                    <div class="mr-4 border rounded-circle bg-secondary" style="width: 150px; height: 150px"><a class="text-white" href="/users/{{$user->id}}">{{$user->position}}.<br><br> {{$user->user_name}}</a></div>
+                @endif
                 @if(floor(sqrt($user->position)) == ceil(sqrt($user->position)))
                     </div>
-                    <div class="row flex-nowrap flex-row text-center justify-content-center">
+                    <div class="row mb-4 text-center justify-content-center">
                 @endif
             @endforeach
         </div>
