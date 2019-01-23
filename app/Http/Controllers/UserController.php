@@ -74,6 +74,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+//        dd($request);
         $this->validate($request, [
             'user_name' => ['nullable', 'string', 'max:255', 'unique:users'],
             'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users'],
@@ -90,25 +91,27 @@ class UserController extends Controller
 
         }
         DB::transaction(function () use ($user, $request, $fileName){
-            if (isset($request['user_name'])) {
+            if (!empty($request['user_name'])) {
+//                dd('som debil');
                 $user->user_name = $request['user_name'];
             }
-            if (isset($request['email'])){
+            if (!empty($request['email'])){
                 $user->email = $request['email'];
             }
-            if (isset($request['first_name'])){
+            if (!empty($request['first_name'])){
                 $user->first_name = $request['first_name'];
             }
-            if (isset($request['last_name'])) {
+            if (!empty($request['last_name'])) {
                 $user->last_name = $request['last_name'];
             }
             if (file_exists('/images/'.$user->image)){
                 unlink('/images/'.$user->image);
             }
             $user->image = $fileName;
-            if (isset($request['password'])){
+            if (!empty($request['password'])){
                 $user->password = Hash::make($request['password']);
             }
+
             $user->save();
         });
         return redirect('/users/'.$user->id);
