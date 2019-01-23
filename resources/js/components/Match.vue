@@ -19,8 +19,8 @@
                                 Zápas
                             </div>
                             <div class="card-body" >
-                                <h3>Vyzývateľ: </h3>
-                                <h3>Vyzývaný: </h3>
+                                <h3>{{ match.challenge.asked.user_name }}: </h3>
+                                <h3>{{ match.challenge.challenger.user_name }}: </h3>
                                 <div v-if="current_user.id === match.challenge.asked.id || current_user.isRedactor">
                                     <button v-if="vueFinished || (current_user.isRedactor && !isConfirmed)" @click.prevent="sendSets()" class="btn btn-success">Potvrdiť</button>
                                     <button v-if="vueSets.length > 0 || (current_user.isRedactor && !isConfirmed)" @click.prevent="resetSets()" class="btn btn-danger">Reset</button>
@@ -35,10 +35,10 @@
                                 <div class="card-header">{{ index+1 }}</div>
                                 <div class="card-body" >
                                     <div class="form-group">
-                                        <input class="form-control" type="number" v-model.number="formRedactor.sets[index].score_1" min="0" :class="{'is-invalid': formRedactor.errors.has('sets')}">
+                                        <input class="form-control" type="number" v-model.number="formRedactor.sets[index].score_2" min="0" :class="{'is-invalid': formRedactor.errors.has('sets')}">
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control" type="number" v-model.number="formRedactor.sets[index].score_2" min="0" :class="{'is-invalid': formRedactor.errors.has('sets')}">
+                                        <input class="form-control" type="number" v-model.number="formRedactor.sets[index].score_1" min="0" :class="{'is-invalid': formRedactor.errors.has('sets')}">
                                         <field-error :form="formRedactor" field="sets"></field-error>
                                     </div>
 
@@ -61,8 +61,8 @@
                             <div class="card text-center mb-4">
                                 <div class="card-header">{{ index+1 }}</div>
                                 <div class="card-body" >
-                                    <h3>{{ set.score_1 }}</h3>
                                     <h3>{{ set.score_2 }}</h3>
+                                    <h3>{{ set.score_1 }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -73,12 +73,12 @@
                                 <div class="card-body" >
                                     <form @submit.prevent="addSet()">
                                         <div class="form-group">
-                                            <input class="form-control" v-model.number="formSet.score_1" min="0" type="number" :class="{'is-invalid': formSet.errors.has('score_1')}">
-                                            <field-error :form="formSet" field="score_1"></field-error>
-                                        </div>
-                                        <div class="form-group">
                                             <input class="form-control" v-model.number="formSet.score_2" min="0" type="number" :class="{'is-invalid': formSet.errors.has('score_2')}">
                                             <field-error :form="formSet" field="score_2"></field-error>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-control" v-model.number="formSet.score_1" min="0" type="number" :class="{'is-invalid': formSet.errors.has('score_1')}">
+                                            <field-error :form="formSet" field="score_1"></field-error>
                                         </div>
                                         <button class="btn btn-info" type="submit">Pridať</button>
                                     </form>
