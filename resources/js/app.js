@@ -17,16 +17,36 @@ window.Vue = require('vue');
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
+import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
+
+import CKEditor from '@ckeditor/ckeditor5-vue';
+
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('vue-challenge', require('./components/Challenge.vue'));
 Vue.component('match-component', require('./components/Match.vue'));
 Vue.component('field-error', require('./components/FieldError.vue'));
+Vue.component('vue-datetime-picker', VueCtkDateTimePicker);
+Vue.component('vue-manager', require('./components/Manager.vue'));
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key)))
 
 import {Form} from './Form.js';
 import {Errors} from './Errors.js';
+
+Vue.use(require('vue-moment'));
+
+Vue.use( CKEditor );
+
+import fontawesome  from '@fortawesome/fontawesome';
+import solid from '@fortawesome/fontawesome-free-solid';
+import regular from '@fortawesome/fontawesome-free-regular';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
+fontawesome.library.add(solid, regular);
+
+Vue.component('font-awesome-icon', FontAwesomeIcon);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

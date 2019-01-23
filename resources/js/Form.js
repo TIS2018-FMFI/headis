@@ -25,10 +25,10 @@ class Form {
      * Fetch all relevant data for the form.
      */
     data() {
-        let data = {};
+        let data = new FormData();
 
         for (let property in this.originalData) {
-            data[property] = this[property];
+            data.append(property,this[property]);
         }
 
         return data;
@@ -54,36 +54,6 @@ class Form {
      */
     post(url) {
         return this.submit('post', url);
-    }
-
-
-    /**
-     * Send a PUT request to the given URL.
-     * .
-     * @param {string} url
-     */
-    put(url) {
-        return this.submit('put', url);
-    }
-
-
-    /**
-     * Send a PATCH request to the given URL.
-     * .
-     * @param {string} url
-     */
-    patch(url) {
-        return this.submit('patch', url);
-    }
-
-
-    /**
-     * Send a DELETE request to the given URL.
-     * .
-     * @param {string} url
-     */
-    delete(url) {
-        return this.submit('delete', url);
     }
 
 

@@ -44,9 +44,10 @@ Route::post('/sets/validateSet', 'SetController@validateSet');
 Route::get('/pyramid', 'PyramidController@index')->name('pyramid');
 
 Route::get('/posts', 'PostController@index');
+Route::post('/posts/store', 'PostController@store');
 Route::get('/posts/{post}', 'PostController@show');
 Route::get('/posts/{post}/edit', 'PostController@edit');
 Route::post('/posts/{post}/update', 'UserController@update');
 
-Route::get('/managers', 'ManagerController@index')->name('managers');
-Route::post('/managers/store', 'ManagerController@store');
+Route::get('/manager', 'ManagerController@index')->name('manager');
+Route::post('/manager/store', 'ManagerController@store');
