@@ -41,9 +41,10 @@ Vue.use( CKEditor );
 import fontawesome  from '@fortawesome/fontawesome';
 import solid from '@fortawesome/fontawesome-free-solid';
 import regular from '@fortawesome/fontawesome-free-regular';
+import { faFacebookF }  from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-fontawesome.library.add(solid, regular);
+fontawesome.library.add(solid, regular, faFacebookF);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

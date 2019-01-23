@@ -24,7 +24,7 @@
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    <img src="/images/logo.png" alt="Logo Headis" class="img-fluid logo">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -89,6 +89,11 @@
         <main class="py-4">
             @yield('content')
         </main>
+        <footer class="navbar-laravel p-3">
+            <div class="container text-center">
+                <a href="https://www.facebook.com/HeadisSK/"><font-awesome-icon :icon="['fab', 'facebook-f']"></font-awesome-icon></a>
+            </div>
+        </footer>
     </div>
 </body>
 </html>
