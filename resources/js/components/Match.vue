@@ -221,7 +221,7 @@
                 let asked = 0;
 
                 this.vueSets.forEach(item => {
-                    if (item['score_1'] > item['score_2']) {
+                    if (parseInt(item['score_1']) > parseInt(item['score_2'])) {
                         challenger += 1;
                     } else {
                         asked += 1;
