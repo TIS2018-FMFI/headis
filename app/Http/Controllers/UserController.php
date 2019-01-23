@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Challenge;
 use App\Match;
 use App\User;
+use Faker\Provider\File;
 use foo\bar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use phpDocumentor\Reflection\Types\Integer;
 use function PHPSTORM_META\type;
 
@@ -45,6 +47,22 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Driver  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(User $user)
+    {
+        if (auth()->user()->id != $user->id){
+            return back();
+        }
+        return view('user.edit', [
+            'user' => $user
+        ]);
+    }
+
 
     /**
      * Update the specified resource in storage.
@@ -55,7 +73,44 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $this->validate($request, [
+            'user_name' => ['nullable', 'string', 'max:255', 'unique:users'],
+            'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['nullable', 'string', 'min:6', 'confirmed'],
+            'first_name' => ['nullable', 'string', 'max:255'],
+            'last_name' => ['nullable', 'string', 'max:255'],
+            'image' => ['nullable', 'image','mimes:jpg,jpeg,png'],
+        ]);
+        $fileName = 'default.png';
+        if (isset($request['image'])) {
+            $file = $request['image'];
+            $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
+            $file->move(public_path('/images'), $fileName);
+
+        }
+        DB::transaction(function () use ($user, $request, $fileName){
+            if (isset($request['user_name'])) {
+                $user->user_name = $request['user_name'];
+            }
+            if (isset($request['email'])){
+                $user->email = $request['email'];
+            }
+            if (isset($request['first_name'])){
+                $user->first_name = $request['first_name'];
+            }
+            if (isset($request['last_name'])) {
+                $user->last_name = $request['last_name'];
+            }
+            if (file_exists('/images/'.$user->image)){
+                unlink('/images/'.$user->image);
+            }
+            $user->image = $fileName;
+            if (isset($request['password'])){
+                $user->password = Hash::make($request['password']);
+            }
+            $user->save();
+        });
+        return redirect('/users/'.$user->id);
     }
 
     /**
@@ -69,16 +124,19 @@ class UserController extends Controller
         if ($user->currentMatch() != null || User::currentChallenge($user) != null){
             return back();
         }
-        $oldPosition = $user->position;
-        $user->position = 0;
-        $user->save();
-        $success = $user->delete();
-        $users = User::where('position' , '>', $oldPosition)->get();
-//        dd($users);
-        foreach ($users as $user1){
-            $user1->position--;
-            $user1->save();
-        }
+        $success = DB::transaction(function () use ($user){
+            $oldPosition = $user->position;
+            $user->position = 0;
+            $user->save();
+            $success = $user->delete();
+            $users = User::where('position' , '>', $oldPosition)->get();
+    //        dd($users);
+            foreach ($users as $user1){
+                $user1->position--;
+                $user1->save();
+            }
+            return $success;
+        });
         return back()->with([
             'success' => $success
         ]);

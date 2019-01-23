@@ -23,6 +23,7 @@ Route::get('/users', 'UserController@index')->name('users');
 Route::get('/users/{user}', 'UserController@show');
 Route::get('/users/{user}/destroy', 'UserController@destroy');
 Route::post('/users/{user}/update', 'UserController@update');
+Route::get('/users/{user}/edit', 'UserController@edit');
 
 Route::get('/challenges/{challenge}', 'ChallengeController@show');
 Route::post('/challenges/store', 'ChallengeController@store');

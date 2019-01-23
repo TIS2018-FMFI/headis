@@ -91,7 +91,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function matches()
     {
-        return Match::select('matches.*')->whereIn('matches.challenge_id', $this->challenges->pluck('id')->toArray())
+        return Match::select('matches.*')->where('confirmed', true)->whereIn('matches.challenge_id', $this->challenges->pluck('id')->toArray())
             ->join('dates', 'matches.date_id','=','dates.id')
             ->orderBy('date')
             ->get();

@@ -9,6 +9,10 @@
                 @if(\App\User::currentChallenge($user) && $currentAuthUser->id == $user->id)
                     <a class="btn btn-primary" href="/challenges/{{\App\User::currentChallenge($user)->id}}">Aktuálna výzva</a>
                 @endif
+                @if($currentAuthUser->id == $user->id)
+                    <a class="btn btn-primary" href="/users/{{$user->id}}/edit">Upraviť profil</a>
+                @endif
+
                 @if($canChallenge)
                     <form action="/challenges/store" method="POST" >
                         @csrf
