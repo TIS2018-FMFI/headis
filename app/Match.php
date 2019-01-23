@@ -56,4 +56,9 @@ class Match extends Model
 
         return ($asked_points == 2 || $challenger_points == 2);
     }
+
+    public function isMember()
+    {
+        return auth()->user()->isRedactor || auth()->user()->id == $this->challenge->asked->id || auth()->user()->id == $this->challenge->challenger->id;
+    }
 }

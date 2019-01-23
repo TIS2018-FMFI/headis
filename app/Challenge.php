@@ -41,4 +41,9 @@ class Challenge extends Model
     {
         return $this->hasOne(Match::class);
     }
+
+    public function isMember()
+    {
+        return auth()->user()->id == $this->asked->id || auth()->user()->id == $this->challenger->id;
+    }
 }

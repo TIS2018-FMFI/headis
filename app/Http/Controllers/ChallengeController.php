@@ -7,6 +7,7 @@ use App\Rules\CanChallenge;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\DocBlock\Tags\Author;
 
 class ChallengeController extends Controller
 {
@@ -51,6 +52,12 @@ class ChallengeController extends Controller
      */
     public function show(Challenge $challenge)
     {
+        if (!$challenge->isMember()){
+            return back();
+        }
+        if ($challenge->match){
+            return redirect('/matches/'.$challenge->match->id);
+        }
         return view('challenge.show', [
             'challenge' => $challenge->load(['challenger', 'asked', 'dates', 'comments']),
         ]);

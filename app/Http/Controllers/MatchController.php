@@ -26,6 +26,9 @@ class MatchController extends Controller
      */
     public function show(Match $match)
     {
+        if (!$match->isMember()){
+            return back();
+        }
         return view('match.show', [
             'match' => $match->load(['sets', 'challenge.challenger', 'challenge.asked']),
             'finished' => $match->finished()
