@@ -4,7 +4,7 @@
         <div class="row text-center mb-5">
             <div class="col-md-12">
                 <h1>Výzva</h1>
-                <p>{{ challenge.created_date }}</p>
+                <p>{{ challenge.created_date | moment("DD.MM.YYYY") }}</p>
 
             </div>
         </div>
@@ -25,7 +25,7 @@
         Display the the dates for the given challenge
         -->
         <div class="row">
-            <div class="col-lg-5">
+            <div class="col-md-5">
                 <div class="col mb-5">
                     <div class="card">
                         <div class="card-header">
@@ -35,7 +35,7 @@
                             <li class="list-group-item text-center" v-for="date in allDates" v-if="!date.rejected">
                                 <div class="row">
                                     <div class="col-md-5">
-                                        {{ date.date }}
+                                        <span>{{ date.date | moment("DD.MM.YYYY HH:mm") }}</span>
                                     </div>
                                     <div class="col-md-3" v-if="current_user.id === challenge.challenger.id">
                                         <form action="/matches/store" method="post">
@@ -59,11 +59,13 @@
                 Div for adding new date
                 -->
                 <div class="col mb-5" v-if="current_user.id === challenge.asked.id">
-                    <div class="card-header">
-                        Pridať dátum
-                    </div>
+
                     <div class="card">
-                        <input type="date" class="input-group date" v-model="selectedDate">
+                        <div class="card-header">
+                            Pridať dátum
+                        </div>
+
+                        <vue-datetime-picker v-model="selectedDate" label="Vyber datum a cas" minute-interval="15" :disabled-hours="['00', '01', '02', '03', '04', '05', '06', '07', '20', '21', '22', '23']" format="DD.MM.YYYY HH:mm" outputFormat="YYYY-MM-DD HH:mm:ss" locale="sk" noButtonNow></vue-datetime-picker>
                         <button @click.prevent="addDate()" class="btn-primary">Pridaj</button>
                     </div>
 
@@ -76,32 +78,37 @@
             v-if="!current_user.isRedactor"
             -->
 
-            <div class="col-lg-6 offset-1" v-if="!current_user.isRedactor">
-                <div class="card-header">
-                    Správy
-                </div>
+            <div class="col-md-6 offset-md-1" v-if="!current_user.isRedactor">
+
                 <div class="card">
+
+                    <div class="card-header">
+                        Správy
+                    </div>
+
                     <div class="msg_history card" ref="chatbox" id="chatbox">
-                        <div v-for="comment in sortedItems">
-                            <div class="outgoing_msg" v-if="comment.user_id == current_user.id">
+                        <template v-for="comment in sortedItems">
+                            <div class="outgoing_msg" v-if="comment.user_id === current_user.id">
                                 <div class="sent_msg">
                                     <p>{{ comment.text }}</p>
-                                    <span class="time_date">{{ comment.date }}</span> </div>
+                                    <span class="time_date">{{ comment.date | moment("DD.MM.YYYY HH:mm") }}</span>
+                                </div>
                             </div>
                             <div class="incoming_msg" v-else>
                                 <div class="incoming_msg_img"> <img :src="'/images/' + challenge.challenger.image" alt="Avatar" > </div>
                                 <div class="received_msg">
                                     <div class="received_withd_msg">
                                         <p>{{ comment.text }}</p>
-                                        <span class="time_date">{{ comment.date }}</span></div>
+                                        <span class="time_date">{{ comment.date | moment("DD.MM.YYYY HH:mm") }}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </template>
                     </div>
                     <div class="type_msg">
                         <div class="input_msg_write">
-                            <input v-model="commentText" type="text" class="write_msg" placeholder="Type a message" />
-                            <button @click.prevent="addComment()" class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                            <input @keyup.enter="trigger" v-model="commentText" type="text" class="write_msg pl-2" placeholder="Type a message" />
+                            <button @click.prevent="addComment()" class="msg_send_btn" type="button" ref="sendReply"><font-awesome-icon icon="paper-plane"></font-awesome-icon></button>
                         </div>
                     </div>
                 </div>
@@ -155,7 +162,7 @@
                 });
             },
             addComment() {
-                if (this.commentText != "") {
+                if (this.commentText !== "") {
                     var text = this.commentText;
                     this.commentText = "";
 
@@ -185,6 +192,9 @@
             scrollToEnd: function() {
                 var container = this.$el.querySelector("#chatbox");
                 container.scrollTop = container.scrollHeight;
+            },
+            trigger () {
+                this.$refs.sendReply.click()
             }
         },
         mounted() {

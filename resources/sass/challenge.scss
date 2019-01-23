@@ -98,7 +98,11 @@ img{ max-width:100%;}
   padding: 5px 10px 5px 12px;
   width:100%;
 }
-.outgoing_msg{ overflow:hidden; margin:26px 0 26px;}
+
+.incoming_msg, .outgoing_msg {
+  padding: 10px;
+}
+
 .sent_msg {
   float: right;
   width: 46%;
@@ -122,8 +126,8 @@ img{ max-width:100%;}
   font-size: 17px;
   height: 33px;
   position: absolute;
-  right: 0;
-  top: 11px;
+  right: 2px;
+  top: 7px;
   width: 33px;
 }
 .messaging { padding: 0 0 50px 0;}
