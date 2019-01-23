@@ -18,11 +18,11 @@ class Post extends Model
 
     public static function homeLatest()
     {
-        return static::whereDate('date_from', '<=', Carbon::now())->whereDate('date_to', '>=', Carbon::now())->orderByDesc('created_at')->take(3)->get();
+        return static::where('hidden', false)->orderByDesc('created_at')->take(3)->get();
     }
 
     public static function allAvailable()
     {
-        return static::whereDate('date_from', '<=', Carbon::now())->whereDate('date_to', '>=', Carbon::now())->orderByDesc('created_at')->paginate(9);
+        return static::where('hidden', false)->orderByDesc('created_at')->paginate(9);
     }
 }
