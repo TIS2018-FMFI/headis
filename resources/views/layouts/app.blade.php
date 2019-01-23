@@ -44,9 +44,7 @@
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login page') }}</a>
                             </li>
                             <li class="nav-item">
-                                @if (Route::has('register'))
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register page') }}</a>
-                                @endif
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register page') }}</a>
                             </li>
                         @else
                             @if ($currentAuthUser && $currentAuthUser->currentMatch())
@@ -56,6 +54,13 @@
                             @elseif ($currentAuthUser && \App\User::currentChallenge($currentAuthUser))
                                 <li class="nav-item">
                                     <a href="/challenges/{{ \App\User::currentChallenge($currentAuthUser)->id }}" class="nav-link">Aktuálna výzva</a>
+                                </li>
+                            @endif
+                            @if ($currentAuthUser->isRedactor)
+                                <li class="nav-item">
+                                    <a href="{{ route('manager') }}" class="nav-link">
+                                        {{ __('Manager') }}
+                                    </a>
                                 </li>
                             @endif
                             <li class="nav-item">
