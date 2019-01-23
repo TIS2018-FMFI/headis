@@ -29,6 +29,9 @@ class MatchController extends Controller
         if (!$match->isMember()){
             return back();
         }
+        if ($match->confirmed){
+            return redirect('/users/'.auth()->user()->id);
+        }
         return view('match.show', [
             'match' => $match->load(['sets', 'challenge.challenger', 'challenge.asked']),
             'finished' => $match->finished()
