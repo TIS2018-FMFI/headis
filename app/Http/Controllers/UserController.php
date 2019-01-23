@@ -38,7 +38,8 @@ class UserController extends Controller
                         auth()->user()->currentMatch() == null &&
                         User::currentChallenge(auth()->user())== null &&
                         $user->currentMatch() == null &&
-                        User::currentChallenge($user) == null;
+                        User::currentChallenge($user) == null &&
+                        !$user->isRedactor;
         $matches = $user->matches();
         return view('user.show', [
             'user' => $user,

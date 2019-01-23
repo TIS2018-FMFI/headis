@@ -86,7 +86,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function currentMatch()
     {
-        return $this->matches()->where('confirmed', false)->first();
+        return Match::where('confirmed', null)->whereIn('matches.challenge_id', $this->challenges->pluck('id')->toArray())
+            ->first();
+//        return $this->matches()->where('confirmed', null)->first();
     }
 
     public function matches()
