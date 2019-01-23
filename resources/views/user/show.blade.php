@@ -6,7 +6,7 @@
             <div class="text-center col-sm-4">
                 <h3> {{ $user->user_name }} </h3>
                 <img class="img-fluid mb-4" src="{{ url('images/'.$user->image)}}"  alt="{{ $user->user_name }}">
-                @if(\App\User::currentChallenge($user) && $currentAuthUser->id == $user->id)
+                @if(\App\User::currentChallenge($user) && $currentAuthUser->id == $user->id )
                     <a class="btn btn-primary" href="/challenges/{{\App\User::currentChallenge($user)->id}}">Aktuálna výzva</a>
                 @endif
                 @if($currentAuthUser->id == $user->id)
