@@ -17,10 +17,9 @@ class CreatePostsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->text('text');
-            $table->text('intro_text');
-            $table->date('date_from');
-            $table->date('date_to');
-            $table->string('image');
+            $table->text('intro_text')->nullable();
+            $table->string('image')->nullable();
+            $table->boolean('hidden')->default(false);
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
