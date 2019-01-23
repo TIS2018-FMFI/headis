@@ -31,7 +31,7 @@
                         <div class="card-header">
                             Dátumy
                         </div>
-                        <ul v-if="allDates.length > 0" class="list-group list-group-flush">
+                        <ul v-if="allDates.length > 0" class="list-group list-group-flush pre-scrollable">
                             <li class="list-group-item text-center" v-for="date in allDates" v-if="!date.rejected">
                                 <div class="row">
                                     <div class="col-md-5">
@@ -74,11 +74,9 @@
 
             <!--
             Comments for the given challenge
-            TODO: replace date with a timestamp
-            v-if="!current_user.isRedactor"
             -->
 
-            <div class="col-md-6 offset-md-1" v-if="!current_user.isRedactor">
+            <div class="col-md-6 offset-md-1">
 
                 <div class="card">
 

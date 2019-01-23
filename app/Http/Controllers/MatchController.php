@@ -26,15 +26,10 @@ class MatchController extends Controller
      */
     public function show(Match $match)
     {
-        //
-        //dd($match->finished());
         return view('match.show', [
             'match' => $match->load(['sets', 'challenge.challenger', 'challenge.asked']),
-            'finished' => $match->finished(),
-            'confirmed' => $match->confirmed
+            'finished' => $match->finished()
         ]);
-
-
     }
 
     /**
