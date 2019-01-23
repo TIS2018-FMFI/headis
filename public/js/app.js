@@ -14027,10 +14027,10 @@ var Form = function () {
     _createClass(Form, [{
         key: 'data',
         value: function data() {
-            var data = {};
+            var data = new FormData();
 
             for (var property in this.originalData) {
-                data[property] = this[property];
+                data.append(property, this[property]);
             }
 
             return data;
@@ -14060,42 +14060,6 @@ var Form = function () {
         key: 'post',
         value: function post(url) {
             return this.submit('post', url);
-        }
-
-        /**
-         * Send a PUT request to the given URL.
-         * .
-         * @param {string} url
-         */
-
-    }, {
-        key: 'put',
-        value: function put(url) {
-            return this.submit('put', url);
-        }
-
-        /**
-         * Send a PATCH request to the given URL.
-         * .
-         * @param {string} url
-         */
-
-    }, {
-        key: 'patch',
-        value: function patch(url) {
-            return this.submit('patch', url);
-        }
-
-        /**
-         * Send a DELETE request to the given URL.
-         * .
-         * @param {string} url
-         */
-
-    }, {
-        key: 'delete',
-        value: function _delete(url) {
-            return this.submit('delete', url);
         }
 
         /**
@@ -14254,8 +14218,14 @@ module.exports = __webpack_require__(59);
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Form_js__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Errors_js__ = __webpack_require__(13);
+throw new Error("Cannot find module \"vue-ctk-date-time-picker\"");
+throw new Error("Cannot find module \"@ckeditor/ckeditor5-vue\"");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Form_js__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Errors_js__ = __webpack_require__(13);
+throw new Error("Cannot find module \"@fortawesome/fontawesome\"");
+throw new Error("Cannot find module \"@fortawesome/fontawesome-free-solid\"");
+throw new Error("Cannot find module \"@fortawesome/fontawesome-free-regular\"");
+throw new Error("Cannot find module \"@fortawesome/vue-fontawesome\"");
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -14275,16 +14245,35 @@ window.Vue = __webpack_require__(39);
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
+
+
+
+
 Vue.component('example-component', __webpack_require__(42));
 Vue.component('vue-challenge', __webpack_require__(45));
 Vue.component('match-component', __webpack_require__(53));
 Vue.component('field-error', __webpack_require__(56));
+Vue.component('vue-datetime-picker', __WEBPACK_IMPORTED_MODULE_0_vue_ctk_date_time_picker___default.a);
+Vue.component('vue-manager', __webpack_require__(63));
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key)))
 
 
 
+
+Vue.use(__webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"vue-moment\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())));
+
+Vue.use(__WEBPACK_IMPORTED_MODULE_1__ckeditor_ckeditor5_vue___default.a);
+
+
+
+
+
+
+__WEBPACK_IMPORTED_MODULE_4__fortawesome_fontawesome___default.a.library.add(__WEBPACK_IMPORTED_MODULE_5__fortawesome_fontawesome_free_solid___default.a, __WEBPACK_IMPORTED_MODULE_6__fortawesome_fontawesome_free_regular___default.a);
+
+Vue.component('font-awesome-icon', __WEBPACK_IMPORTED_MODULE_7__fortawesome_vue_fontawesome__["FontAwesomeIcon"]);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -47772,7 +47761,7 @@ exports = module.exports = __webpack_require__(48)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -48239,6 +48228,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "Challenge",
@@ -48289,7 +48285,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         addComment: function addComment() {
             var _this2 = this;
 
-            if (this.commentText != "") {
+            if (this.commentText !== "") {
                 var text = this.commentText;
                 this.commentText = "";
 
@@ -48319,6 +48315,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         scrollToEnd: function scrollToEnd() {
             var container = this.$el.querySelector("#chatbox");
             container.scrollTop = container.scrollHeight;
+        },
+        trigger: function trigger() {
+            this.$refs.sendReply.click();
         }
     },
     mounted: function mounted() {
@@ -48339,7 +48338,11 @@ var render = function() {
       _c("div", { staticClass: "col-md-12" }, [
         _c("h1", [_vm._v("Výzva")]),
         _vm._v(" "),
-        _c("p", [_vm._v(_vm._s(_vm.challenge.created_date))])
+        _c("p", [
+          _vm._v(
+            _vm._s(_vm._f("moment")(_vm.challenge.created_date, "DD.MM.YYYY"))
+          )
+        ])
       ])
     ]),
     _vm._v(" "),
@@ -48370,7 +48373,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-lg-5" }, [
+      _c("div", { staticClass: "col-md-5" }, [
         _c("div", { staticClass: "col mb-5" }, [
           _c("div", { staticClass: "card" }, [
             _c("div", { staticClass: "card-header" }, [
@@ -48389,11 +48392,16 @@ var render = function() {
                           [
                             _c("div", { staticClass: "row" }, [
                               _c("div", { staticClass: "col-md-5" }, [
-                                _vm._v(
-                                  "\n                                    " +
-                                    _vm._s(date.date) +
-                                    "\n                                "
-                                )
+                                _c("span", [
+                                  _vm._v(
+                                    _vm._s(
+                                      _vm._f("moment")(
+                                        date.date,
+                                        "DD.MM.YYYY HH:mm"
+                                      )
+                                    )
+                                  )
+                                ])
                               ]),
                               _vm._v(" "),
                               _vm.current_user.id ===
@@ -48474,58 +48482,75 @@ var render = function() {
         _vm._v(" "),
         _vm.current_user.id === _vm.challenge.asked.id
           ? _c("div", { staticClass: "col mb-5" }, [
-              _c("div", { staticClass: "card-header" }, [
-                _vm._v("\n                    Pridať dátum\n                ")
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
+              _c(
+                "div",
+                { staticClass: "card" },
+                [
+                  _c("div", { staticClass: "card-header" }, [
+                    _vm._v(
+                      "\n                        Pridať dátum\n                    "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("vue-datetime-picker", {
+                    attrs: {
+                      label: "Vyber datum a cas",
+                      "minute-interval": "15",
+                      "disabled-hours": [
+                        "00",
+                        "01",
+                        "02",
+                        "03",
+                        "04",
+                        "05",
+                        "06",
+                        "07",
+                        "20",
+                        "21",
+                        "22",
+                        "23"
+                      ],
+                      format: "DD.MM.YYYY HH:mm",
+                      outputFormat: "YYYY-MM-DD HH:mm:ss",
+                      locale: "sk",
+                      noButtonNow: ""
+                    },
+                    model: {
                       value: _vm.selectedDate,
+                      callback: function($$v) {
+                        _vm.selectedDate = $$v
+                      },
                       expression: "selectedDate"
                     }
-                  ],
-                  staticClass: "input-group date",
-                  attrs: { type: "date" },
-                  domProps: { value: _vm.selectedDate },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn-primary",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.addDate()
+                        }
                       }
-                      _vm.selectedDate = $event.target.value
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn-primary",
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        _vm.addDate()
-                      }
-                    }
-                  },
-                  [_vm._v("Pridaj")]
-                )
-              ])
+                    },
+                    [_vm._v("Pridaj")]
+                  )
+                ],
+                1
+              )
             ])
           : _vm._e()
       ]),
       _vm._v(" "),
       !_vm.current_user.isRedactor
-        ? _c("div", { staticClass: "col-lg-6 offset-1" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _vm._v("\n                Správy\n            ")
-            ]),
-            _vm._v(" "),
+        ? _c("div", { staticClass: "col-md-6 offset-md-1" }, [
             _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _vm._v("\n                    Správy\n                ")
+              ]),
+              _vm._v(" "),
               _c(
                 "div",
                 {
@@ -48533,41 +48558,58 @@ var render = function() {
                   staticClass: "msg_history card",
                   attrs: { id: "chatbox" }
                 },
-                _vm._l(_vm.sortedItems, function(comment) {
-                  return _c("div", [
-                    comment.user_id == _vm.current_user.id
-                      ? _c("div", { staticClass: "outgoing_msg" }, [
-                          _c("div", { staticClass: "sent_msg" }, [
-                            _c("p", [_vm._v(_vm._s(comment.text))]),
-                            _vm._v(" "),
-                            _c("span", { staticClass: "time_date" }, [
-                              _vm._v(_vm._s(comment.date))
-                            ])
-                          ])
-                        ])
-                      : _c("div", { staticClass: "incoming_msg" }, [
-                          _c("div", { staticClass: "incoming_msg_img" }, [
-                            _c("img", {
-                              attrs: {
-                                src:
-                                  "/images/" + _vm.challenge.challenger.image,
-                                alt: "Avatar"
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "received_msg" }, [
-                            _c("div", { staticClass: "received_withd_msg" }, [
+                [
+                  _vm._l(_vm.sortedItems, function(comment) {
+                    return [
+                      comment.user_id === _vm.current_user.id
+                        ? _c("div", { staticClass: "outgoing_msg" }, [
+                            _c("div", { staticClass: "sent_msg" }, [
                               _c("p", [_vm._v(_vm._s(comment.text))]),
                               _vm._v(" "),
                               _c("span", { staticClass: "time_date" }, [
-                                _vm._v(_vm._s(comment.date))
+                                _vm._v(
+                                  _vm._s(
+                                    _vm._f("moment")(
+                                      comment.date,
+                                      "DD.MM.YYYY HH:mm"
+                                    )
+                                  )
+                                )
                               ])
                             ])
                           ])
-                        ])
-                  ])
-                })
+                        : _c("div", { staticClass: "incoming_msg" }, [
+                            _c("div", { staticClass: "incoming_msg_img" }, [
+                              _c("img", {
+                                attrs: {
+                                  src:
+                                    "/images/" + _vm.challenge.challenger.image,
+                                  alt: "Avatar"
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "received_msg" }, [
+                              _c("div", { staticClass: "received_withd_msg" }, [
+                                _c("p", [_vm._v(_vm._s(comment.text))]),
+                                _vm._v(" "),
+                                _c("span", { staticClass: "time_date" }, [
+                                  _vm._v(
+                                    _vm._s(
+                                      _vm._f("moment")(
+                                        comment.date,
+                                        "DD.MM.YYYY HH:mm"
+                                      )
+                                    )
+                                  )
+                                ])
+                              ])
+                            ])
+                          ])
+                    ]
+                  })
+                ],
+                2
               ),
               _vm._v(" "),
               _c("div", { staticClass: "type_msg" }, [
@@ -48581,10 +48623,25 @@ var render = function() {
                         expression: "commentText"
                       }
                     ],
-                    staticClass: "write_msg",
+                    staticClass: "write_msg pl-2",
                     attrs: { type: "text", placeholder: "Type a message" },
                     domProps: { value: _vm.commentText },
                     on: {
+                      keyup: function($event) {
+                        if (
+                          !("button" in $event) &&
+                          _vm._k(
+                            $event.keyCode,
+                            "enter",
+                            13,
+                            $event.key,
+                            "Enter"
+                          )
+                        ) {
+                          return null
+                        }
+                        return _vm.trigger($event)
+                      },
                       input: function($event) {
                         if ($event.target.composing) {
                           return
@@ -48597,6 +48654,7 @@ var render = function() {
                   _c(
                     "button",
                     {
+                      ref: "sendReply",
                       staticClass: "msg_send_btn",
                       attrs: { type: "button" },
                       on: {
@@ -48607,11 +48665,11 @@ var render = function() {
                       }
                     },
                     [
-                      _c("i", {
-                        staticClass: "fa fa-paper-plane-o",
-                        attrs: { "aria-hidden": "true" }
+                      _c("font-awesome-icon", {
+                        attrs: { icon: "paper-plane" }
                       })
-                    ]
+                    ],
+                    1
                   )
                 ])
               ])
@@ -49488,7 +49546,350 @@ if (false) {
 /* 59 */
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+throw new Error("Module build failed: ModuleNotFoundError: Module not found: Error: Can't resolve 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css' in 'D:\\TISHeadis\\resources\\sass'\n    at factoryCallback (D:\\TISHeadis\\node_modules\\webpack\\lib\\Compilation.js:282:40)\n    at factory (D:\\TISHeadis\\node_modules\\webpack\\lib\\NormalModuleFactory.js:237:20)\n    at resolver (D:\\TISHeadis\\node_modules\\webpack\\lib\\NormalModuleFactory.js:60:20)\n    at asyncLib.parallel (D:\\TISHeadis\\node_modules\\webpack\\lib\\NormalModuleFactory.js:127:20)\n    at D:\\TISHeadis\\node_modules\\async\\dist\\async.js:3888:9\n    at D:\\TISHeadis\\node_modules\\async\\dist\\async.js:473:16\n    at iteratorCallback (D:\\TISHeadis\\node_modules\\async\\dist\\async.js:1062:13)\n    at D:\\TISHeadis\\node_modules\\async\\dist\\async.js:969:16\n    at D:\\TISHeadis\\node_modules\\async\\dist\\async.js:3885:13\n    at resolvers.normal.resolve (D:\\TISHeadis\\node_modules\\webpack\\lib\\NormalModuleFactory.js:119:22)\n    at onError (D:\\TISHeadis\\node_modules\\enhanced-resolve\\lib\\Resolver.js:65:10)\n    at loggingCallbackWrapper (D:\\TISHeadis\\node_modules\\enhanced-resolve\\lib\\createInnerCallback.js:31:19)\n    at runAfter (D:\\TISHeadis\\node_modules\\enhanced-resolve\\lib\\Resolver.js:158:4)\n    at innerCallback (D:\\TISHeadis\\node_modules\\enhanced-resolve\\lib\\Resolver.js:146:3)\n    at loggingCallbackWrapper (D:\\TISHeadis\\node_modules\\enhanced-resolve\\lib\\createInnerCallback.js:31:19)\n    at next (D:\\TISHeadis\\node_modules\\tapable\\lib\\Tapable.js:252:11)\n    at D:\\TISHeadis\\node_modules\\enhanced-resolve\\lib\\UnsafeCachePlugin.js:40:4\n    at loggingCallbackWrapper (D:\\TISHeadis\\node_modules\\enhanced-resolve\\lib\\createInnerCallback.js:31:19)\n    at runAfter (D:\\TISHeadis\\node_modules\\enhanced-resolve\\lib\\Resolver.js:158:4)\n    at innerCallback (D:\\TISHeadis\\node_modules\\enhanced-resolve\\lib\\Resolver.js:146:3)\n    at loggingCallbackWrapper (D:\\TISHeadis\\node_modules\\enhanced-resolve\\lib\\createInnerCallback.js:31:19)\n    at next (D:\\TISHeadis\\node_modules\\tapable\\lib\\Tapable.js:252:11)\n    at innerCallback (D:\\TISHeadis\\node_modules\\enhanced-resolve\\lib\\Resolver.js:144:11)\n    at loggingCallbackWrapper (D:\\TISHeadis\\node_modules\\enhanced-resolve\\lib\\createInnerCallback.js:31:19)\n    at next (D:\\TISHeadis\\node_modules\\tapable\\lib\\Tapable.js:249:35)\n    at resolver.doResolve.createInnerCallback (D:\\TISHeadis\\node_modules\\enhanced-resolve\\lib\\DescriptionFilePlugin.js:44:6)\n    at loggingCallbackWrapper (D:\\TISHeadis\\node_modules\\enhanced-resolve\\lib\\createInnerCallback.js:31:19)\n    at afterInnerCallback (D:\\TISHeadis\\node_modules\\enhanced-resolve\\lib\\Resolver.js:166:11)\n    at loggingCallbackWrapper (D:\\TISHeadis\\node_modules\\enhanced-resolve\\lib\\createInnerCallback.js:31:19)\n    at next (D:\\TISHeadis\\node_modules\\tapable\\lib\\Tapable.js:249:35)");
+
+/***/ }),
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(64)
+/* template */
+var __vue_template__ = __webpack_require__(65)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Manager.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4c56cadc", Component.options)
+  } else {
+    hotAPI.reload("data-v-4c56cadc", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 64 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+throw new Error("Cannot find module \"@ckeditor/ckeditor5-build-classic\"");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Form_js__ = __webpack_require__(12);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "Manager",
+    props: [''],
+    data: function data() {
+        return {
+            editor: __WEBPACK_IMPORTED_MODULE_0__ckeditor_ckeditor5_build_classic___default.a,
+            editorData: '',
+            editorConfig: {
+                // The configuration of the editor.
+            },
+            formPost: new __WEBPACK_IMPORTED_MODULE_1__Form_js__["a" /* default */]({
+                title: '',
+                text: '',
+                intro_text: '',
+                image: ''
+            })
+        };
+    },
+    methods: {
+        fileChange: function fileChange(e) {
+            this.formPost.image = e.target.files[0];
+        },
+        addPost: function addPost() {
+            this.formPost.post('/posts/store').then(function (response) {
+                console.log(response);
+            });
+        }
+    }
+
+});
+
+/***/ }),
+/* 65 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-8" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col" }, [
+            _c("div", { staticClass: "card" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-body" }, [
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        _vm.addPost()
+                      }
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass:
+                            "col-md-2 col-sm-4 col-form-label text-md-right",
+                          attrs: { for: "title" }
+                        },
+                        [_vm._v("Nazov")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-7" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.formPost.title,
+                              expression: "formPost.title"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            id: "title",
+                            name: "title",
+                            autofocus: ""
+                          },
+                          domProps: { value: _vm.formPost.title },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.formPost,
+                                "title",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass:
+                            "col-md-2 col-sm-4 col-form-label text-md-right",
+                          attrs: { for: "intro_text" }
+                        },
+                        [_vm._v("Kratky text")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-7" }, [
+                        _c("textarea", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.formPost.intro_text,
+                              expression: "formPost.intro_text"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { rows: "3", id: "intro_text" },
+                          domProps: { value: _vm.formPost.intro_text },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.formPost,
+                                "intro_text",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass:
+                            "col-md-2 col-sm-4 col-form-label text-md-right",
+                          attrs: { for: "image" }
+                        },
+                        [_vm._v("Obrazok")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-7" }, [
+                        _c("input", {
+                          staticClass: "form-control-file",
+                          attrs: { type: "file", name: "image", id: "image" },
+                          on: { change: _vm.fileChange }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass:
+                            "col-md-2 col-sm-4 col-form-label text-md-right"
+                        },
+                        [_vm._v("Text")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "col-md-7" },
+                        [
+                          _c("ckeditor", {
+                            attrs: {
+                              editor: _vm.editor,
+                              config: _vm.editorConfig
+                            },
+                            model: {
+                              value: _vm.formPost.text,
+                              callback: function($$v) {
+                                _vm.$set(_vm.formPost, "text", $$v)
+                              },
+                              expression: "formPost.text"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("button", { staticClass: "btn btn-primary" }, [
+                      _vm._v("Pridať")
+                    ])
+                  ]
+                )
+              ])
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-4 d-none d-md-block" })
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h2", { staticClass: "mb-0" }, [_vm._v("Pridať novinku")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-4c56cadc", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
