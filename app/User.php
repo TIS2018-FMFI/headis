@@ -102,4 +102,15 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return User::where('isRedactor', false)->orderBy('position')->get();
     }
+
+    public static function canDeactivate()
+    {
+        $max = User::max('position');
+        return User::where('position', '>', pow(floor(sqrt($max-1)), 2))->get();
+    }
+
+    public static function canActivate()
+    {
+        return User::onlyTrashed()->get();
+    }
 }
