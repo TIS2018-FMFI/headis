@@ -6,6 +6,8 @@ use App\Match;
 use App\Rules\AllSetsValidator;
 use App\Rules\SetValidator;
 use App\Set;
+use App\User;
+use http\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -65,7 +67,6 @@ class SetController extends Controller
     public function update(Request $request)
     {
         $match = Match::find($request['match_id']);
-
         DB::transaction(function () use ($request, $match) {
             $this->validate($request, [
                 'match_id' => 'required|exists:matches,id',
@@ -82,11 +83,9 @@ class SetController extends Controller
                 ]);
             }
 
-            if ($match->finished()) {
-                $match->confirmed = true;
-                $match->save();
-            }
         });
+
+
 
         return response()->json([
             'status' => 'ok',

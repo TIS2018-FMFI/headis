@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Match;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MatchController extends Controller
 {
@@ -71,6 +73,29 @@ class MatchController extends Controller
     {
         $match->confirmed = $request['data']['confirmed'];
         $match->save();
+        if ($match->finished()) {
+            DB::transaction(function () use ($match) {
+                $sets = $match->sets;
+                $challengerPoints = 0;
+                foreach ($sets as $set) {
+                    if ($set->score_1 > $set->score_2) {
+                        $challengerPoints += 1;
+                    }
+                }
+                $match->confirmed = true;
+                $match->save();
+                if ($challengerPoints == 2) {
+                    $challenger = User::find($match->challenge->challenger->id);
+                    $asked = User::find($match->challenge->asked->id);
+                    $pos1 = $asked->position;
+                    $asked->position = $challenger->position;
+                    $challenger->position = $pos1;
+                    $asked->save();
+                    $challenger->save();
+                }
+
+            });
+        }
 
         if (!$match->confirmed){
             //Posli e-mail redaktorovi

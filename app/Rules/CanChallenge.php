@@ -39,7 +39,6 @@ class CanChallenge implements Rule
             (User::currentChallenge($this->challenger) == null && User::currentChallenge($this->asked) == null) &&
             ($this->asked->countOfChallengesAsAsked() < 3 && $this->challenger->countOfChallengesAsChallenger() < 3) &&
             !$this->asked->isRedactor && !$this->challenger->isRedactor;
-
     }
 
     /**
