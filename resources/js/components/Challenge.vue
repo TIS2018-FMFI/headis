@@ -64,9 +64,14 @@
                         <div class="card-header">
                             Pridať dátum
                         </div>
+                        <form @submit.prevent="addDate()">
+                            <div class="form-group">
+                                <vue-datetime-picker :class="{'is-invalid-input': formDate.errors.has('date')}" v-model="formDate.date" label="Vyber dátum a čas" minute-interval="15" time-zone="Europe/Bratislava" :disabled-hours="['00', '01', '02', '03', '04', '05', '06', '07', '22', '23']" format="DD.MM.YYYY HH:mm" outputFormat="YYYY-MM-DD HH:mm:ss" locale="sk" noButtonNow></vue-datetime-picker>
+                                <field-error :form="formDate" field="date"></field-error>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Pridaj</button>
+                        </form>
 
-                        <vue-datetime-picker v-model="selectedDate" label="Vyber datum a cas" minute-interval="15" :disabled-hours="['00', '01', '02', '03', '04', '05', '06', '07', '20', '21', '22', '23']" format="DD.MM.YYYY HH:mm" outputFormat="YYYY-MM-DD HH:mm:ss" locale="sk" noButtonNow></vue-datetime-picker>
-                        <button @click.prevent="addDate()" class="btn-primary">Pridaj</button>
                     </div>
 
                 </div>
@@ -117,6 +122,8 @@
 </template>
 
 <script>
+    import Form from "../Form";
+
     export default {
         name: "Challenge",
         props: ['challenge', 'current_user'],
@@ -124,10 +131,13 @@
             return {
                 axiosComments: null,
                 axiosDates: null,
-                selectedDate: null,
                 commentText: "",
                 deletedDates: [],
-                csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                formDate: new Form({
+                    date: '',
+                    challenge: '',
+                }),
             }
         },
         computed: {
@@ -149,14 +159,9 @@
         },
         methods: {
             addDate() {
-                axios.post('/dates/store', {
-                    data: {
-                        date: this.selectedDate,
-                        challenge: this.challenge.id
-                    }
-                }).then(response => {
-                    this.axiosDates = response['data']['dates'];
-                    console.log(response);
+                this.formDate.challenge = this.challenge.id;
+                this.formDate.post('/dates/store').then(response => {
+                    this.axiosDates = response['dates'];
                 });
             },
             addComment() {
@@ -203,7 +208,3 @@
 
 
 </script>
-
-<style scoped>
-
-</style>

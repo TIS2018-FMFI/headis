@@ -6,6 +6,8 @@ use App\Challenge;
 use App\Date;
 use Illuminate\Http\Request;
 use Illuminate\Queue\RedisQueue;
+use App\Rules\CheckHours;
+use App\Rules\CheckAfterOrEqualToday;
 
 class DateController extends Controller
 {
@@ -22,18 +24,17 @@ class DateController extends Controller
 
     public function store(Request $request)
     {
-
         $this->validate($request,[
-            'data.challenge' => 'required',
-            'data.date' => 'required|date|after_or_equal:today'
+            'challenge' => 'required',
+            'date' => ['required','date','unique:dates,date,NULL,id,deleted_at,NULL', new CheckHours(), new CheckAfterOrEqualToday()]
         ]);
 
         Date::create([
-            'challenge_id' => $request['data']['challenge'],
-            'date' => $request['data']['date']
+            'challenge_id' => $request['challenge'],
+            'date' => $request['date']
         ]);
 
-        $dates = Date::where('challenge_id', $request['data']['challenge'])->get();
+        $dates = Date::where('challenge_id', $request['challenge'])->get();
         return response()->json([
             'dates' => $dates,
             'status' => 'ok'
@@ -56,7 +57,7 @@ class DateController extends Controller
         $allCurrentDates = Date::where('challenge_id', $challenge->id)->get();
 
         return response()->json([
-           'dates' => $allCurrentDates
+            'dates' => $allCurrentDates
         ]);
     }
 }

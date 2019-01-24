@@ -8,3 +8,9 @@
 .logo {
     width: 200px;
 }
+
+.is-invalid-input ~ .invalid-feedback {
+  display: block;
+  padding-left: 10px;
+  padding-right: 10px;
+}

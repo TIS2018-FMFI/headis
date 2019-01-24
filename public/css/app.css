@@ -10689,6 +10689,12 @@ img {
   width: 200px;
 }
 
+.is-invalid-input ~ .invalid-feedback {
+  display: block;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .navbar-laravel {
   background-color: #fff;
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
