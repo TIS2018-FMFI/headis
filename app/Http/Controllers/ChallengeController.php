@@ -58,8 +58,24 @@ class ChallengeController extends Controller
         if ($challenge->match){
             return redirect('/matches/'.$challenge->match->id);
         }
+
+        $translations = array();
+        $translations['challenges.challenge'] = __('challenges.challenge');
+        $translations['challenges.challenger'] = __('challenges.challenger');
+        $translations['challenges.challenged'] = __('challenges.challenged');
+        $translations['challenges.dates'] = __('challenges.dates');
+        $translations['challenges.messages'] = __('challenges.messages');
+        $translations['challenges.type_a_message'] = __('challenges.type_a_message');
+        $translations['challenges.no_dates_were_added'] = __('challenges.no_dates_were_added');
+        $translations['challenges.add_a_date'] = __('challenges.add_a_date');
+        $translations['challenges.choose_a_date'] = __('challenges.choose_a_date');
+        $translations['challenges.add'] = __('challenges.add');
+        $translations['challenges.confirm'] = __('challenges.confirm');
+        $translations['challenges.delete'] = __('challenges.delete');
+
         return view('challenge.show', [
             'challenge' => $challenge->load(['challenger', 'asked', 'dates', 'comments']),
+            'translations' => $translations
         ]);
     }
 }
