@@ -90,10 +90,9 @@
         </main>
         <footer class="footer">
             <div class="container text-center">
-                <a href="https://www.facebook.com/HeadisSK/"><font-awesome-icon :icon="['fab', 'facebook-f']"></font-awesome-icon></a>
+                <a href="https://www.facebook.com/HeadisSK/"><font-awesome-icon :icon="['fab', 'facebook-f']" size="lg"></font-awesome-icon></a>
             </div>
         </footer>
     </div>
-
 </body>
 </html>
