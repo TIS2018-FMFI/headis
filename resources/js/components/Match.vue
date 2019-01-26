@@ -5,10 +5,10 @@
 
                 <div class="row mb-5">
                     <div class="col">
-                        <h2><b>Vyzývateľ: <a :href="'/users/' + match.challenge.challenger.id">{{ match.challenge.challenger.user_name }}</a></b></h2>
+                        <h2><b>{{ translations['matches.challenger'] }}: <a :href="'/users/' + match.challenge.challenger.id">{{ match.challenge.challenger.user_name }}</a></b></h2>
                     </div>
                     <div class="col text-right">
-                        <h2><b>Vyzvaný: <a :href="'/users/' + match.challenge.asked.id">{{ match.challenge.asked.user_name }}</a></b></h2>
+                        <h2><b>{{ translations['matches.challenged'] }}: <a :href="'/users/' + match.challenge.asked.id">{{ match.challenge.asked.user_name }}</a></b></h2>
                     </div>
                 </div>
 
@@ -16,14 +16,14 @@
                     <div class="col-3">
                         <div class="card text-center mb-4">
                             <div class="card-header">
-                                Zápas
+                                {{ translations['matches.match'] }}
                             </div>
                             <div class="card-body" >
                                 <h3>{{ match.challenge.asked.user_name }}: </h3>
                                 <h3>{{ match.challenge.challenger.user_name }}: </h3>
                                 <div v-if="current_user.id === match.challenge.asked.id || current_user.isRedactor">
-                                    <button v-if="vueFinished || (current_user.isRedactor && !isConfirmed)" @click.prevent="sendSets()" class="btn btn-success">Potvrdiť</button>
-                                    <button v-if="vueSets.length > 0 || (current_user.isRedactor && !isConfirmed)" @click.prevent="resetSets()" class="btn btn-danger">Reset</button>
+                                    <button v-if="vueFinished || (current_user.isRedactor && !isConfirmed)" @click.prevent="sendSets()" class="btn btn-success">{{ translations['matches.confirm'] }}</button>
+                                    <button v-if="vueSets.length > 0 || (current_user.isRedactor && !isConfirmed)" @click.prevent="resetSets()" class="btn btn-danger">{{ translations['matches.reset'] }}</button>
                                 </div>
                             </div>
                         </div>
@@ -42,15 +42,15 @@
                                         <field-error :form="formRedactor" field="sets"></field-error>
                                     </div>
 
-                                    <button v-if="index === 2" @click.prevent="redactorRemoveSet()" class="btn btn-danger">Odstrániť set</button>
+                                    <button v-if="index === 2" @click.prevent="redactorRemoveSet()" class="btn btn-danger">{{ translations['matches.remove_set'] }}</button>
                                 </div>
                             </div>
                         </div>
                         <div class="col-3" v-if="formRedactor.sets.length < 3">
                             <div class="card text-center mb-4">
-                                <div class="card-header">Pridať set</div>
+                                <div class="card-header">{{ translations['matches.add_set'] }}</div>
                                 <div class="card-body" >
-                                    <button @click.prevent="redactorAddSet()" class="btn btn-success">Pridať</button>
+                                    <button @click.prevent="redactorAddSet()" class="btn btn-success">{{ translations['matches.add'] }}</button>
                                 </div>
                             </div>
                         </div>
@@ -69,7 +69,7 @@
 
                         <div class="col-3" v-if="!isFinished && current_user.id === match.challenge.asked.id">
                             <div class="card text-center mb-4">
-                                <div class="card-header">Pridanie setu</div>
+                                <div class="card-header">{{ translations['matches.add_title'] }}</div>
                                 <div class="card-body" >
                                     <form @submit.prevent="addSet()">
                                         <div class="form-group">
@@ -80,7 +80,7 @@
                                             <input class="form-control" v-model.number="formSet.score_1" min="0" type="number" :class="{'is-invalid': formSet.errors.has('score_1')}">
                                             <field-error :form="formSet" field="score_1"></field-error>
                                         </div>
-                                        <button class="btn btn-info" type="submit">Pridať</button>
+                                        <button class="btn btn-info" type="submit">{{ translations['matches.add'] }}</button>
                                     </form>
                                 </div>
                             </div>
@@ -90,10 +90,10 @@
                 <div class="row" v-if="isFinished && current_user.id === match.challenge.challenger.id && !isConfirmed">
                     <div class="col-12 col-md-4 offset-md-4">
                         <div class="card text-center mb-4">
-                            <div class="card-header">Potvrdenie zápasu</div>
+                            <div class="card-header">{{ translations['matches.confirm_match_title'] }}</div>
                             <div class="card-body">
-                                <button @click.prevent="confirmMatch(true)" class="btn btn-success">Potvrdiť</button>
-                                <button @click.prevent="confirmMatch(false)" class="btn btn-danger">Odmietnúť</button>
+                                <button @click.prevent="confirmMatch(true)" class="btn btn-success">{{ translations['matches.confirm'] }}</button>
+                                <button @click.prevent="confirmMatch(false)" class="btn btn-danger">{{ translations['matches.reject_match'] }}</button>
                             </div>
                         </div>
                     </div>
@@ -110,7 +110,7 @@
 
     export default {
         name: "Match",
-        props: ['match', 'finished', 'current_user'],
+        props: ['match', 'finished', 'current_user', 'translations'],
         data: () => {
             return {
                 axiosSets: null,

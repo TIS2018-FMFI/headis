@@ -34,9 +34,22 @@ class MatchController extends Controller
         if ($match->confirmed){
             return redirect('/users/'.auth()->user()->id);
         }
+        $translations = array();
+        $translations['matches.challenger'] = __('matches.challenger');
+        $translations['matches.challenged'] = __('matches.challenged');
+        $translations['matches.match'] = __('matches.match');
+        $translations['matches.remove_set'] = __('matches.remove_set');
+        $translations['matches.add_set'] = __('matches.add_set');
+        $translations['matches.add_title'] = __('matches.add_title');
+        $translations['matches.add'] = __('matches.add');
+        $translations['matches.confirm_match_title'] = __('matches.confirm_match_title');
+        $translations['matches.confirm'] = __('matches.confirm');
+        $translations['matches.reject_match'] = __('matches.reject_match');
+        $translations['matches.reset'] = __('matches.reset');
         return view('match.show', [
             'match' => $match->load(['sets', 'challenge.challenger', 'challenge.asked']),
-            'finished' => $match->finished()
+            'finished' => $match->finished(),
+            'translations' => $translations
         ]);
     }
 
