@@ -118,7 +118,9 @@ class PostController extends Controller
             'title' => $request['title'],
             'intro_text' => isset($request['intro_text']) ? $request['intro_text'] : '',
             'text' => htmlentities($request['text']),
-            'image' => $fileName
+            'image' => $fileName,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
         ]);
 
         return response()->json([
