@@ -21,7 +21,7 @@ class Match extends Model
 
     public function sets()
     {
-        return $this->hasMany(Set::class);
+        return $this->hasMany(Set::class)->orderBy('id');
     }
 
     public function winner()
