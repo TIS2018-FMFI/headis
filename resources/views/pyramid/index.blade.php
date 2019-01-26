@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container-fluid" style="overflow-x: scroll">
-        <div class="row mb-4 text-center justify-content-center">
+        <div class="row mb-4 text-center justify-content-center border-bottom">
             @foreach($users as $user)
                 @if($user->id == $currentAuthUser->id)
                     <div class="mr-4 border rounded-circle bg-secondary" style="width: 150px; height: 150px"><a class="text-success" href="/users/{{$user->id}}">{{$user->position}}.<br><br> {{$user->user_name}}</a></div>
@@ -11,7 +11,7 @@
                 @endif
                 @if(floor(sqrt($user->position)) == ceil(sqrt($user->position)))
                     </div>
-                    <div class="row mb-4 text-center justify-content-center">
+                    <div class="row mb-4 text-center justify-content-center border-bottom">
                 @endif
             @endforeach
         </div>

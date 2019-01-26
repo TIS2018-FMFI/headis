@@ -10,6 +10,7 @@ use App\User;
 use http\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use function PHPSTORM_META\type;
 
 class SetController extends Controller
 {
@@ -67,6 +68,7 @@ class SetController extends Controller
     public function update(Request $request)
     {
         $match = Match::find($request['match_id']);
+        dd($request['sets']);
         DB::transaction(function () use ($request, $match) {
             $this->validate($request, [
                 'match_id' => 'required|exists:matches,id',

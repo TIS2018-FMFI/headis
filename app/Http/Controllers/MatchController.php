@@ -86,7 +86,7 @@ class MatchController extends Controller
     {
         $match->confirmed = $request['data']['confirmed'];
         $match->save();
-        if ($match->finished()) {
+        if ($match->finished() && $match->confirmed) {
             DB::transaction(function () use ($match) {
                 $sets = $match->sets;
                 $challengerPoints = 0;
@@ -95,8 +95,6 @@ class MatchController extends Controller
                         $challengerPoints += 1;
                     }
                 }
-                $match->confirmed = true;
-                $match->save();
                 if ($challengerPoints == 2) {
                     $challenger = User::find($match->challenge->challenger->id);
                     $asked = User::find($match->challenge->asked->id);

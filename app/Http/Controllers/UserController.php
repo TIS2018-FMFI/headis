@@ -33,13 +33,14 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $canChallenge = auth()->user()->id !== $user->id &&
-                        $user->countOfChallengesAsAsked() < 3 &&
-                        auth()->user()->currentMatch() == null &&
-                        User::currentChallenge(auth()->user())== null &&
-                        $user->currentMatch() == null &&
-                        User::currentChallenge($user) == null &&
-                        !$user->isRedactor;
+        $canChallenge = auth()->user()->id !== $user->id && auth()->user()->currentMatch() == null &&
+                        $user->countOfChallengesAsAsked() < 3 && User::currentChallenge(auth()->user())== null &&
+                        $user->currentMatch() == null && User::currentChallenge($user) == null &&
+                        !$user->isRedactor && !auth()->user()->isRedactor &&
+                        auth()->user()->position > $user->position &&
+                        (floor(sqrt(auth()->user()->position - 1)) === floor(sqrt($user->position - 1)) ||
+                        floor(sqrt(auth()->user()->position - 1)) - 1 === floor(sqrt($user->position - 1)));
+
         $matches = $user->matches();
         return view('user.show', [
             'user' => $user,
