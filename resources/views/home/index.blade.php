@@ -13,7 +13,7 @@
             @foreach($posts as $post)
                 <div class="col-md-4 col-sm-6 col-12">
                     <div class="card text-center mb-4">
-                        <img class="card-img-top" src="{{ $post->image }}" alt="{{ $post->title }}">
+                        <img class="card-img-top" src="{{ url('images/'.$post->image)}}" alt="{{ $post->title }}">
 
                         <div class="card-body">
                             <h5 class="card-title"><a href="/posts/{{ $post->id }}">{{ $post->title }}</a></h5>
