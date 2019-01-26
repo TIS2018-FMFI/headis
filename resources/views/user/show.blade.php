@@ -52,7 +52,7 @@
                                     <div class="col-2 font-weight-bold">{{ __('users.Set') }}1</div>
                                     <div class="col-2 font-weight-bold">{{ __('users.Set') }}2</div>
                                     <div class="col-2 font-weight-bold">{{ __('users.Set') }}3</div>
-                                    <div class="col-2 font-weight-bold">{{ __('users.Winner') }}</div>
+                                    <div class="col-2 font-weight-bold">{{ __('users.Result') }}</div>
                                 </div>
                             </div>
                         </div>
@@ -79,9 +79,9 @@
                                             <div class="col-2">0:0</div>
                                         @endif
                                         @if($user->id == $match->winner->id)
-                                            <div class="col-2">✓</div>
+                                            <div class="col-2">2:{{2-sizeof($match->sets)}}</div>
                                         @else
-                                            <div class="col-2">✗</div>
+                                            <div class="col-2">{{2-sizeof($match->sets)}}:2</div>
                                         @endif
                                     </div>
                                 </div>

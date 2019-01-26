@@ -48,7 +48,7 @@ Route::get('/posts', 'PostController@index');
 Route::post('/posts/store', 'PostController@store');
 Route::get('/posts/{post}', 'PostController@show');
 Route::get('/posts/{post}/edit', 'PostController@edit');
-Route::post('/posts/{post}/update', 'UserController@update');
+Route::post('/posts/{post}/update', 'PostController@update');
 
 Route::get('/manager', 'ManagerController@index')->name('manager');
 Route::post('/manager/store', 'ManagerController@store');

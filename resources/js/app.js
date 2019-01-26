@@ -27,6 +27,7 @@ Vue.component('match-component', require('./components/Match.vue'));
 Vue.component('field-error', require('./components/FieldError.vue'));
 Vue.component('vue-datetime-picker', VueCtkDateTimePicker);
 Vue.component('vue-manager', require('./components/Manager.vue'));
+Vue.component('edit-post', require('./components/EditPost.vue'));
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key)))

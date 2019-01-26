@@ -51,7 +51,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Driver  $user
+     * @param  User  $user
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)

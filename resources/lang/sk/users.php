@@ -15,6 +15,6 @@ return [
     'Opponent' => 'Súper',
     'Challenge date' => 'Dátum zápasu',
     'Set' => 'Set',
-    'Winner' => 'Výherca'
+    'Result' => 'Výsledok'
 
 ];
