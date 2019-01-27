@@ -30,7 +30,7 @@ class SetValidator implements Rule
         $score1 = (int) $this->score1;
         $score2 = (int) $value;
 
-        if ( ($score1 >= 10 && $score2 >= 10 && abs($score1 - $score2) == 2) || (($score1 == 11 || $score2 == 11) && abs($score1 - $score2) > 1)) {
+        if ( ($score1 >= 10 && $score2 >= 10 && abs($score1 - $score2) == 2) || ($score1 == 11 && $score2 < 10) || ($score2 == 11 && $score1 < 10)) {
             return true;
         }
         return false;

@@ -32,7 +32,7 @@ class AllSetsValidator implements Rule
             $score1 = (int) $item['score_1'];
             $score2 = (int) $item['score_2'];
 
-            if ( ($score1 >= 10 && $score2 >= 10 && abs($score1 - $score2) == 2) || (($score1 == 11 || $score2 == 11) && abs($score1 - $score2) > 1)) {
+            if ( ($score1 >= 10 && $score2 >= 10 && abs($score1 - $score2) == 2) || ($score1 == 11 && $score2 < 10) || ($score2 == 11 && $score1 < 10) ) {
                 if ($asked == 2 || $challenger == 2) {
                     return false;
                 }
