@@ -151,12 +151,12 @@ class UserController extends Controller
         ]);
     }
 
-    public function activate($user_id){
+    public function activate(Request $request){
         $maxPoint = Point::where('season_id', Season::current()->id)->max('point');
         $points = Point::groupby(DB::raw('MONTH(date)'))->get();
 
-        $user = DB::transaction(function () use ($user_id, $maxPoint, $points){
-            $user = User::withTrashed()->find($user_id)->restore();
+        $user = DB::transaction(function () use ($request, $maxPoint, $points){
+            $user = User::withTrashed()->find($request['user_id'])->restore();
             $pointCount = 0;
             foreach ($points as $point) {
                 $temp = Point::create([
