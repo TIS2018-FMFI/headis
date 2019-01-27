@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AvailableDate extends Model
+class NotAvailableDate extends Model
 {
     public $timestamps = false;
 

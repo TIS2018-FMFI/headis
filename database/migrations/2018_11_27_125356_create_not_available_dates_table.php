@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAvailableDatesTable extends Migration
+class CreateNotAvailableDatesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateAvailableDatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('available_dates', function (Blueprint $table) {
+        Schema::create('not_available_dates', function (Blueprint $table) {
             $table->increments('id');
-            $table->date('date_from');
-            $table->date('date_to');
+            $table->date('date');
             $table->integer('season_id')->unsigned();
             $table->foreign('season_id')->references('id')->on('seasons');
         });
@@ -29,6 +28,6 @@ class CreateAvailableDatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('available_dates');
+        Schema::dropIfExists('not_available_dates');
     }
 }
