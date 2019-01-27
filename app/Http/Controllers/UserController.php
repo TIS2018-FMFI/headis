@@ -38,7 +38,7 @@ class UserController extends Controller
         $canChallenge = auth()->user()->id !== $user->id && auth()->user()->currentMatch() == null &&
                         $user->countOfChallengesAsAsked() < 3 && User::currentChallenge(auth()->user())== null &&
                         $user->currentMatch() == null && User::currentChallenge($user) == null &&
-                        !$user->isRedactor && !auth()->user()->isRedactor &&
+                        !$user->isRedactor && !auth()->user()->isRedactor && Season::current() != null &&
                         auth()->user()->position > $user->position &&
                         (floor(sqrt(auth()->user()->position - 1)) === floor(sqrt($user->position - 1)) ||
                         floor(sqrt(auth()->user()->position - 1)) - 1 === floor(sqrt($user->position - 1)));
@@ -146,7 +146,8 @@ class UserController extends Controller
         });
         return response()->json([
             'status' => $success ? 'success' : 'danger',
-            'canDeactivateUsers' => User::canDeactivate()
+            'canDeactivateUsers' => User::canDeactivate(),
+            'canReactivateUsers' => User::canActivate()
         ]);
     }
 
@@ -173,7 +174,8 @@ class UserController extends Controller
         });
         return response()->json([
             'status' => $user->deleted_at ? 'danger' : 'success',
-            'canActivateUsers' => User::canActivate(),
+            'canReactivateUsers' => User::canActivate(),
+            'canDeactivateUsers' => User::canDeactivate()
         ]);
     }
 }

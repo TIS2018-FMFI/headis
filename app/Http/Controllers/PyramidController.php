@@ -27,12 +27,16 @@ class PyramidController extends Controller
      */
     public function index()
     {
+        $season = Season::current();
+        if ($season == null){
+            $season = Season::orderBy('date_to', 'desc')->first();
+        }
         $oldStatistic = DB::select("SELECT season_id, user_id, suma FROM
             (SELECT user_id, season_id, SUM(point) as suma FROM points group by user_id, season_id ORDER by SUM(point) ASC) ahoj 
-            WHERE season_id = ".(Season::current()->id-1)." ORDER BY suma ASC LIMIT 1") ;
+            WHERE season_id = ".($season->id-1)." ORDER BY suma ASC LIMIT 1") ;
 
         $actualStatistics = DB::select("SELECT date, user_id FROM points 
-            WHERE season_id = ".Season::current()->id." and point = 1 GROUP BY MONTH(date)");
+            WHERE season_id = ".$season->id." and point = 1 GROUP BY MONTH(date)");
         return view('pyramid.index', [
             'users' => User::pyramid(),
             'actualStatistics' => Point::hydrate($actualStatistics),

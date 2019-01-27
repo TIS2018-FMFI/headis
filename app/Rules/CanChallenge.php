@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\Season;
 use App\User;
 use Illuminate\Contracts\Validation\Rule;
 
@@ -38,7 +39,7 @@ class CanChallenge implements Rule
             ($this->challenger->currentMatch() == null && $this->asked->currentMatch() == null) &&
             (User::currentChallenge($this->challenger) == null && User::currentChallenge($this->asked) == null) &&
             ($this->asked->countOfChallengesAsAsked() < 3 && $this->challenger->countOfChallengesAsChallenger() < 3) &&
-            !$this->asked->isRedactor && !$this->challenger->isRedactor;
+            !$this->asked->isRedactor && !$this->challenger->isRedactor && Season::current() != null;
     }
 
     /**
