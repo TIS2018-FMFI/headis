@@ -34,6 +34,9 @@ class WritePointsJob implements ShouldQueue
      */
     public function handle()
     {
+        if (Season::current() == null){
+            return;
+        }
         DB::transaction(function () {
             $users = User::all();
             $season = Season::current();
