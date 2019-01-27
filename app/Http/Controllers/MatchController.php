@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\CheckMatchConfirmedJob;
+use App\Jobs\CheckSetsJob;
 use App\Match;
 use App\User;
 use Illuminate\Http\Request;
@@ -71,6 +73,12 @@ class MatchController extends Controller
             'challenge_id' => $request['challenge_id'],
             'date_id' => $request['date']
         ]);
+
+        /*$job = (new CheckSetsJob($match->id))->delay(60);
+        $this->dispatch($job);
+
+        $job2 = (new CheckMatchConfirmedJob($match->id))->delay(60);
+        $this->dispatch($job2);*/
 
         return redirect('/matches/'.$match->id);
     }
