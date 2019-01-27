@@ -21,9 +21,10 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/users', 'UserController@index')->name('users');
 Route::get('/users/{user}', 'UserController@show');
-Route::get('/users/{user}/destroy', 'UserController@destroy');
+Route::post('/users/{user}/destroy', 'UserController@destroy');
 Route::post('/users/{user}/update', 'UserController@update');
 Route::get('/users/{user}/edit', 'UserController@edit');
+Route::post('/users/activate', 'UserController@activate');
 
 Route::get('/challenges/{challenge}', 'ChallengeController@show');
 Route::post('/challenges/store', 'ChallengeController@store');
@@ -36,7 +37,6 @@ Route::post('/comments/store', 'CommentController@store');
 
 Route::post('/dates/store', 'DateController@store');
 Route::post('/dates/{date}/destroy', 'DateController@destroy');
-
 
 Route::post('/sets/store', 'SetController@store');
 Route::post('/sets/update', 'SetController@update');

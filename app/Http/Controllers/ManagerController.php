@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
 class ManagerController extends Controller
@@ -24,7 +25,25 @@ class ManagerController extends Controller
      */
     public function index()
     {
-        return view('manager.index');
+        $translations = [];
+
+        $translations['posts.add'] = __('posts.add');
+        $translations['posts.title'] = __('posts.title');
+        $translations['posts.intro_text'] = __('posts.intro_text');
+        $translations['posts.image'] = __('posts.image');
+        $translations['posts.text'] = __('posts.text');
+        $translations['posts.addBtn'] = __('posts.addBtn');
+        $translations['users.deactivate'] = __('users.deactivate');
+        $translations['users.deactivateBtn'] = __('users.deactivateBtn');
+        $translations['users.reactivate'] = __('users.reactivate');
+        $translations['users.reactivateBtn'] = __('users.reactivateBtn');
+        $translations['users.noFoundUsers'] = __('users.noFoundUsers');
+
+        return view('manager.index', [
+            'translations' => $translations,
+            'canDeactivateUsers' => User::canDeactivate(),
+            'canReactivateUsers' => User::canActivate()
+        ]);
     }
 
 

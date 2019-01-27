@@ -147,7 +147,8 @@ return [
         'user_name' => 'Používateľské meno',
         'first_name' => 'Meno',
         'last_name' => 'Priezvisko',
-
+        'score_1' => 'Body',
+        'score_2' => 'Body'
     ],
 
 ];

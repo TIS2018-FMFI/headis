@@ -49,6 +49,9 @@ fontawesome.library.add(solid, regular, faFacebookF);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
+import VueScrollactive from 'vue-scrollactive';
+Vue.use(VueScrollactive);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

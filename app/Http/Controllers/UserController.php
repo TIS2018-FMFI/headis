@@ -71,9 +71,10 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @param  User $user
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, User $user)
     {
@@ -95,7 +96,6 @@ class UserController extends Controller
         }
         DB::transaction(function () use ($user, $request, $fileName){
             if (!empty($request['user_name'])) {
-//                dd('som debil');
                 $user->user_name = $request['user_name'];
             }
             if (!empty($request['email'])){
@@ -129,7 +129,9 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         if ($user->currentMatch() != null || User::currentChallenge($user) != null){
-            return back();
+            return response()->json([
+                'status' => 'can not destroy',
+            ]);
         }
         $success = DB::transaction(function () use ($user){
             $oldPosition = $user->position;
@@ -137,7 +139,6 @@ class UserController extends Controller
             $user->save();
             $success = $user->delete();
             $users = User::where('position' , '>', $oldPosition)->get();
-    //        dd($users);
             foreach ($users as $user1){
                 $user1->position--;
                 $user1->save();
@@ -156,7 +157,10 @@ class UserController extends Controller
         $points = Point::groupby(DB::raw('MONTH(date)'))->get();
 
         $user = DB::transaction(function () use ($request, $maxPoint, $points){
-            $user = User::withTrashed()->find($request['user_id'])->restore();
+            $user = User::withTrashed()->find($request['user_id']);
+            $user->restore();
+            $user->position = User::max('position') + 1;
+            $user->save();
             $pointCount = 0;
             foreach ($points as $point) {
                 $temp = Point::create([
