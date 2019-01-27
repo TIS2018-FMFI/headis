@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Challenge;
 use App\Match;
+use App\Point;
+use App\Season;
 use App\User;
 use Faker\Provider\File;
 use foo\bar;
@@ -142,8 +144,36 @@ class UserController extends Controller
             }
             return $success;
         });
-        return back()->with([
-            'success' => $success
+        return response()->json([
+            'status' => $success ? 'success' : 'danger',
+            'canDeactivateUsers' => User::canDeactivate()
+        ]);
+    }
+
+    public function activate($user_id){
+        $maxPoint = Point::where('season_id', Season::current()->id)->max('point');
+        $points = Point::groupby(DB::raw('MONTH(date)'))->get();
+
+        $user = DB::transaction(function () use ($user_id, $maxPoint, $points){
+            $user = User::withTrashed()->find($user_id)->restore();
+            $pointCount = 0;
+            foreach ($points as $point) {
+                $temp = Point::create([
+                    'user_id' => $user->id,
+                    'date' => $point->date,
+                    'season_id' => $point->season_id,
+                    'point' => $maxPoint + 1
+                ]);
+                if ($temp) $pointCount++;
+            }
+
+            if(!$user || $pointCount != count($points)) throw new \Exception('Something wrong');
+
+            return $user;
+        });
+        return response()->json([
+            'status' => $user->deleted_at ? 'danger' : 'success',
+            'canActivateUsers' => User::canActivate(),
         ]);
     }
 }
