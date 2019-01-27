@@ -153,9 +153,13 @@ class UserController extends Controller
     }
 
     public function activate(Request $request){
-        $maxPoint = Point::where('season_id', Season::current()->id)->max('point');
-        $points = Point::groupby(DB::raw('MONTH(date)'))->get();
-
+        if (Season::current() == null){
+            $maxPoint = 0;
+            $points = [];
+        } else {
+            $maxPoint = Point::where('season_id', Season::current()->id)->max('point');
+            $points = Point::groupby(DB::raw('MONTH(date)'))->get();
+        }
         $user = DB::transaction(function () use ($request, $maxPoint, $points){
             $user = User::withTrashed()->find($request['user_id']);
             $user->restore();
