@@ -41,17 +41,17 @@
                     </p>
                 @endif
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-8 pre-scrollable">
                 <div class="row">
-                    <div class="offset-1 text-center col-sm-11">
+                    <div class="text-center col-sm-11">
                         <div class="row">
                             <div class="col-4 font-weight-bold">{{ __('users.Opponent') }}</div>
                             <div class="col-8">
                                 <div class="row mb-4">
                                     <div class="col-4 font-weight-bold">{{ __('users.Challenge date') }}</div>
-                                    <div class="col-2 font-weight-bold">{{ __('users.Set') }}1</div>
-                                    <div class="col-2 font-weight-bold">{{ __('users.Set') }}2</div>
-                                    <div class="col-2 font-weight-bold">{{ __('users.Set') }}3</div>
+                                    <div class="col-2 font-weight-bold d-none d-sm-block">{{ __('users.Set') }}1</div>
+                                    <div class="col-2 font-weight-bold d-none d-sm-block">{{ __('users.Set') }}2</div>
+                                    <div class="col-2 font-weight-bold d-none d-sm-block">{{ __('users.Set') }}3</div>
                                     <div class="col-2 font-weight-bold">{{ __('users.Result') }}</div>
                                 </div>
                             </div>
@@ -70,13 +70,13 @@
                                         <div class="col-4">{{date('d-m-Y', strtotime($match->date->date))}}</div>
                                         @foreach($match->sets as $set)
                                             @if($user->id == $match->challenge->challenger->id)
-                                                <div class="col-2">{{$set->score_1}}:{{$set->score_2}}</div>
+                                                <div class="col-2 d-none d-sm-block">{{$set->score_1}}:{{$set->score_2}}</div>
                                             @else
-                                                <div class="col-2">{{$set->score_2}}:{{$set->score_1}}</div>
+                                                <div class="col-2 d-none d-sm-block">{{$set->score_2}}:{{$set->score_1}}</div>
                                             @endif
                                         @endforeach
                                         @if(sizeof($match->sets) == 2)
-                                            <div class="col-2">0:0</div>
+                                            <div class="col-2 d-none d-sm-block">0:0</div>
                                         @endif
                                         @if($user->id == $match->winner->id)
                                             <div class="col-2">2:{{2-sizeof($match->sets)}}</div>
