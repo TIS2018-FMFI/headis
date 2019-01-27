@@ -184,17 +184,20 @@
 
             sendSets() {
                 if (this.current_user.isRedactor) {
-                    this.formRedactor.post('/sets/update').then(response => {
-                        this.axiosConfirmed = response['confirmed'];
-                        this.axiosFinished = response['finished'];
-                        this.axiosSets = response['sets'];
+                    axios.post('/sets/update', {
+                        match_id: this.match.id,
+                        sets: this.formRedactor.sets
+                    }).then(response => {
+                        this.axiosConfirmed = response['data']['confirmed'];
+                        this.axiosFinished = response['data']['finished'];
+                        this.axiosSets = response['data']['sets'];
+                    }).catch(error => {
+                        this.formRedactor.onFail(error.response.data);
                     });
                 } else {
                     axios.post('/sets/store', {
-                        data: {
-                            match_id: this.match.id,
-                            sets: this.vueSets
-                        }
+                        match_id: this.match.id,
+                        sets: this.vueSets
                     }).then(response =>{
                         this.axiosFinished = response['data']['finished'];
                         this.axiosSets = response['data']['sets'];

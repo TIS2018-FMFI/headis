@@ -25,13 +25,28 @@ class AllSetsValidator implements Rule
      */
     public function passes($attribute, $value)
     {
+        $asked = 0;
+        $challenger = 0;
+
         foreach ($value as $item) {
             $score1 = (int) $item['score_1'];
             $score2 = (int) $item['score_2'];
 
             if ( ($score1 >= 10 && $score2 >= 10 && abs($score1 - $score2) == 2) || (($score1 == 11 || $score2 == 11) && abs($score1 - $score2) > 1)) {
+                if ($asked == 2 || $challenger == 2) {
+                    return false;
+                }
+                if ($score1 > $score2) {
+                    $challenger++;
+                } else {
+                    $asked++;
+                }
                 continue;
             }
+            return false;
+        }
+
+        if ($asked != 2 && $challenger != 2) {
             return false;
         }
 

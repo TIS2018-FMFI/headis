@@ -37,20 +37,20 @@ class SetController extends Controller
 
         DB::transaction(function () use ($request) {
             $this->validate($request, [
-                'data.match_id' => 'required|exists:matches,id',
-                'data.sets' => ['required', new AllSetsValidator()]
+                'match_id' => 'required|exists:matches,id',
+                'sets' => ['required', new AllSetsValidator()]
             ]);
 
-            foreach ($request['data']['sets'] as $set) {
+            foreach ($request['sets'] as $set) {
                 Set::create([
-                    'match_id' => $request['data']['match_id'],
+                    'match_id' => $request['match_id'],
                     'score_1' => $set['score_1'],
                     'score_2' => $set['score_2']
                 ]);
             }
         });
 
-        $match = Match::find($request['data']['match_id']);
+        $match = Match::find($request['match_id']);
         $sets = $match->sets;
 
         return response()->json([
@@ -68,16 +68,23 @@ class SetController extends Controller
     public function update(Request $request)
     {
         $match = Match::find($request['match_id']);
-        dd($request['sets']);
         DB::transaction(function () use ($request, $match) {
             $this->validate($request, [
                 'match_id' => 'required|exists:matches,id',
                 'sets' => ['required', new AllSetsValidator()]
             ]);
 
+            $match->confirmed = true;
+            $match->save();
+
             Set::where('match_id', $request['match_id'])->delete();
 
+            $challengerPoints = 0;
+
             foreach ($request['sets'] as $set) {
+                if ($set['score_1'] > $set['score_2']) {
+                    $challengerPoints += 1;
+                }
                 Set::create([
                     'match_id' => $request['match_id'],
                     'score_1' => $set['score_1'],
@@ -85,8 +92,16 @@ class SetController extends Controller
                 ]);
             }
 
+            if ($challengerPoints == 2) {
+                $challenger = User::find($match->challenge->challenger->id);
+                $asked = User::find($match->challenge->asked->id);
+                $pos1 = $asked->position;
+                $asked->position = $challenger->position;
+                $challenger->position = $pos1;
+                $asked->save();
+                $challenger->save();
+            }
         });
-
 
 
         return response()->json([
