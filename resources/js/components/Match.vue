@@ -4,16 +4,16 @@
             <div class="col">
 
                 <div class="row mb-5">
-                    <div class="col">
+                    <div class="col-md-6 text-left">
                         <h2><b>{{ translations['matches.challenger'] }}: <a :href="'/users/' + match.challenge.challenger.id">{{ match.challenge.challenger.user_name }}</a></b></h2>
                     </div>
-                    <div class="col text-right">
+                    <div class="col-md-6 text-right">
                         <h2><b>{{ translations['matches.challenged'] }}: <a :href="'/users/' + match.challenge.asked.id">{{ match.challenge.asked.user_name }}</a></b></h2>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-md-3">
                         <div class="card text-center mb-4">
                             <div class="card-header">
                                 {{ translations['matches.match'] }}
@@ -30,7 +30,7 @@
                     </div>
 
                     <template v-if="current_user.isRedactor && isConfirmed === 0">
-                        <div class="col-3" v-for="(set, index) in formRedactor.sets">
+                        <div class="col-md-3" v-for="(set, index) in formRedactor.sets">
                             <div class="card text-center mb-4">
                                 <div class="card-header">{{ index+1 }}</div>
                                 <div class="card-body" >
@@ -46,7 +46,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-3" v-if="formRedactor.sets.length < 3">
+                        <div class="col-md-3" v-if="formRedactor.sets.length < 3">
                             <div class="card text-center mb-4">
                                 <div class="card-header">{{ translations['matches.add_set'] }}</div>
                                 <div class="card-body" >
@@ -57,7 +57,7 @@
                     </template>
 
                     <template v-else>
-                        <div class="col-3" v-for="(set, index) in allSets">
+                        <div class="col-md-3" v-for="(set, index) in allSets">
                             <div class="card text-center mb-4">
                                 <div class="card-header">{{ index+1 }}</div>
                                 <div class="card-body" >
@@ -67,7 +67,7 @@
                             </div>
                         </div>
 
-                        <div class="col-3" v-if="!isFinished && current_user.id === match.challenge.asked.id">
+                        <div class="col-md-3" v-if="!isFinished && current_user.id === match.challenge.asked.id">
                             <div class="card text-center mb-4">
                                 <div class="card-header">{{ translations['matches.add_title'] }}</div>
                                 <div class="card-body" >
