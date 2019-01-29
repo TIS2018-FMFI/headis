@@ -42,13 +42,13 @@ class DatabaseSeeder extends Seeder
             ]);
             App\Point::create([
                 'user_id' => $user->id,
-                'date' => \Carbon\Carbon::now()->addMonth(1),
+                'date' => \Carbon\Carbon::now()->startOfMonth()->addMonth(1),
                 'point' => $point,
                 'season_id' => \App\Season::current()->id,
             ]);
             App\Point::create([
                 'user_id' => $user->id,
-                'date' => \Carbon\Carbon::now()->addMonth(2),
+                'date' => \Carbon\Carbon::now()->startOfMonth()->addMonth(2),
                 'point' => $point++,
                 'season_id' => \App\Season::current()->id,
             ]);
