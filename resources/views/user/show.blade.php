@@ -79,9 +79,17 @@
                                             <div class="col-2 d-none d-sm-block">0:0</div>
                                         @endif
                                         @if($user->id == $match->winner->id)
-                                            <div class="col-2">2:{{2-sizeof($match->sets)}}</div>
+                                            @if(sizeof($match->sets) == 3)
+                                                <div class="col-2">2:1</div>
+                                            @else
+                                                <div class="col-2">2:{{2-sizeof($match->sets)}}</div>
+                                            @endif
                                         @else
-                                            <div class="col-2">{{2-sizeof($match->sets)}}:2</div>
+                                            @if(sizeof($match->sets) == 3)
+                                                <div class="col-2">1:2</div>
+                                            @else
+                                                <div class="col-2">{{2-sizeof($match->sets)}}:2</div>
+                                            @endif
                                         @endif
                                     </div>
                                 </div>
