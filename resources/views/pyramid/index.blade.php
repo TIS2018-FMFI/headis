@@ -20,16 +20,16 @@
     <div class="container">
         <div class="row border-bottom mt-4">
             <div class="col-sm-2 border-bottom">
-                Mesiac
+                {{ __('pyramids.Month') }}
             </div>
             <div class="col-sm-2 border-bottom">
-                Najlepší hráč
+                {{ __('pyramids.The best player') }}
             </div>
         </div>
         @foreach($actualStatistics as $statistic)
             <div class="row mt-2">
                 <div class="col-sm-2">
-                    {{ date('F', strtotime($statistic->date ))}}
+                    {{ __('pyramids.'.date('F', strtotime($statistic->date )))}}
                 </div>
                 <div class="col-sm-2">
                     <a href="/users/{{$statistic->user->id}}">{{ $statistic->user->user_name }}</a>
@@ -44,10 +44,10 @@
                 {{ __('pyramids.Date of start season') }}
             </div>
             <div class="col-sm-2 border-bottom">
-                Koniec sezóny
+                {{ __('pyramids.Date of end season') }}
             </div>
             <div class="col-sm-2 border-bottom">
-                Najlepší hráč
+                {{ __('pyramids.The best player') }}
             </div>
         </div>
         @foreach($statistics as $statistic)

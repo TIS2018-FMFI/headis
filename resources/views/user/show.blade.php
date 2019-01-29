@@ -7,10 +7,10 @@
                 <h3> {{ $user->user_name }} </h3>
                 <img class="img-fluid mb-4" src="{{ url('images/'.$user->image)}}"  alt="{{ $user->user_name }}">
                 @if(\App\User::currentChallenge($user) && $currentAuthUser->id == $user->id )
-                    <a class="btn btn-primary" href="/challenges/{{\App\User::currentChallenge($user)->id}}">Aktuálna výzva</a>
+                    <a class="btn btn-primary" href="/challenges/{{\App\User::currentChallenge($user)->id}}">{{ __('users.Actual Challenge') }}</a>
                 @endif
                 @if($currentAuthUser->id == $user->id)
-                    <a class="btn btn-primary" href="/users/{{$user->id}}/edit">Upraviť profil</a>
+                    <a class="btn btn-primary" href="/users/{{$user->id}}/edit">{{__('users.Edit profile')}}</a>
                 @endif
 
                 @if($canChallenge)
@@ -18,7 +18,7 @@
                         @csrf
                         <input type="hidden" name="user" value="{{ $user->id }}">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-success form-control {{ $errors->has('user') ? ' is-invalid' : '' }}">Vyzvať!</button>
+                            <button type="submit" class="btn btn-success form-control {{ $errors->has('user') ? ' is-invalid' : '' }}">{{ __('users.Challenge') }}</button>
                             @if($errors->has('user'))
                                 <span class="invalid-feedback">
                                     <strong>{{ $errors->first('user') }}</strong>
@@ -28,11 +28,11 @@
                     </form>
                 @else
                     @if($user->id != $currentAuthUser->id)
-                        <button disabled class="btn btn-danger">Nemôžes vyzvať hráča!</button>
+                        <button disabled class="btn btn-danger">{{ __('users.You can not challenge the player') }}</button>
                     @endif
                 @endif
 
-                <h5>Aktuálna pozícia: {{ $user->position }}.</h5>
+                <h5>{{ __('users.Actual position') }}: {{ $user->position }}.</h5>
                 @if($currentAuthUser->isRedactor)
                     <p>
                         <strong>{{ __('users.First name') }}: </strong>{{ $user->first_name }}<br>
