@@ -4,6 +4,8 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use phpDocumentor\Reflection\Types\Boolean;
+use phpDocumentor\Reflection\Types\Integer;
 
 class NotAvailableDate extends Model
 {
@@ -14,8 +16,48 @@ class NotAvailableDate extends Model
         return $this->belongsTo(Season::class);
     }
 
-    public static function isAvailableDate()
+    /**
+     * @param Carbon|null $date
+     * @param Boolean|null $includeWeekend
+     * @return bool
+     */
+    public static function isAvailableDate(Carbon $date = null, Boolean $includeWeekend = null)
     {
-        return NotAvailableDate::whereDate('date', '=', Carbon::today())->get() == null;
+        $isWeekend = true;
+
+        if ($date == null) {
+            $date = Carbon::today('Europe/Bratislava');
+        }
+        if ($includeWeekend == null) {
+            $isWeekend = !Carbon::today('Europe/Bratislava')->isWeekend();
+        }
+        return self::where('season_id', Season::current()->id)->whereDate('date', $date)->get() == null && $isWeekend;
     }
+
+    /**
+     * @param Carbon $start
+     * @param Integer $days
+     * @return Carbon
+     */
+    public static function addDaysTo(Carbon $start, Integer $days)
+    {
+        $resultDate = $start->copy();
+
+        while ($days > 0) {
+            if (self::isAvailableDate($resultDate->addDay())) {
+                $days--;
+            }
+        }
+
+        return $resultDate;
+    }
+
+    public static function getNotAvailableDatesInRange(Carbon $start, Carbon $end)
+    {
+        return self::where('season_id', Season::current()->id)->whereDate('date', '>=', $start)->whereDate('date', '<=', $end)->get();
+    }
+
+
+
+
 }
