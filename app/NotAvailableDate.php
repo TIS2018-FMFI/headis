@@ -18,10 +18,10 @@ class NotAvailableDate extends Model
 
     /**
      * @param Carbon|null $date
-     * @param Boolean|null $includeWeekend
+     * @param boolean|null $includeWeekend
      * @return bool
      */
-    public static function isAvailableDate(Carbon $date = null, Boolean $includeWeekend = null)
+    public static function isAvailableDate(Carbon $date = null, boolean $includeWeekend = null)
     {
         $isWeekend = true;
 
@@ -36,10 +36,10 @@ class NotAvailableDate extends Model
 
     /**
      * @param Carbon $start
-     * @param Integer $days
+     * @param integer $days
      * @return Carbon
      */
-    public static function addDaysTo(Carbon $start, Integer $days)
+    public static function addDaysTo(Carbon $start, integer $days)
     {
         $resultDate = $start->copy();
 
