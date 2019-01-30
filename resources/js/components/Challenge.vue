@@ -34,7 +34,7 @@
                         <ul v-if="allDates.length > 0" class="list-group list-group-flush pre-scrollable">
                             <li class="list-group-item text-center" v-for="date in allDates" v-if="!date.rejected">
                                 <div class="row justify-content-md-center">
-                                    <div class="col-md-auto mb-2">
+                                    <div class="col-md-auto mb-2 mt-1">
                                         <span>{{ date.date | moment("DD.MM.YYYY HH:mm") }}</span>
                                     </div>
 
