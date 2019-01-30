@@ -34,7 +34,7 @@ class MatchController extends Controller
         if (!$match->isMember()){
             return back();
         }
-        if ($match->confirmed !== NULL){
+        if ($match->confirmed){
             return redirect('/users/'.auth()->user()->id);
         }
         $translations = array();
