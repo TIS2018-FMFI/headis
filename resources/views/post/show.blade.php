@@ -6,7 +6,7 @@
             <div class="col">
                 <div class="row">
                     <div class="col"><h1>{{ $post->title }}</h1></div>
-                    @if ($currentAuthUser)
+                    @if ($currentAuthUser->isRedactor)
                         <div class="col text-right" ><a href="/posts/{{ $post->id }}/edit" class="btn btn-primary">{{ __('posts.editBtn') }}</a></div>
                     @endif
                 </div>
