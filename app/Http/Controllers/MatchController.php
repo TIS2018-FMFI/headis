@@ -6,6 +6,7 @@ use App\Jobs\CheckMatchConfirmedJob;
 use App\Jobs\CheckSetsJob;
 use App\Match;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -33,7 +34,7 @@ class MatchController extends Controller
         if (!$match->isMember()){
             return back();
         }
-        if ($match->confirmed){
+        if ($match->confirmed !== NULL){
             return redirect('/users/'.auth()->user()->id);
         }
         $translations = array();
@@ -48,10 +49,15 @@ class MatchController extends Controller
         $translations['matches.confirm'] = __('matches.confirm');
         $translations['matches.reject_match'] = __('matches.reject_match');
         $translations['matches.reset'] = __('matches.reset');
+        $translations['matches.cannot_edit_match'] = __('matches.cannot_edit_match');
+        $translations['matches.not_available_sets'] = __('matches.not_available_sets');
+        $translations['matches.cannot_add_sets'] = __('matches.cannot_add_sets');
+        $translations['matches.are_not_available_sets'] = __('matches.are_not_available_sets');
         return view('match.show', [
-            'match' => $match->load(['sets', 'challenge.challenger', 'challenge.asked']),
+            'match' => $match->load(['sets', 'challenge.challenger', 'challenge.asked', 'date']),
             'finished' => $match->finished(),
-            'translations' => $translations
+            'translations' => $translations,
+            'canAddSets' => Carbon::now('Europe/Bratislava')->gte(Carbon::parse($match->date->date))
         ]);
     }
 

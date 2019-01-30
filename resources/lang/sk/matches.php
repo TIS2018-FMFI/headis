@@ -18,5 +18,9 @@ return [
     'confirm' => 'Potvrdiť',
     'reject_match' => 'Odmietnuť',
     'reset' => 'Resetovať',
-    'remove_set' => 'Odstrániť set'
+    'remove_set' => 'Odstrániť set',
+    'not_available_sets' => 'Žiadne sety ešte neboli pridané.',
+    'cannot_edit_match' => 'Zápas nie je možné upravovať.',
+    'cannot_add_sets' => 'Ešte nie je možné pridať sety.',
+    'are_not_available_sets' => 'Žiadne sety ešte neboli pridané.'
 ];
