@@ -80,7 +80,7 @@
                         <h3>{{ translations['matches.not_available_sets'] }}</h3>
                     </div>
 
-                    <div class="col-md-3" v-if="!isFinished && current_user.id === match.challenge.asked.id">
+                    <div class="col-md-3" v-if="!isFinished && current_user.id === match.challenge.asked.id && canAddSet">
                         <div class="card text-center mb-4">
                             <div class="card-header">{{ translations['matches.add_title'] }}</div>
                             <div class="card-body" >
@@ -103,6 +103,7 @@
             <template v-else>
                 <h3 v-if="current_user.id === match.challenge.asked.id">{{ translations['matches.cannot_add_sets'] }}</h3>
                 <h3 v-if="current_user.id === match.challenge.challenger.id">{{ translations['matches.are_not_available_sets'] }}</h3>
+                <h3 v-if="current_user.isRedactor">{{ translations['matches.are_not_available_sets'] }}</h3>
             </template>
         </div>
 
@@ -144,7 +145,8 @@
                     match_id: ''
                 }),
                 now: new Date,
-                vueCanAddSets: false
+                vueCanAddSets: false,
+                canAddSet: true
             }
         },
         computed: {
@@ -198,9 +200,11 @@
             },
 
             addSet() {
+                this.canAddSet = false;
                 this.formSet.post('/sets/validateSet').then(response => {
                     this.vueSets.push({score_1: response['score_1'], score_2: response['score_2']});
                     this.checkFinishMatch();
+                    this.canAddSet = true;
                 });
             },
 
@@ -213,6 +217,7 @@
                         this.axiosConfirmed = response['data']['confirmed'];
                         this.axiosFinished = response['data']['finished'];
                         this.axiosSets = response['data']['sets'];
+                        window.location = '/';
                     }).catch(error => {
                         this.formRedactor.onFail(error.response.data);
                     });
