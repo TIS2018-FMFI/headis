@@ -205,6 +205,8 @@
                     this.vueSets.push({score_1: response['score_1'], score_2: response['score_2']});
                     this.checkFinishMatch();
                     this.canAddSet = true;
+                }).catch(error => {
+                    this.canAddSet = true;
                 });
             },
 
