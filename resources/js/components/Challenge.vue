@@ -33,20 +33,23 @@
                         </div>
                         <ul v-if="allDates.length > 0" class="list-group list-group-flush pre-scrollable">
                             <li class="list-group-item text-center" v-for="date in allDates" v-if="!date.rejected">
-                                <div class="row">
-                                    <div class="col-md-5">
+                                <div class="row justify-content-md-center">
+                                    <div class="col-md-auto mb-2">
                                         <span>{{ date.date | moment("DD.MM.YYYY HH:mm") }}</span>
                                     </div>
-                                    <div class="col-md-3" v-if="current_user.id === challenge.challenger.id">
-                                        <form action="/matches/store" method="post">
-                                            <input type="hidden" name="_token" :value="csrf">
-                                            <input type="hidden" name="date" :value="date.id">
-                                            <input type="hidden" name="challenge_id" :value="challenge.id">
-                                            <button class="btn btn-success">{{ translations['challenges.confirm'] }}</button>
-                                        </form>
-                                    </div>
-                                    <div class="col-md-3" v-if="current_user.id === challenge.challenger.id">
-                                        <button @click.prevent="deleteDate(date.id)" class="btn btn-danger">{{ translations['challenges.delete'] }}</button>
+
+                                    <div class="row mx-auto">
+                                        <div class="col-6 mx-auto" v-if="current_user.id === challenge.challenger.id">
+                                            <form action="/matches/store" method="post">
+                                                <input type="hidden" name="_token" :value="csrf">
+                                                <input type="hidden" name="date" :value="date.id">
+                                                <input type="hidden" name="challenge_id" :value="challenge.id">
+                                                <button class="btn btn-success">{{ translations['challenges.confirm'] }}</button>
+                                            </form>
+                                        </div>
+                                        <div class="col-6 mx-auto" v-if="current_user.id === challenge.challenger.id">
+                                            <button @click.prevent="deleteDate(date.id)" class="btn btn-danger">{{ translations['challenges.delete'] }}</button>
+                                        </div>
                                     </div>
                                 </div>
                             </li>
