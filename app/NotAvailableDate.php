@@ -4,8 +4,6 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use phpDocumentor\Reflection\Types\Boolean;
-use phpDocumentor\Reflection\Types\Integer;
 
 class NotAvailableDate extends Model
 {
@@ -18,10 +16,10 @@ class NotAvailableDate extends Model
 
     /**
      * @param Carbon|null $date
-     * @param boolean|null $includeWeekend
+     * @param bool|null $includeWeekend
      * @return bool
      */
-    public static function isAvailableDate(Carbon $date = null, boolean $includeWeekend = null)
+    public static function isAvailableDate(Carbon $date = null, $includeWeekend = null)
     {
         $isWeekend = true;
 
@@ -36,10 +34,10 @@ class NotAvailableDate extends Model
 
     /**
      * @param Carbon $start
-     * @param integer $days
+     * @param int $days
      * @return Carbon
      */
-    public static function addDaysTo(Carbon $start, integer $days)
+    public static function addDaysTo(Carbon $start, $days)
     {
         $resultDate = $start->copy();
 
