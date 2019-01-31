@@ -1,17 +1,28 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid" style="overflow-x: scroll">
-        <div class="row mb-4 text-center justify-content-center border-bottom">
-            @foreach($users as $user)
+    <div class="container-fluid">
+        <div class="row mb-4 text-center flex-sm-nowrap">
+            <h5 class="d-sm-none d-block">0. level</h5>
+            @for ($i = $maxLevel; $i > 0; $i--)
+                <div class="scrolling-wrapper-flexbox-empty mr-4 col d-none d-sm-block">&nbsp</div>
+            @endfor
+            @php ($maxLevel--)
+            @foreach ($users as $user)
+
                 @if($user->id == $currentAuthUser->id)
-                    <div class="mr-4 border rounded-circle bg-secondary" style="width: 150px; height: 150px"><a class="text-success" href="/users/{{$user->id}}">{{$user->position}}.<br><br> {{$user->user_name}}</a></div>
+                    <div class="scrolling-wrapper-flexbox-item col mr-4 border bg-secondary"><a class="text-success" href="/users/{{$user->id}}"><span class="d-sm-block">{{$user->position}}.</span>{{$user->user_name}}</a></div>
                 @else
-                    <div class="mr-4 border rounded-circle bg-secondary" style="width: 150px; height: 150px"><a class="text-white" href="/users/{{$user->id}}">{{$user->position}}.<br><br> {{$user->user_name}}</a></div>
+                    <div class="scrolling-wrapper-flexbox-item col mr-4 border bg-secondary"><a class="text-white" href="/users/{{$user->id}}"><span class="d-sm-block">{{$user->position}}.</span> {{$user->user_name}}</a></div>
                 @endif
                 @if(floor(sqrt($user->position)) == ceil(sqrt($user->position)))
                     </div>
-                    <div class="row mb-4 text-center justify-content-center border-bottom">
+                    <div class="row mb-4 text-center flex-sm-nowrap">
+                        <h5 class="d-sm-none d-block">{{floor(sqrt($user->position))}}. level</h5>
+                        @for ($i = $maxLevel; $i > 0; $i--)
+                            <div class="scrolling-wrapper-flexbox-empty mr-4 col d-none d-sm-block">&nbsp</div>
+                        @endfor
+                        @php ($maxLevel--)
                 @endif
             @endforeach
         </div>

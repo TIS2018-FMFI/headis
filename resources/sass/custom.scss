@@ -42,3 +42,34 @@ body {
     top: 50px;
     height: 300px;
 }
+
+.scrolling-wrapper-flexbox {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+  flex-direction: row;
+  &-empty {
+    flex: 0 0 auto;
+    width: 150px;
+    height: 150px;
+    min-width: 150px;
+    min-height: 150px;
+    border-radius: 50%;
+    margin-bottom: 0;
+  };
+  &-item {
+    flex: 0 0 auto;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px 0;
+    background-image: linear-gradient(to bottom right, black, red);
+    @include media-breakpoint-up(sm){
+      width: 150px;
+      height: 150px;
+      min-width: 150px;
+      min-height: 150px;
+      border-radius: 50%;
+      margin-bottom: 0;
+    }
+  }
+}

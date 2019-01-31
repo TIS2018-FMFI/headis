@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Challenge;
 use App\Match;
+use App\NotAvailableDate;
 use App\Point;
 use App\Season;
 use App\User;
@@ -39,9 +40,10 @@ class UserController extends Controller
                         $user->countOfChallengesAsAsked() < 3 && User::currentChallenge(auth()->user())== null &&
                         $user->currentMatch() == null && User::currentChallenge($user) == null &&
                         !$user->isRedactor && !auth()->user()->isRedactor && Season::current() != null &&
-                        auth()->user()->position > $user->position &&
+                        auth()->user()->position > $user->position && $this->challenger->countOfChallengesAsChallenger() < 3 &&
                         (floor(sqrt(auth()->user()->position - 1)) === floor(sqrt($user->position - 1)) ||
-                        floor(sqrt(auth()->user()->position - 1)) - 1 === floor(sqrt($user->position - 1)));
+                        floor(sqrt(auth()->user()->position - 1)) - 1 === floor(sqrt($user->position - 1))) &&
+                        NotAvailableDate::isAvailableDate(null, false);
 
         $matches = $user->matches();
         return view('user.show', [

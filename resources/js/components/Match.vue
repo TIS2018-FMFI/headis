@@ -62,7 +62,9 @@
                 </template>
 
                 <template v-else-if="current_user.isRedactor && isConfirmed !== 0">
-                    <h3>{{ translations['matches.cannot_edit_match'] }}</h3>
+                    <div class="col-sm-9 text-center text-sm-right pt-5 mt-sm-5">
+                        <h3>{{ translations['matches.cannot_edit_match'] }}</h3>
+                    </div>
                 </template>
 
                 <template v-else>
@@ -101,9 +103,11 @@
                 </template>
             </template>
             <template v-else>
-                <h3 v-if="current_user.id === match.challenge.asked.id">{{ translations['matches.cannot_add_sets'] }}</h3>
-                <h3 v-if="current_user.id === match.challenge.challenger.id">{{ translations['matches.are_not_available_sets'] }}</h3>
-                <h3 v-if="current_user.isRedactor">{{ translations['matches.are_not_available_sets'] }}</h3>
+                <div class="col-sm-9 text-center text-sm-right pt-5 mt-sm-5">
+                    <h3 v-if="current_user.id === match.challenge.asked.id">{{ translations['matches.cannot_add_sets'] }}</h3>
+                    <h3 v-if="current_user.id === match.challenge.challenger.id">{{ translations['matches.are_not_available_sets'] }}</h3>
+                    <h3 v-if="current_user.isRedactor">{{ translations['matches.are_not_available_sets'] }}</h3>
+                </div>
             </template>
         </div>
 

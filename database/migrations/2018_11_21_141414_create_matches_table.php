@@ -20,6 +20,7 @@ class CreateMatchesTable extends Migration
             $table->foreign('challenge_id')->references('id')->on('challenges');
             $table->foreign('date_id')->references('id')->on('dates');
             $table->boolean('confirmed')->nullable();
+            $table->string('type')->default('normal');
         });
     }
 

@@ -3,11 +3,15 @@
 namespace App\Jobs;
 
 use App\Challenge;
+use App\Date;
+use App\Match;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\DB;
 
 class CheckChallengeConfirmedJob implements ShouldQueue
 {
@@ -36,7 +40,16 @@ class CheckChallengeConfirmedJob implements ShouldQueue
             $match = $this->challenge->match;
 
             if ($match == null) {
-                //tu bude penalizacia
+                $date = Date::create([
+                    'challenge_id' => $this->challenge->id,
+                    'date' => Carbon::now()
+                ]);
+                Match::create([
+                    'challenge_id' => $this->challenge->id,
+                    'date_id' => $date->id,
+                    'confirmed' => true,
+                    'type' => 'contractedLoss'
+                ]);
             }
 
         });
