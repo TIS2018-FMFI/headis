@@ -68,12 +68,14 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function countOfChallengesAsChallenger()
     {
-        return $this->challengesAsChallenger()->whereMonth('created_date', Carbon::now())->count();
+        return $this->challengesAsChallenger()->whereMonth('created_date', Carbon::now())
+            ->whereYear('created_date', Carbon::now())->count();
     }
 
     public function countOfChallengesAsAsked()
     {
-        return $this->challengesAsAsked()->whereMonth('created_date', Carbon::now())->count();
+        return $this->challengesAsAsked()->whereMonth('created_date', Carbon::now())
+            ->whereYear('created_date', Carbon::now())->count();
     }
 
     public static function currentChallenge(User $user)
@@ -93,7 +95,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function matches()
     {
-        return Match::select('matches.*')->where('confirmed', true)->whereIn('matches.challenge_id', $this->challenges->pluck('id')->toArray())
+        return Match::select('matches.*')->where('confirmed', true)->where('type','normal')
+            ->whereIn('matches.challenge_id', $this->challenges->pluck('id')->toArray())
             ->join('dates', 'matches.date_id','=','dates.id')
             ->orderBy('date')
             ->get();
@@ -117,5 +120,12 @@ class User extends Authenticatable implements MustVerifyEmail
     public static function canActivate()
     {
         return User::onlyTrashed()->get();
+    }
+
+    public function matchWithNotPenalized()
+    {
+        return Match::select('matches.*')->where('confirmed', true)->where('type','notPenalized')
+            ->whereIn('matches.challenge_id', $this->challengesAsAsked->pluck('id')->toArray())
+            ->get();
     }
 }
