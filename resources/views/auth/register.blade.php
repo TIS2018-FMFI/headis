@@ -95,7 +95,7 @@
                                     <input class="form-check-input{{ $errors->has('terms') ? ' is-invalid' : '' }}" type="checkbox" name="terms" id="terms" {{ old('terms') ? 'checked' : '' }}>
 
                                     <label class="form-check-label" for="terms">
-                                        Suhlasim s podmienkami
+                                        <a href="/privacy_police">{{ __('Privacy policy') }}</a>
                                     </label>
 
                                     @if ($errors->has('terms'))

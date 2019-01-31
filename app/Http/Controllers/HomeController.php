@@ -20,4 +20,9 @@ class HomeController extends Controller
             'posts' => $posts
         ]);
     }
+
+    public function privacyPolicy()
+    {
+        return view('home.privacy');
+    }
 }
