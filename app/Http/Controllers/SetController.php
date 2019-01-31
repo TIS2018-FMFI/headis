@@ -22,7 +22,7 @@ class SetController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth', 'verified']);
+        $this->middleware(['auth', 'verified', 'activeSeason']);
     }
 
     /**
