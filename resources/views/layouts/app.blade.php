@@ -89,8 +89,23 @@
             @yield('content')
         </main>
         <footer class="footer">
-            <div class="container text-center">
-                <a href="https://www.facebook.com/HeadisSK/"><font-awesome-icon :icon="['fab', 'facebook-f']" size="lg"></font-awesome-icon></a>
+            <div class="container">
+                <div class="row mb-3">
+                    <div class="col-sm-4 col-12 mb-sm-0 mb-2 text-center">
+                        <a href="mailto:martin.dovicak@gmail.com"><font-awesome-icon icon="envelope" size="lg" class="mr-2"></font-awesome-icon>martin.dovicak@gmail.com</a>
+                    </div>
+                    <div class="col-sm-4 col-12 mb-sm-0 mb-2 text-center">
+                        <a href="https://www.facebook.com/HeadisSK/"><font-awesome-icon :icon="['fab', 'facebook-f']" size="lg"></font-awesome-icon></a>
+                    </div>
+                    <div class="col-sm-4 col-12 mb-sm-0 mb-2 text-center">
+                        <a href="http://ktvs.fmph.uniba.sk/article_forms.php?section=6&article_id=599&fbclid=IwAR0IBoY_zqTGf-J9bQN4xIi0QQxvm3MQWDV6fKaj8WXwY6NwSmm_Odet4vg">{{ __('Rules') }}</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-center">
+                        <span>Copyright © {{ Carbon\Carbon::today()->year }}</span>
+                    </div>
+                </div>
             </div>
         </footer>
     </div>
