@@ -16,20 +16,20 @@ class NotAvailableDate extends Model
 
     /**
      * @param Carbon|null $date
-     * @param bool|null $includeWeekend
+     * @param bool $includeWeekend
      * @return bool
      */
-    public static function isAvailableDate(Carbon $date = null, $includeWeekend = null)
+    public static function isAvailableDate(Carbon $date = null, $includeWeekend = false)
     {
         $isWeekend = true;
 
         if ($date == null) {
             $date = Carbon::today('Europe/Bratislava');
         }
-        if ($includeWeekend == null) {
-            $isWeekend = !Carbon::today('Europe/Bratislava')->isWeekend();
+        if ($includeWeekend) {
+            $isWeekend = !$date->isWeekend();
         }
-        return self::where('season_id', Season::current()->id)->whereDate('date', $date)->get() == null && $isWeekend;
+        return !self::whereDate('date', $date)->exists() && $isWeekend;
     }
 
     /**
@@ -42,7 +42,7 @@ class NotAvailableDate extends Model
         $resultDate = $start->copy();
 
         while ($days > 0) {
-            if (self::isAvailableDate($resultDate->addDay())) {
+            if (self::isAvailableDate($resultDate->addDay(), true)) {
                 $days--;
             }
         }
