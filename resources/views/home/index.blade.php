@@ -11,12 +11,14 @@
         </div>
         <div class="row">
             @foreach($posts as $post)
-                <div class="col-md-4 col-sm-6 col-12">
-                    <div class="card text-center mb-4">
-                        <img class="card-img-top" src="{{ url('images/'.$post->image)}}" alt="{{ $post->title }}">
+                <div class="col-md-4 col-sm-6 col-12 mb-4">
+                    <div class="card text-center  h-100">
+                        @if ($post->image)
+                            <img class="card-img-top" src="{{ url('images/'.$post->image)}}" alt="{{ $post->title }}">
+                        @endif
 
                         <div class="card-body">
-                            <h5 class="card-title"><a href="/posts/{{ $post->id }}">{{ $post->title }}</a></h5>
+                            <h5 class="card-title mb-0"><a href="/posts/{{ $post->id }}">{{ $post->title }}</a></h5>
                         </div>
                     </div>
                 </div>
