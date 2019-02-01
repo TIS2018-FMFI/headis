@@ -34,7 +34,7 @@ class Challenge extends Model
 
     public function dates()
     {
-        return $this->hasMany(Date::class);
+        return $this->hasMany(Date::class)->orderBy('date', 'ASC');
     }
 
     public function match()
