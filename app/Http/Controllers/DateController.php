@@ -7,7 +7,7 @@ use App\Date;
 use Illuminate\Http\Request;
 use Illuminate\Queue\RedisQueue;
 use App\Rules\CheckHours;
-use App\Rules\CheckAfterOrEqualToday;
+use App\Rules\ValidChallengeDate;
 
 class DateController extends Controller
 {
@@ -25,8 +25,8 @@ class DateController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'challenge' => 'required',
-            'date' => ['required','date','unique:dates,date,NULL,id,deleted_at,NULL', new CheckHours(), new CheckAfterOrEqualToday()]
+            'challenge' => 'required|exists:challenges,id',
+            'date' => ['required','date','unique:dates,date,NULL,id,deleted_at,NULL', new CheckHours(), new ValidChallengeDate($request['challenge'])]
         ]);
 
         Date::create([

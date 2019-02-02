@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Challenge;
+use App\Mail\CreatedChallenge;
 use App\Rules\CanChallenge;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use phpDocumentor\Reflection\DocBlock\Tags\Author;
+use App\NotAvailableDate;
 
 class ChallengeController extends Controller
 {
@@ -41,6 +44,7 @@ class ChallengeController extends Controller
             'user_id_2' => intval($request['user']),
             'created_date' => Carbon::now()->toDateString()
         ]);
+        Mail::send(new CreatedChallenge($challenge));
         return redirect('/challenges/'.$challenge->id);
     }
 
@@ -73,9 +77,22 @@ class ChallengeController extends Controller
         $translations['challenges.confirm'] = __('challenges.confirm');
         $translations['challenges.delete'] = __('challenges.delete');
 
+        $dates = [];
+        $start = Carbon::today();
+        $created_date = Carbon::parse($challenge->create_date);
+        $end = NotAvailableDate::addDaysTo($created_date, 10);
+        $dates['start'] = $start->toDateString();
+        $dates['end'] = $end->toDateString();
+        $notAvailableDates = NotAvailableDate::getNotAvailableDatesInRange($start, $end);
+        $dates['notAvailable'] = [];
+        foreach ($notAvailableDates as $date) {
+            $dates['notAvailable'][] = $date->date;
+        }
+
         return view('challenge.show', [
             'challenge' => $challenge->load(['challenger', 'asked', 'dates', 'comments']),
-            'translations' => $translations
+            'translations' => $translations,
+            'dates' => $dates
         ]);
     }
 }
