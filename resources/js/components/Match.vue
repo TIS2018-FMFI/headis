@@ -150,7 +150,8 @@
                 }),
                 now: new Date,
                 vueCanAddSets: false,
-                canAddSet: true
+                canAddSet: true,
+                canPress: true
             }
         },
         computed: {
@@ -194,13 +195,17 @@
         },
         methods: {
             confirmMatch(confirmed) {
-                axios.post('/matches/' + this.match.id + '/update', {
-                    data: {
-                        confirmed: confirmed
-                    }
-                }).then(response => {
-                    this.axiosConfirmed = true;
-                });
+                if (this.canPress){
+                    this.canPress = false;
+                    axios.post('/matches/' + this.match.id + '/update', {
+                        data: {
+                            confirmed: confirmed
+                        }
+                    }).then(response => {
+                        this.axiosConfirmed = true;
+                        this.canPress = true;
+                    });
+                }
             },
 
             addSet() {
