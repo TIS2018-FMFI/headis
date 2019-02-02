@@ -37,19 +37,24 @@
                                     <div class="col-md-auto mb-2 mt-1">
                                         <span>{{ date.date | moment("DD.MM.YYYY HH:mm") }}</span>
                                     </div>
-
-                                    <div class="row mx-auto">
+                                    <div class="row mx-auto" v-if="!date.rejected && isBeforeDate(date.date)">
                                         <div class="col-6 mx-auto" v-if="current_user.id === challenge.challenger.id">
-                                            <form action="/matches/store" method="post">
-                                                <input type="hidden" name="_token" :value="csrf">
-                                                <input type="hidden" name="date" :value="date.id">
-                                                <input type="hidden" name="challenge_id" :value="challenge.id">
-                                                <button class="btn btn-success">{{ translations['challenges.confirm'] }}</button>
-                                            </form>
+                                            <button @click.prevent="conformedDate(date)" class="btn btn-success">{{ translations['challenges.confirm'] }}</button>
                                         </div>
                                         <div class="col-6 mx-auto" v-if="current_user.id === challenge.challenger.id">
                                             <button @click.prevent="deleteDate(date.id)" class="btn btn-danger">{{ translations['challenges.delete'] }}</button>
                                         </div>
+                                    </div>
+                                    <div v-else class="row mx-auto">
+                                        <div class="col text-center">
+                                            <h5>Nie je možné vybrať</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" v-if="isErrorConfirmedDate && date.id === confirmedDateErrorDate.id">
+                                    <div class="col text-center">
+                                        <span class="is-invalid-input"></span>
+                                        <span class="invalid-feedback">{{ confirmedDateErrorMessage }}</span>
                                     </div>
                                 </div>
                             </li>
@@ -69,7 +74,21 @@
                         </div>
                         <form @submit.prevent="addDate()">
                             <div class="form-group">
-                                <vue-datetime-picker :class="{'is-invalid-input': formDate.errors.has('date')}" v-model="formDate.date" :label="translations['challenges.choose_a_date']" minute-interval="15" time-zone="Europe/Bratislava" :disabled-hours="['00', '01', '02', '03', '04', '05', '06', '07', '22', '23']" format="DD.MM.YYYY HH:mm" outputFormat="YYYY-MM-DD HH:mm:ss" locale="sk" noButtonNow></vue-datetime-picker>
+                                <vue-datetime-picker :class="{'is-invalid-input': formDate.errors.has('date')}"
+                                                     color="red"
+                                                     :minDate="dates['start']"
+                                                     :maxDate="dates['end']"
+                                                     no-weekends-days
+                                                     :disabled-dates="dates['notAvailable']"
+                                                     v-model="formDate.date"
+                                                     :label="translations['challenges.choose_a_date']"
+                                                     minute-interval="15" time-zone="Europe/Bratislava"
+                                                     :disabled-hours="['00', '01', '02', '03', '04', '05', '06', '07', '22', '23']"
+                                                     format="DD.MM.YYYY HH:mm"
+                                                     outputFormat="YYYY-MM-DD HH:mm:ss"
+                                                     locale="sk"
+                                                     noButtonNow>
+                                </vue-datetime-picker>
                                 <field-error :form="formDate" field="date"></field-error>
                             </div>
                             <button type="submit" class="btn btn-primary">{{ translations['challenges.add'] }}</button>
@@ -126,10 +145,11 @@
 
 <script>
     import Form from "../Form";
+    import moment from 'moment';
 
     export default {
         name: "Challenge",
-        props: ['challenge', 'current_user', 'translations'],
+        props: ['challenge', 'current_user', 'translations', 'dates'],
         data: () => {
             return {
                 axiosComments: null,
@@ -141,6 +161,9 @@
                     date: '',
                     challenge: '',
                 }),
+                now: new Date,
+                confirmedDateErrorMessage: null,
+                confirmedDateErrorDate: null
             }
         },
         computed: {
@@ -158,6 +181,9 @@
             },
             sortedItems() {
                 return this.allComments.sort((a, b) => new Date(a.date) - new Date(b.date))
+            },
+            isErrorConfirmedDate() {
+                return this.confirmedDateErrorMessage && this.confirmedDateErrorDate;
             }
         },
         methods: {
@@ -188,11 +214,21 @@
                     });
                 }
             },
-            deleteDate(id) {
-                axios.post('/dates/' + id + '/destroy', {
+            conformedDate(date) {
+                axios.post('/matches/store', {
+                    challenge_id: this.challenge.id,
+                    date: date.date
                 }).then(response => {
+                    window.location = response['data']['url'];
+                }).catch(error => {
+                    this.confirmedDateErrorDate = date;
+                    this.confirmedDateErrorMessage = error.response.data.errors.date[0];
+                    console.log(error.response.data);
+                });
+            },
+            deleteDate(id) {
+                axios.post('/dates/' + id + '/destroy').then(response => {
                     this.axiosDates = response['data']['dates'];
-                    console.log(response);
                 })
             },
             scrollToEnd: function() {
@@ -201,13 +237,19 @@
             },
             trigger () {
                 this.$refs.sendReply.click()
+            },
+            isBeforeDate(date) {
+                return moment(this.now).isBefore(date);
             }
         },
         mounted() {
             this.scrollToEnd();
+        },
+        created() {
+            setInterval(() => {
+                this.now = new Date;
+            }, 1000 * 10)
         }
     }
-
-
 
 </script>

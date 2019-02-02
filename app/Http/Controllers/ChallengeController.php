@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use phpDocumentor\Reflection\DocBlock\Tags\Author;
+use App\NotAvailableDate;
 
 class ChallengeController extends Controller
 {
@@ -76,9 +77,22 @@ class ChallengeController extends Controller
         $translations['challenges.confirm'] = __('challenges.confirm');
         $translations['challenges.delete'] = __('challenges.delete');
 
+        $dates = [];
+        $start = Carbon::today();
+        $created_date = Carbon::parse($challenge->create_date);
+        $end = NotAvailableDate::addDaysTo($created_date, 10);
+        $dates['start'] = $start->toDateString();
+        $dates['end'] = $end->toDateString();
+        $notAvailableDates = NotAvailableDate::getNotAvailableDatesInRange($start, $end);
+        $dates['notAvailable'] = [];
+        foreach ($notAvailableDates as $date) {
+            $dates['notAvailable'][] = $date->date;
+        }
+
         return view('challenge.show', [
             'challenge' => $challenge->load(['challenger', 'asked', 'dates', 'comments']),
-            'translations' => $translations
+            'translations' => $translations,
+            'dates' => $dates
         ]);
     }
 }

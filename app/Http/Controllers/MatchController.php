@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Date;
 use App\Jobs\CheckMatchConfirmedJob;
 use App\Jobs\CheckSetsJob;
 use App\Match;
+use App\Rules\ValidChallengeDate;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -72,12 +74,14 @@ class MatchController extends Controller
     {
         $this->validate($request, [
             'challenge_id' => 'required|exists:challenges,id',
-            'date' => 'required|exists:dates,id'
+            'date' => ['required','exists:dates,date', new ValidChallengeDate($request['challenge_id'])]
         ]);
+
+        $date = Date::where('date', $request['date'])->first();
 
         $match = Match::create([
             'challenge_id' => $request['challenge_id'],
-            'date_id' => $request['date']
+            'date_id' => $date->id
         ]);
 
         /*$job = (new CheckSetsJob($match->id))->delay(60);
@@ -86,7 +90,10 @@ class MatchController extends Controller
         $job2 = (new CheckMatchConfirmedJob($match->id))->delay(60);
         $this->dispatch($job2);*/
 
-        return redirect('/matches/'.$match->id);
+        return response()->json([
+            'status' => 'success',
+            'url' => '/matches/'.$match->id
+        ]);
     }
 
     /**
