@@ -191,7 +191,6 @@
                 });
                 this.formRedactor.match_id = this.$props.match.id;
             }
-            console.log(moment(this.now).isSameOrAfter(this.match.date.date));
         },
         methods: {
             confirmMatch(confirmed) {
@@ -290,7 +289,7 @@
             setInterval(() => {
                 this.now = new Date;
                 this.vueCanAddSets = moment(this.now).isSameOrAfter(this.match.date.date);
-            }, 1000 * 30)
+            }, 1000 * 10)
         }
     }
 </script>
