@@ -48,6 +48,48 @@ class PostController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function store(Request $request)
+    {
+
+        dd($request);
+        $this->validate($request, [
+            'title' => 'required|string|max:255',
+            'intro_text' => 'nullable|string',
+            'hidden' => 'in:true,false',
+            'text' => 'required|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png',
+        ]);
+
+        $fileName = null;
+        if (isset($request['image']) && $request['image'] != null) {
+            $file = $request['image'];
+            $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
+            $file->move(public_path('/images'), $fileName);
+        }
+
+        $post = Post::create([
+            'title' => $request['title'],
+            'intro_text' => isset($request['intro_text']) ? $request['intro_text'] : null,
+            'hidden' => $request['hidden'] == "true" ? 1 : 0,
+            'text' => htmlentities($request['text']),
+            'image' => $fileName,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        return response()->json([
+            'status' => 'ok',
+            'message' => 'good'
+        ]);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -61,7 +103,8 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'text' => 'required|string',
             'intro_text' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png'
+            'image' => 'nullable|image|mimes:jpg,jpeg,png',
+            'hidden' => 'in:true,false',
         ]);
 
         $fileName = null;
@@ -81,6 +124,7 @@ class PostController extends Controller
             }
             $post->text = htmlentities($request['text']);
             $post->intro_text = $request['intro_text'];
+            $post->hidden = $request['hidden'] == "true" ? 1 : 0;
             $post->save();
         });
 
@@ -89,44 +133,6 @@ class PostController extends Controller
             'url' => '/posts/'.$post->id
         ]);
 
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function store(Request $request)
-    {
-        $this->validate($request, [
-            'title' => 'required|string|max:255',
-            'text' => 'required|string',
-            'intro_text' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png'
-        ]);
-
-        $fileName = null;
-        if (isset($request['image'])) {
-            $file = $request['image'];
-            $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
-            $file->move(public_path('/images'), $fileName);
-        }
-
-        Post::create([
-            'title' => $request['title'],
-            'intro_text' => isset($request['intro_text']) ? $request['intro_text'] : '',
-            'text' => htmlentities($request['text']),
-            'image' => $fileName,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-
-        return response()->json([
-            'status' => 'ok',
-            'message' => 'good'
-        ]);
     }
 
     /**
@@ -144,6 +150,7 @@ class PostController extends Controller
         $translations['posts.image'] = __('posts.image');
         $translations['posts.edit'] = __('posts.edit');
         $translations['posts.editBtn'] = __('posts.editBtn');
+        $translations['posts.hidden'] = __('posts.hidden');
 
         return view('post.edit', [
             'post' => $post,
@@ -151,5 +158,4 @@ class PostController extends Controller
             'rte' => html_entity_decode($post->text)
         ]);
     }
-
 }

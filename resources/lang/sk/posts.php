@@ -17,6 +17,7 @@ return [
     'edit' => 'Upraviť novinku',
     'add' => 'Pridať novinku',
     'addBtn' => 'Pridať',
-    'editBtn' => 'Upraviť'
+    'editBtn' => 'Upraviť',
+    'hidden' => 'Skryť'
 
 ];

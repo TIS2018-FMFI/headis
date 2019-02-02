@@ -33,6 +33,7 @@ class ManagerController extends Controller
         $translations['posts.image'] = __('posts.image');
         $translations['posts.text'] = __('posts.text');
         $translations['posts.addBtn'] = __('posts.addBtn');
+        $translations['posts.hidden'] = __('posts.hidden');
         $translations['users.deactivate'] = __('users.deactivate');
         $translations['users.deactivateBtn'] = __('users.deactivateBtn');
         $translations['users.reactivate'] = __('users.reactivate');
