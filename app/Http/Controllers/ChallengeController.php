@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Challenge;
+use App\Mail\CreatedChallenge;
 use App\Rules\CanChallenge;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use phpDocumentor\Reflection\DocBlock\Tags\Author;
 
 class ChallengeController extends Controller
@@ -41,6 +43,7 @@ class ChallengeController extends Controller
             'user_id_2' => intval($request['user']),
             'created_date' => Carbon::now()->toDateString()
         ]);
+        Mail::send(new CreatedChallenge($challenge));
         return redirect('/challenges/'.$challenge->id);
     }
 
