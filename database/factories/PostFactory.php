@@ -20,7 +20,7 @@ $factory->define(App\Post::class, function (Faker $faker) {
         'title' => $faker->sentence,
         'text' => $faker->paragraphs(3, true),
         'intro_text' => $faker->paragraph,
-        'image' => '//via.placeholder.com/350x150',
+        'image' => null,
         'user_id' => $redactor->id,
         'created_at' => \Carbon\Carbon::now(),
         'updated_at' => \Carbon\Carbon::now()

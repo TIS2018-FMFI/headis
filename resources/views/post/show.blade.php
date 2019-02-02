@@ -6,7 +6,7 @@
             <div class="col">
                 <div class="row">
                     <div class="col"><h1>{{ $post->title }}</h1></div>
-                    @if ($currentAuthUser->isRedactor)
+                    @if ($currentAuthUser && $currentAuthUser->isRedactor)
                         <div class="col text-right" ><a href="/posts/{{ $post->id }}/edit" class="btn btn-primary">{{ __('posts.editBtn') }}</a></div>
                     @endif
                 </div>
@@ -22,11 +22,13 @@
         </div>
         <div class="row">
             <div class="col-md-8 col-12">
-                <div class="row mb-5">
-                    <div class="col">
-                        <img src="{{ url('images/'.$post->image)}}" alt="{{ $post->title }}" class="img-fluid w-100">
+                @if ($post->image)
+                    <div class="row mb-5">
+                        <div class="col">
+                            <img src="{{ url('images/'.$post->image)}}" alt="{{ $post->title }}" class="img-fluid w-100">
+                        </div>
                     </div>
-                </div>
+                @endif
                 <div class="row">
                     <div class="col">
                         <div>

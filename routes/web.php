@@ -52,3 +52,5 @@ Route::post('/posts/{post}/update', 'PostController@update');
 
 Route::get('/manager', 'ManagerController@index')->name('manager');
 Route::post('/manager/store', 'ManagerController@store');
+
+Route::get('/privacy_policy', 'HomeController@privacyPolicy');
