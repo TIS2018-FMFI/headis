@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Challenge;
+use App\Mail\ActivateUser;
 use App\Match;
 use App\NotAvailableDate;
 use App\Point;
@@ -13,6 +14,7 @@ use foo\bar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use phpDocumentor\Reflection\Types\Integer;
 use function PHPSTORM_META\type;
 
@@ -179,6 +181,8 @@ class UserController extends Controller
             }
 
             if(!$user || $pointCount != count($points)) throw new \Exception('Something wrong');
+
+            Mail::send(new ActivateUser($user));
 
             return $user;
         });
