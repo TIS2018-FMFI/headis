@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Date;
 use App\Jobs\CheckMatchConfirmedJob;
 use App\Jobs\CheckSetsJob;
+use App\Mail\RejectedMatch;
 use App\Match;
 use App\Rules\ValidChallengeDate;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class MatchController extends Controller
 {
@@ -130,7 +132,7 @@ class MatchController extends Controller
         }
 
         if (!$match->confirmed){
-            //Posli e-mail redaktorovi
+            Mail::send(new RejectedMatch($match));
         }
         return response()->json([
            'status' => $match->confirmed ? 'success' : 'danger',
