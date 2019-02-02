@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Challenge;
 use App\Mail\ActivateUser;
+use App\Mail\DeactivateUser;
 use App\Match;
 use App\NotAvailableDate;
 use App\Point;
@@ -147,8 +148,12 @@ class UserController extends Controller
                 $user1->position--;
                 $user1->save();
             }
+
             return $success;
         });
+        if ($success){
+            Mail::send(new DeactivateUser($user));
+        }
         return response()->json([
             'status' => $success ? 'success' : 'danger',
             'canDeactivateUsers' => User::canDeactivate(),
@@ -182,10 +187,11 @@ class UserController extends Controller
 
             if(!$user || $pointCount != count($points)) throw new \Exception('Something wrong');
 
-            Mail::send(new ActivateUser($user));
-
             return $user;
         });
+        if ($user->deleted_at){
+            Mail::send(new ActivateUser($user));
+        }
         return response()->json([
             'status' => $user->deleted_at ? 'danger' : 'success',
             'canReactivateUsers' => User::canActivate(),
