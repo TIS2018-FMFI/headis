@@ -14,6 +14,7 @@ return [
     'DeactivateUserSubject' => 'Znovuaktivácia hráča.',
     'ChallengeCreateSubject' => 'Výzva',
     'MatchRejectSubject'=>'Odmietnutie zápasu',
+    'MatchDateConfirmedSubject' => 'Potvrdený termín zápasu',
 
     //GREETINGS
     'Hello' => 'Dobrý deň, :username,',
@@ -24,6 +25,7 @@ return [
     'ChallengeCreateText' => 'Hráč :challenger Vás vyzval. Do troch pracovných dní sa prosím Vás vyjadrite.',
     'MatchRejectText' => ':challenger odmietol výsledok zápasu. Prosím Vás pridajte konečný výsledok.',
     'MatchRejectAskedText' => ':challenger odmietol výsledok zápasu.',
+    'MatchDateConfirmedText' => ':challenger potvrdil termín zápasu. Zápas sa uskotoční dňa: :date.',
 
     //OUTERLINES
     'ChallengeCreateOutText' => 'Ak sa do troch pracovných dní nedohodnete a nepridáte 5 termínov, tak kontumačne prehráte.',
@@ -32,6 +34,7 @@ return [
     'MyAccount' => 'Môj profil.',
     'CurrentChallenge' => 'Aktuálna výzva',
     'EditMatch' => 'Upravovanie zápasu',
+    'CurrentMatch' => 'Aktuálny zápas',
 
     //SALUTATION
     'Goodbye' => 'Prajem pekný deň.'

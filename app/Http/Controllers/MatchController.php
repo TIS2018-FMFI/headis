@@ -7,6 +7,7 @@ use App\Jobs\CheckMatchConfirmedJob;
 use App\Jobs\CheckSetsJob;
 use App\Mail\MatchRejectedAsked;
 use App\Mail\RejectedMatch;
+use App\Mail\MatchDateConfirmed;
 use App\Match;
 use App\Rules\ValidChallengeDate;
 use App\User;
@@ -92,6 +93,8 @@ class MatchController extends Controller
 
         $job2 = (new CheckMatchConfirmedJob($match->id))->delay(60);
         $this->dispatch($job2);*/
+
+        Mail::send(new MatchDateConfirmed($match));
 
         return response()->json([
             'status' => 'success',
