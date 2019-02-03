@@ -23,7 +23,7 @@ class Post extends Model
 
     public static function allAvailable()
     {
-        if (auth()->user()->isRedactor) {
+        if (auth()->user() && auth()->user()->isRedactor) {
             return static::orderByDesc('created_at')->paginate(9);
         }
         return static::where('hidden', false)->orderByDesc('created_at')->paginate(9);
