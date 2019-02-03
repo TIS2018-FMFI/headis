@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row mb-4 text-center flex-sm-nowrap">
-            <h5 class="d-sm-none d-block">0. level</h5>
+        <div class="text-center d-sm-none d-block"><h5>0. level</h5></div>
+        <div class="row mb-4 text-center flex-sm-nowrap mx-0">
             @for ($i = $maxLevel; $i > 0; $i--)
                 <div class="scrolling-wrapper-flexbox-empty mr-4 col d-none d-sm-block">&nbsp</div>
             @endfor
@@ -11,14 +11,14 @@
             @foreach ($users as $user)
 
                 @if($user->id == $currentAuthUser->id)
-                    <div class="scrolling-wrapper-flexbox-item col mr-4 border bg-secondary"><a class="text-success" href="/users/{{$user->id}}"><span class="d-sm-block">{{$user->position}}.</span>{{$user->user_name}}</a></div>
+                    <div class="scrolling-wrapper-flexbox-item scrolling-wrapper-flexbox-item-current col mr-4 border pt-4" ><a class="text-white" href="/users/{{$user->id}}"><span class="d-sm-block">{{$user->position}}.</span>{{$user->user_name}}</a></div>
                 @else
-                    <div class="scrolling-wrapper-flexbox-item col mr-4 border bg-secondary"><a class="text-white" href="/users/{{$user->id}}"><span class="d-sm-block">{{$user->position}}.</span> {{$user->user_name}}</a></div>
+                    <div class="scrolling-wrapper-flexbox-item col mr-4 border pt-4"><a class="text-white" href="/users/{{$user->id}}"><span class="d-sm-block">{{$user->position}}.</span> {{$user->user_name}}</a></div>
                 @endif
                 @if(floor(sqrt($user->position)) == ceil(sqrt($user->position)))
                     </div>
-                    <div class="row mb-4 text-center flex-sm-nowrap">
-                        <h5 class="d-sm-none d-block">{{floor(sqrt($user->position))}}. level</h5>
+                    <div class="text-center d-sm-none d-block"><h5>{{floor(sqrt($user->position))}}. level</h5></div>
+                    <div class="row mb-4 text-center flex-sm-nowrap mx-0">
                         @for ($i = $maxLevel; $i > 0; $i--)
                             <div class="scrolling-wrapper-flexbox-empty mr-4 col d-none d-sm-block">&nbsp</div>
                         @endfor

@@ -27,7 +27,7 @@ class PyramidController extends Controller
      */
     public function index()
     {
-        $maxLevel = floor(sqrt(Point::max('point')-1));
+        $maxLevel = floor(sqrt(User::max('position')-1));
 //        dd($maxLevel);
 
         $season = Season::current();
