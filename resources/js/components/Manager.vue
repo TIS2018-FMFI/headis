@@ -34,6 +34,18 @@
                                             <ckeditor :editor="editor" v-model="formPost.text" :config="editorConfig"></ckeditor>
                                         </div>
                                     </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-7 offset-md-2 offset-sm-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="hidden" id="hidden" v-model="formPost.hidden">
+
+                                                <label class="form-check-label" for="hidden">
+                                                    {{ translations['posts.hidden'] }}
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                    </div>
 
                                     <button class="btn btn-primary">{{ translations['posts.addBtn'] }}</button>
                                 </form>
@@ -134,6 +146,7 @@
                     text: '',
                     intro_text: '',
                     image: '',
+                    hidden: false
                 }),
                 axiosCanDeactivateUsers: '',
                 searchCanDeactivateUsers: '',

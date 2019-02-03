@@ -128,4 +128,9 @@ class User extends Authenticatable implements MustVerifyEmail
             ->whereIn('matches.challenge_id', $this->challengesAsAsked->pluck('id')->toArray())
             ->get();
     }
+
+    public static function redactor()
+    {
+        return self::where('isRedactor', true)->first();
+    }
 }

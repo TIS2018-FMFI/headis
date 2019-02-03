@@ -150,7 +150,8 @@
                 }),
                 now: new Date,
                 vueCanAddSets: false,
-                canAddSet: true
+                canAddSet: true,
+                canPress: true
             }
         },
         computed: {
@@ -190,17 +191,20 @@
                 });
                 this.formRedactor.match_id = this.$props.match.id;
             }
-            console.log(moment(this.now).isSameOrAfter(this.match.date.date));
         },
         methods: {
             confirmMatch(confirmed) {
-                axios.post('/matches/' + this.match.id + '/update', {
-                    data: {
-                        confirmed: confirmed
-                    }
-                }).then(response => {
-                    this.axiosConfirmed = true;
-                });
+                if (this.canPress){
+                    this.canPress = false;
+                    axios.post('/matches/' + this.match.id + '/update', {
+                        data: {
+                            confirmed: confirmed
+                        }
+                    }).then(response => {
+                        this.axiosConfirmed = true;
+                        this.canPress = true;
+                    });
+                }
             },
 
             addSet() {
@@ -285,7 +289,7 @@
             setInterval(() => {
                 this.now = new Date;
                 this.vueCanAddSets = moment(this.now).isSameOrAfter(this.match.date.date);
-            }, 1000 * 30)
+            }, 1000 * 10)
         }
     }
 </script>

@@ -22,7 +22,7 @@
                                             <textarea v-model="formPost.intro_text" class="form-control" rows="3" id="intro_text"></textarea>
                                         </div>
                                     </div>
-                                    <div class="form-group row">
+                                    <div class="form-group row" v-if="post.image">
                                         <div class="col-md-7 offset-md-3">
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -40,9 +40,21 @@
                                     <div class="form-group row">
                                         <label class="col-md-3 col-sm-4 col-form-label text-md-right">{{ translations['posts.text'] }}</label>
                                         <div class="col-md-7">
-                                            <ckeditor :editor="editor" v-model="formPost.text" :config="editorConfig"></ckeditor>
+                                            <ckeditor :editor="editor" v-model="formPost.text" :config="editorConfig" v-if="editorReady"></ckeditor>
                                         </div>
                                     </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-7 offset-md-3 offset-sm-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="hidden" id="hidden" v-model="formPost.hidden">
+
+                                                <label class="form-check-label" for="hidden">
+                                                    {{ translations['posts.hidden'] }}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="text-center">
                                         <button class="btn btn-primary" type="submit">{{ translations['posts.editBtn'] }}</button>
                                     </div>
@@ -74,15 +86,16 @@
         data: () => {
             return {
                 editor: ClassicEditor,
-                editorData: '',
                 editorConfig: {
                     // The configuration of the editor.
                 },
+                editorReady: false,
                 formPost: new Form({
                     title: '',
                     text: '',
                     intro_text: '',
                     image: '',
+                    hidden: false
                 })
             }
         },
@@ -104,6 +117,8 @@
                 this.formPost.intro_text = this.$props.post.intro_text;
                 this.formPost.image = '';
                 this.formPost.text = this.$props.rte;
+                this.formPost.hidden = this.$props.post.hidden;
+                this.editorReady = true;
             });
         }
     }

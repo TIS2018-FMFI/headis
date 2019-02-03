@@ -10,7 +10,7 @@
         <div class="row mb-5">
             @foreach($posts as $post)
                 <div class="col-md-4 col-sm-6 col-12 mb-4">
-                    <div class="card text-center h-100">
+                    <div class="card text-center h-100 {{ $post->hidden ? ' hidden-post' : '' }}">
                         @if ($post->image)
                             <img class="card-img-top" src="{{ url('images/'.$post->image)}}" alt="{{ $post->title }}">
                         @endif

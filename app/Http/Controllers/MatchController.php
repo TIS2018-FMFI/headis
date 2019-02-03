@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Date;
 use App\Jobs\CheckMatchConfirmedJob;
 use App\Jobs\CheckSetsJob;
+use App\Mail\MatchRejectedAsked;
+use App\Mail\RejectedMatch;
 use App\Match;
+use App\Rules\ValidChallengeDate;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class MatchController extends Controller
 {
@@ -72,12 +77,14 @@ class MatchController extends Controller
     {
         $this->validate($request, [
             'challenge_id' => 'required|exists:challenges,id',
-            'date' => 'required|exists:dates,id'
+            'date' => ['required','exists:dates,date', new ValidChallengeDate($request['challenge_id'])]
         ]);
+
+        $date = Date::where('date', $request['date'])->first();
 
         $match = Match::create([
             'challenge_id' => $request['challenge_id'],
-            'date_id' => $request['date']
+            'date_id' => $date->id
         ]);
 
         /*$job = (new CheckSetsJob($match->id))->delay(60);
@@ -86,7 +93,10 @@ class MatchController extends Controller
         $job2 = (new CheckMatchConfirmedJob($match->id))->delay(60);
         $this->dispatch($job2);*/
 
-        return redirect('/matches/'.$match->id);
+        return response()->json([
+            'status' => 'success',
+            'url' => '/matches/'.$match->id
+        ]);
     }
 
     /**
@@ -123,7 +133,8 @@ class MatchController extends Controller
         }
 
         if (!$match->confirmed){
-            //Posli e-mail redaktorovi
+            Mail::send(new RejectedMatch($match));
+            Mail::send(new MatchRejectedAsked($match));
         }
         return response()->json([
            'status' => $match->confirmed ? 'success' : 'danger',
