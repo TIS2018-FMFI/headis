@@ -6,12 +6,15 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Carbon;
 
 class MatchDateConfirmed extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $match;
+    public $date;
+    public $time;
 
     /**
      * Create a new message instance.
@@ -21,6 +24,9 @@ class MatchDateConfirmed extends Mailable
     public function __construct($match)
     {
         $this->match = $match;
+        $input  = $this->match->date->date;
+        $this->date = Carbon::parse($input)->format('d.m.Y');
+        $this->time = Carbon::parse($input)->format('H:i');
     }
 
     /**
@@ -40,7 +46,8 @@ class MatchDateConfirmed extends Mailable
                 "introLines" => [
                     trans('mails.MatchDateConfirmedText', [
                         'challenger' => $this->match->challenge->challenger->user_name,
-                        'date' => $this->match->date->date
+                        'date' => $this->date,
+                        'time' => $this->time,
                     ]),
                 ],
                 "actionText" => trans('mails.CurrentMatch'),

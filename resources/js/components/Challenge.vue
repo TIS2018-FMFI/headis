@@ -163,7 +163,8 @@
                 }),
                 now: new Date,
                 confirmedDateErrorMessage: null,
-                confirmedDateErrorDate: null
+                confirmedDateErrorDate: null,
+                canPress: true
             }
         },
         computed: {
@@ -215,16 +216,20 @@
                 }
             },
             conformedDate(date) {
-                axios.post('/matches/store', {
-                    challenge_id: this.challenge.id,
-                    date: date.date
-                }).then(response => {
-                    window.location = response['data']['url'];
-                }).catch(error => {
-                    this.confirmedDateErrorDate = date;
-                    this.confirmedDateErrorMessage = error.response.data.errors.date[0];
-                    console.log(error.response.data);
-                });
+                if (this.canPress) {
+                    this.canPress = false;
+
+                    axios.post('/matches/store', {
+                        challenge_id: this.challenge.id,
+                        date: date.date
+                    }).then(response => {
+                        window.location = response['data']['url'];
+                    }).catch(error => {
+                        this.confirmedDateErrorDate = date;
+                        this.confirmedDateErrorMessage = error.response.data.errors.date[0];
+                        console.log(error.response.data);
+                    });
+                }
             },
             deleteDate(id) {
                 axios.post('/dates/' + id + '/destroy').then(response => {
