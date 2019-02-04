@@ -11,13 +11,18 @@ class Season extends Model
 
     protected $guarded = [];
 
-    public function availableDates()
+    public function notAvailableDates()
     {
-        return $this->hasMany(AvailableDate::class);
+        return $this->hasMany(NotAvailableDate::class);
     }
 
     public static function current()
     {
         return static::query()->where('date_from', '<=', Carbon::now())->where('date_to', '>=', Carbon::now())->first();
+    }
+
+    public static function available()
+    {
+        return static::query()->whereDate('date_to', '>=', Carbon::now())->get();
     }
 }
