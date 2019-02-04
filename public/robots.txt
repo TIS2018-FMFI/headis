@@ -1,2 +1,5 @@
 User-agent: *
-Disallow:
+Disallow: /images/
+
+User-agent: *
+Disallow: /system_images/
