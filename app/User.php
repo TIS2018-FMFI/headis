@@ -108,18 +108,26 @@ class User extends Authenticatable implements MustVerifyEmail
         return User::where('isRedactor', false)->orderBy('position')->get();
     }
 
-    public static function canDeactivate()
+    public static function canDeactivate($columns = null)
     {
+        if ($columns == null) {
+            $columns = ['*'];
+        }
+
         if (Season::current() == null) {
-            return User::where('isRedactor',false)->get();
+            return User::where('isRedactor',false)->get($columns);
         }
         $max = User::max('position');
-        return User::where('position', '>', pow(floor(sqrt($max-1)), 2))->get();
+        return User::where('position', '>', pow(floor(sqrt($max-1)), 2))->get($columns);
     }
 
-    public static function canActivate()
+    public static function canActivate($columns = null)
     {
-        return User::onlyTrashed()->get();
+        if ($columns == null) {
+            $columns = ['*'];
+        }
+
+        return User::onlyTrashed()->get($columns);
     }
 
     public function matchWithNotPenalized()
