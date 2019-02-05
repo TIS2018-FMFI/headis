@@ -17,7 +17,7 @@
         </div>
 
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-md-3">
                 <div class="card text-center mb-4">
                     <div class="card-header">
                         {{ translations['matches.match'] }}
@@ -62,7 +62,7 @@
                 </template>
 
                 <template v-else-if="current_user.isRedactor && isConfirmed !== 0">
-                    <div class="col-sm-9 text-center text-sm-right pt-5 mt-sm-5">
+                    <div class="col-md-9 text-center text-md-right pt-5 mt-md-5">
                         <h3>{{ translations['matches.cannot_edit_match'] }}</h3>
                     </div>
                 </template>
@@ -103,7 +103,7 @@
                 </template>
             </template>
             <template v-else>
-                <div class="col-sm-9 text-center text-sm-right pt-5 mt-sm-5">
+                <div class="col-md-9 text-center text-md-right pt-5 mt-md-5">
                     <h3 v-if="current_user.id === match.challenge.asked.id">{{ translations['matches.cannot_add_sets'] }}</h3>
                     <h3 v-if="current_user.id === match.challenge.challenger.id">{{ translations['matches.are_not_available_sets'] }}</h3>
                     <h3 v-if="current_user.isRedactor">{{ translations['matches.are_not_available_sets'] }}</h3>

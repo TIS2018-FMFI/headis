@@ -10790,6 +10790,11 @@ body {
   }
 }
 
+.scrolling-wrapper-flexbox-item-current {
+  background-image: -webkit-gradient(linear, left top, right bottom, from(green), to(orange));
+  background-image: linear-gradient(to bottom right, green, orange);
+}
+
 .hidden-post {
   opacity: .4;
 }
