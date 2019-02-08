@@ -9,6 +9,8 @@ class NotAvailableDate extends Model
 {
     public $timestamps = false;
 
+    protected $guarded = [];
+
     public function season()
     {
         return $this->belongsTo(Season::class);
@@ -50,9 +52,23 @@ class NotAvailableDate extends Model
         return $resultDate;
     }
 
+    /**
+     * @param Carbon $start
+     * @param Carbon $end
+     * @return mixed
+     */
     public static function getNotAvailableDatesInRange(Carbon $start, Carbon $end)
     {
-        return self::where('season_id', Season::current()->id)->whereDate('date', '>=', $start)->whereDate('date', '<=', $end)->get();
+        return self::where('season_id', Season::current()->id)->whereDate('date', '>=', $start)->whereDate('date', '>=', Carbon::today('Europe/Bratislava'))->whereDate('date', '<=', $end)->get();
+    }
+
+    /**
+     * @param Carbon $start
+     * @return mixed
+     */
+    public static function getNotAvailableDatesFrom(Carbon $start)
+    {
+        return self::where('season_id', Season::current()->id)->whereDate('date', '>=', $start)->get();
     }
 
 

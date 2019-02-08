@@ -51,6 +51,11 @@ Route::get('/posts/{post}/edit', 'PostController@edit');
 Route::post('/posts/{post}/update', 'PostController@update');
 
 Route::get('/manager', 'ManagerController@index')->name('manager');
-Route::post('/manager/store', 'ManagerController@store');
 
 Route::get('/privacy_policy', 'HomeController@privacyPolicy');
+
+Route::post('/seasons/store', 'SeasonController@store');
+Route::post('/seasons/{season}/destroy', 'SeasonController@destroy');
+
+Route::post('/not_available_dates/store', 'NotAvailableDateController@store');
+Route::post('/not_available_dates/{notAvailableDate}/destroy', 'NotAvailableDateController@destroy');

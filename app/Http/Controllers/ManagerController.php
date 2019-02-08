@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Date;
+use App\NotAvailableDate;
+use App\Season;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ManagerController extends Controller
@@ -39,24 +43,49 @@ class ManagerController extends Controller
         $translations['users.reactivate'] = __('users.reactivate');
         $translations['users.reactivateBtn'] = __('users.reactivateBtn');
         $translations['users.noFoundUsers'] = __('users.noFoundUsers');
+        $translations['season.add'] = __('season.add');
+        $translations['season.choose_start'] = __('season.choose_start');
+        $translations['season.choose_end'] = __('season.choose_end');
+        $translations['season.can_not_change'] = __('season.can_not_change');
+        $translations['season.delete'] = __('season.delete');
+        $translations['season.deleteBtn'] = __('season.deleteBtn');
+        $translations['season.can_not_delete'] = __('season.can_not_delete');
+        $translations['not_available_dates.add'] = __('not_available_dates.add');
+        $translations['not_available_dates.addBtn'] = __('not_available_dates.addBtn');
+        $translations['not_available_dates.delete'] = __('not_available_dates.delete');
+        $translations['not_available_dates.deleteBtn'] = __('not_available_dates.deleteBtn');
+        $translations['not_available_dates.choose_date'] = __('not_available_dates.choose_date');
+        $translations['not_available_dates.noFoundDates'] = __('not_available_dates.noFoundDates');
+
+        $season = [];
+
+        $currentSeason = Season::current();
+        $season['current'] = $currentSeason;
+        $season['available'] = Season::available();
+
+        $notAvailableDates = [];
+
+
+        if ($currentSeason) {
+            $start = Carbon::parse($currentSeason->date_from);
+            $end = Carbon::parse($currentSeason->date_to);
+
+            $notAvailableDates['dates'] = NotAvailableDate::getNotAvailableDatesInRange($start, $end);
+
+            $dates = Date::getDatesInRange($start, $end);
+
+            foreach ($dates as $date) {
+                $notAvailableDates['picker'][] = Carbon::parse($date->date)->toDateString();
+            }
+        }
+
 
         return view('manager.index', [
             'translations' => $translations,
-            'canDeactivateUsers' => User::canDeactivate(),
-            'canReactivateUsers' => User::canActivate()
+            'canDeactivateUsers' => User::canDeactivate(['id', 'user_name']),
+            'canReactivateUsers' => User::canActivate(['id', 'user_name']),
+            'season' => $season,
+            'notAvailableDates' => $notAvailableDates
         ]);
     }
-
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
 }
