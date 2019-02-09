@@ -47,6 +47,6 @@ class ValidChallengeDate implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return __('challenges.invalid_date');
     }
 }
