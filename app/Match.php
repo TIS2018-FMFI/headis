@@ -61,4 +61,9 @@ class Match extends Model
     {
         return auth()->user()->isRedactor || auth()->user()->id == $this->challenge->asked->id || auth()->user()->id == $this->challenge->challenger->id;
     }
+
+    public static function allDeclinedMatches()
+    {
+        return Match::where('confirmed', false)->get();
+    }
 }

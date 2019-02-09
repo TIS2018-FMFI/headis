@@ -5,7 +5,7 @@
         <div class="text-center d-sm-none d-block"><h5>0. level</h5></div>
         <div class="row mb-4 text-center flex-sm-nowrap mx-0">
             @for ($i = $maxLevel; $i > 0; $i--)
-                <div class="scrolling-wrapper-flexbox-empty mr-4 col d-none d-sm-block">&nbsp</div>
+                <div class="scrolling-wrapper-flexbox-empty mr-4 col d-none d-sm-block">&nbsp;</div>
             @endfor
             @php ($maxLevel--)
             @foreach ($users as $user)
@@ -20,7 +20,7 @@
                     <div class="text-center d-sm-none d-block"><h5>{{floor(sqrt($user->position))}}. level</h5></div>
                     <div class="row mb-4 text-center flex-sm-nowrap mx-0">
                         @for ($i = $maxLevel; $i > 0; $i--)
-                            <div class="scrolling-wrapper-flexbox-empty mr-4 col d-none d-sm-block">&nbsp</div>
+                            <div class="scrolling-wrapper-flexbox-empty mr-4 col d-none d-sm-block">&nbsp;</div>
                         @endfor
                         @php ($maxLevel--)
                 @endif

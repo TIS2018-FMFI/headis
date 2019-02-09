@@ -52,7 +52,8 @@ class UserController extends Controller
         return view('user.show', [
             'user' => $user,
             'matches' => $matches,
-            'canChallenge' => $canChallenge
+            'canChallenge' => $canChallenge,
+            'declinedMatches' => Match::allDeclinedMatches()
         ]);
     }
 
