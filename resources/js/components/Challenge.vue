@@ -39,7 +39,7 @@
                                     </div>
                                     <div class="row mx-auto" v-if="!date.rejected && isBeforeDate(date.date)">
                                         <div class="col-6 mx-auto" v-if="current_user.id === challenge.challenger.id">
-                                            <button @click.prevent="conformedDate(date)" class="btn btn-success">{{ translations['challenges.confirm'] }}</button>
+                                            <button @click.prevent="confirmedDate(date)" class="btn btn-success">{{ translations['challenges.confirm'] }}</button>
                                         </div>
                                         <div class="col-6 mx-auto" v-if="current_user.id === challenge.challenger.id">
                                             <button @click.prevent="deleteDate(date.id)" class="btn btn-danger">{{ translations['challenges.delete'] }}</button>
@@ -215,7 +215,7 @@
                     });
                 }
             },
-            conformedDate(date) {
+            confirmedDate(date) {
                 if (this.canPress) {
                     this.canPress = false;
 

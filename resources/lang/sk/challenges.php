@@ -21,6 +21,8 @@ return [
     'choose_a_date' => 'Vyber dátum a čas',
     'add' => 'Pridaj',
     'confirm' => 'Potvrdiť',
-    'delete' => 'Vymazať'
+    'delete' => 'Vymazať',
+    'invalid_date' => 'Nesprávny dátum',
+    'date' => "Dátum"
 
 ];
