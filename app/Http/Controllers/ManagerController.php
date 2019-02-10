@@ -56,6 +56,8 @@ class ManagerController extends Controller
         $translations['not_available_dates.deleteBtn'] = __('not_available_dates.deleteBtn');
         $translations['not_available_dates.choose_date'] = __('not_available_dates.choose_date');
         $translations['not_available_dates.noFoundDates'] = __('not_available_dates.noFoundDates');
+        $translations['not_available_dates.addNotInCurrentSeason'] = __('not_available_dates.addNotInCurrentSeason');
+        $translations['not_available_dates.destroyNotInCurrentSeason'] = __('not_available_dates.destroyNotInCurrentSeason');
 
         $season = [];
 
@@ -76,6 +78,9 @@ class ManagerController extends Controller
 
             foreach ($dates as $date) {
                 $notAvailableDates['picker'][] = Carbon::parse($date->date)->toDateString();
+            }
+            foreach ($notAvailableDates['dates'] as $date) {
+                $notAvailableDates['picker'][] = $date->date;
             }
         }
 

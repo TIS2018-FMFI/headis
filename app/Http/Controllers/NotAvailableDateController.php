@@ -38,7 +38,7 @@ class NotAvailableDateController extends Controller
         }
 
         $this->validate($request, [
-           'date' => 'required|date|unique:dates,date|after_or_equal:today'
+           'date' => 'required|date|unique:dates,date|unique:not_available_dates,date|after_or_equal:today'
         ]);
 
 
@@ -61,6 +61,10 @@ class NotAvailableDateController extends Controller
             $notAvailableDates['picker'][] = Carbon::parse($date->date)->toDateString();
         }
 
+        foreach ($notAvailableDates['dates'] as $date) {
+            $notAvailableDates['picker'][] = $date->date;
+        }
+
         return response()->json([
             'status' => 'ok',
             'notAvailableDates' => $notAvailableDates
@@ -76,6 +80,38 @@ class NotAvailableDateController extends Controller
      */
     public function destroy(NotAvailableDate $notAvailableDate)
     {
+        if (!Season::current()) {
+            return response()->json([
+                'status' => 'wrong',
+                'message' => __('not_available_dates.destroyNotInCurrentSeason')
+            ]);
+        }
 
+        $notAvailableDate->delete();
+
+        $notAvailableDates = [];
+
+        $currentSeason = Season::current();
+
+        $start = Carbon::parse($currentSeason->date_from);
+
+        $end = Carbon::parse($currentSeason->date_to);
+
+        $notAvailableDates['dates'] = NotAvailableDate::getNotAvailableDatesInRange($start, $end);
+
+        $dates = Date::getDatesInRange($start, $end);
+
+        foreach ($dates as $date) {
+            $notAvailableDates['picker'][] = Carbon::parse($date->date)->toDateString();
+        }
+
+        foreach ($notAvailableDates['dates'] as $date) {
+            $notAvailableDates['picker'][] = $date->date;
+        }
+
+        return response()->json([
+            'status' => 'ok',
+            'notAvailableDates' => $notAvailableDates
+        ]);
     }
 }

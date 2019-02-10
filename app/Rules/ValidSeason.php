@@ -39,10 +39,12 @@ class ValidSeason implements Rule
         $allSeasons = Season::available();
 
         foreach ($allSeasons as $season) {
-            $in = $season->date_from <= $this->start && $season->date_to >= $this->end;
-            $out = $season->date_from >= $this->start && $season->date_to <= $this->end;
-            $before = $season->date_from >= $this->start && $season->date_to >= $this->end;
-            $after = $season->date_from <= $this->start && $season->date_to <= $this->end;
+            $seasonStart = Carbon::parse($season->date_from);
+            $seasonEnd = Carbon::parse($season->date_to);
+            $in = $seasonStart <= $this->start && $this->end <= $seasonEnd;
+            $out =  $this->start <= $seasonStart && $seasonEnd <= $this->end;
+            $before = $this->start <= $seasonStart && $seasonStart <= $this->end && $this->end <= $seasonEnd;
+            $after = $seasonStart <= $this->start && $this->start <= $seasonEnd && $seasonEnd <= $this->end;
             if ($in || $out || $before || $after) {
                 return false;
             }

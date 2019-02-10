@@ -195,11 +195,11 @@
                                         <div class="card text-center">
                                             <div class="card-body">
                                                 <h5>{{ seasonItem.date_from | moment("DD.MM.YYYY") }} - {{ seasonItem.date_to | moment("DD.MM.YYYY") }}</h5>
-                                                <template v-if="seasonItem.id !== season['current'].id">
-                                                    <button @click.prevent="deleteSeason(seasonItem)" class="btn btn-danger">{{ translations['season.deleteBtn'] }}</button>
+                                                <template v-if="currentSeason && seasonItem.id === currentSeason.id">
+                                                    <h5>{{ translations['season.can_not_delete'] }}</h5>
                                                 </template>
                                                 <template v-else>
-                                                    <h5>{{ translations['season.can_not_delete'] }}</h5>
+                                                    <button @click.prevent="deleteSeason(seasonItem)" class="btn btn-danger">{{ translations['season.deleteBtn'] }}</button>
                                                 </template>
                                             </div>
                                         </div>
@@ -216,7 +216,7 @@
                                 <h2 class="mb-0">{{ translations['not_available_dates.add'] }}</h2>
                             </div>
                             <div class="card-body">
-                                <div class="row">
+                                <div class="row" v-if="season && currentSeason">
                                     <div class="col-sm-6 offset-sm-1">
                                         <div class="form-group">
                                             <vue-datetime-picker :class="{'is-invalid-input': formNotAvailableDates.errors.has('date')}"
@@ -230,8 +230,8 @@
                                                                  :minDate="today"
                                                                  :disabled-dates="allNotAvailableDatesPicker"
                                                                  locale="sk"
-                                                                 onlyDate
                                                                  autoClose
+                                                                 onlyDate
                                                                  noButtonNow>
                                             </vue-datetime-picker>
                                             <field-error :form="formNotAvailableDates" field="date"></field-error>
@@ -239,6 +239,11 @@
                                     </div>
                                     <div class="col-sm-3 text-center">
                                         <button class="btn btn-primary" @click="addNotAvailableDate">{{ translations['not_available_dates.addBtn'] }}</button>
+                                    </div>
+                                </div>
+                                <div class="row" v-else>
+                                    <div class="col text-center">
+                                        <h3>{{ translations['not_available_dates.addNotInCurrentSeason'] }}</h3>
                                     </div>
                                 </div>
                             </div>
@@ -252,17 +257,26 @@
                                 <h2 class="mb-0">{{ translations['not_available_dates.delete'] }}</h2>
                             </div>
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-3 col-sm-4" v-for="date in allNotAvailableDates" v-if="allNotAvailableDates">
-                                        <div class="card text-center">
-                                            <div class="card-body">
-                                                <h5>{{ date.date }}</h5>
-                                                <button class="btn btn-primary" @click="deleteNotAvailableDate(date)">{{ translations['users.reactivateBtn'] }}</button>
+                                <div class="row" v-if="season && currentSeason">
+                                    <template v-if="allNotAvailableDates && allNotAvailableDates.length > 0">
+                                        <div class="col-md-3 col-sm-4 mb-4" v-for="date in allNotAvailableDates">
+                                            <div class="card text-center">
+                                                <div class="card-body">
+                                                    <h5>{{ date.date | moment("DD.MM.YYYY") }}</h5>
+                                                    <button class="btn btn-primary" @click="deleteNotAvailableDate(date)">{{ translations['not_available_dates.deleteBtn'] }}</button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col text-center" v-else>
-                                        <h3>{{ translations['not_available_dates.noFoundDates'] }}</h3>
+                                    </template>
+                                    <template v-else>
+                                        <div class="col text-center" >
+                                            <h3>{{ translations['not_available_dates.noFoundDates'] }}</h3>
+                                        </div>
+                                    </template>
+                                </div>
+                                <div class="row" v-else>
+                                    <div class="col text-center">
+                                        <h3>{{ translations['not_available_dates.destroyNotInCurrentSeason'] }}</h3>
                                     </div>
                                 </div>
                             </div>
@@ -359,6 +373,12 @@
                 }
                 return [];
             },
+            currentSeason() {
+                if (this.axiosSeasons && this.axiosSeasons['current']) {
+                    return this.axiosSeasons['current'];
+                }
+                return this.season['current'];
+            },
             allSeasons() {
                 if (this.axiosSeasons && this.axiosSeasons['available']) {
                     return this.axiosSeasons['available'];
@@ -406,7 +426,7 @@
             },
             addSeason() {
                 this.formSeason.post('/seasons/store').then(response => {
-                    this.axiosSeasons = response['data']['season'];
+                    this.axiosSeasons = response['season'];
                 }).catch(e => {});
             },
             deleteSeason(season) {
@@ -420,7 +440,9 @@
                 });
             },
             deleteNotAvailableDate(notAvailableDate) {
-
+                axios.post('/not_available_dates/' + notAvailableDate.id + '/destroy').then(response => {
+                    this.axiosNotAvailableDates = response['data']['notAvailableDates'];
+                }).catch(e => {});
             }
         }
     }
