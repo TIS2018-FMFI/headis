@@ -26,7 +26,7 @@ class NotAvailableDate extends Model
         $isWeekend = true;
 
         if ($date == null) {
-            $date = Carbon::today('Europe/Bratislava');
+            $date = Carbon::today(config('app.timezone'));
         }
         if ($includeWeekend) {
             $isWeekend = !$date->isWeekend();
@@ -59,7 +59,7 @@ class NotAvailableDate extends Model
      */
     public static function getNotAvailableDatesInRange(Carbon $start, Carbon $end)
     {
-        return self::where('season_id', Season::current()->id)->whereDate('date', '>=', $start)->whereDate('date', '>=', Carbon::today('Europe/Bratislava'))->whereDate('date', '<=', $end)->get();
+        return self::where('season_id', Season::current()->id)->whereDate('date', '>=', $start)->whereDate('date', '>=', Carbon::today(config('app.timezone')))->whereDate('date', '<=', $end)->get();
     }
 
     /**

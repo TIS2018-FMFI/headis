@@ -82,7 +82,7 @@
                                                      :disabled-dates="dates['notAvailable']"
                                                      v-model="formDate.date"
                                                      :label="translations['challenges.choose_a_date']"
-                                                     minute-interval="15" time-zone="Europe/Bratislava"
+                                                     minute-interval="15" :time-zone="time_zone"
                                                      :disabled-hours="['00', '01', '02', '03', '04', '05', '06', '07', '22', '23']"
                                                      format="DD.MM.YYYY HH:mm"
                                                      outputFormat="YYYY-MM-DD HH:mm:ss"
@@ -149,7 +149,7 @@
 
     export default {
         name: "Challenge",
-        props: ['challenge', 'current_user', 'translations', 'dates'],
+        props: ['challenge', 'current_user', 'translations', 'dates', 'time_zone'],
         data: () => {
             return {
                 axiosComments: null,

@@ -21,7 +21,7 @@ class ValidSeason implements Rule
     {
         $this->start = Carbon::parse($start);
         $this->end = Carbon::parse($end);
-        $this->now = Carbon::today('Europe/Bratislava');
+        $this->now = Carbon::today(config('app.timezone'));
     }
 
     /**

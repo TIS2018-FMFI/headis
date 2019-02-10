@@ -131,7 +131,7 @@
                                                                  v-model="formSeason.start"
                                                                  :minDate="today"
                                                                  :label="translations['season.choose_start']"
-                                                                 time-zone="Europe/Bratislava"
+                                                                 :time-zone="time_zone"
                                                                  format="DD.MM.YYYY"
                                                                  formatted="DD.MM.YYYY"
                                                                  outputFormat="YYYY-MM-DD"
@@ -150,7 +150,7 @@
                                                                  v-model="formSeason.end"
                                                                  :label="translations['season.choose_end']"
                                                                  :minDate="minEndDateSeason"
-                                                                 time-zone="Europe/Bratislava"
+                                                                 :time-zone="time_zone"
                                                                  format="DD.MM.YYYY"
                                                                  formatted="DD.MM.YYYY"
                                                                  outputFormat="YYYY-MM-DD"
@@ -223,7 +223,7 @@
                                                                  color="red"
                                                                  v-model="formNotAvailableDates.date"
                                                                  :label="translations['not_available_dates.choose_date']"
-                                                                 time-zone="Europe/Bratislava"
+                                                                 :time-zone="time_zone"
                                                                  format="DD.MM.YYYY"
                                                                  formatted="DD.MM.YYYY"
                                                                  outputFormat="YYYY-MM-DD"
@@ -307,7 +307,7 @@
     export default {
         name: "Manager",
         props: ['translations', 'can_deactivate_users', 'can_reactivate_users', 'edit_posts', 'season',
-            'not_available_dates', 'today'],
+            'not_available_dates', 'today', 'time_zone'],
         data: () => {
             return {
                 editor: ClassicEditor,

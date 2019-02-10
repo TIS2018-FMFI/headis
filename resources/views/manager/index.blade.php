@@ -6,6 +6,7 @@
                  :can_reactivate_users="{{ json_encode($canReactivateUsers) }}"
                  :season="{{ json_encode($season) }}"
                  :not_available_dates="{{ json_encode($notAvailableDates) }}"
-                 :today="{{ json_encode(\Carbon\Carbon::today('Europe/Bratislava')->toDateString()) }}"
+                 :today="{{ json_encode(\Carbon\Carbon::today(config('app.timezone'))->toDateString()) }}"
+                 :time_zone="{{ config('app.timezone') }}"
     ></vue-manager>
 @endsection

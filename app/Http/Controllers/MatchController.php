@@ -63,7 +63,7 @@ class MatchController extends Controller
             'match' => $match->load(['sets', 'challenge.challenger', 'challenge.asked', 'date']),
             'finished' => $match->finished(),
             'translations' => $translations,
-            'canAddSets' => Carbon::now('Europe/Bratislava')->gte(Carbon::parse($match->date->date))
+            'canAddSets' => Carbon::now(config('app.timezone'))->gte(Carbon::parse($match->date->date))
         ]);
     }
 

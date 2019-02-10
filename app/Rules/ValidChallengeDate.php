@@ -31,7 +31,7 @@ class ValidChallengeDate implements Rule
     public function passes($attribute, $value)
     {
         $date = Carbon::parse($value);
-        $now = Carbon::now('Europe/Bratislava');
+        $now = Carbon::now(config('app.timezone'));
         $created_date = Carbon::parse($this->challenge->create_date);
 
         $end = NotAvailableDate::addDaysTo($created_date, 10);

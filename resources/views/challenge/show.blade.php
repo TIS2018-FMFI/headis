@@ -4,6 +4,7 @@
     <vue-challenge :challenge="{{ json_encode($challenge) }}"
                    :current_user="{{ json_encode($currentAuthUser) }}"
                    :translations="{{ json_encode($translations) }}"
-                   :dates="{{ json_encode($dates) }}" >
+                   :time_zone="{{ config('app.timezone') }}"
+                   :dates="{{ json_encode($dates) }}">
     </vue-challenge>
 @endsection
