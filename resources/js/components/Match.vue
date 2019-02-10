@@ -78,7 +78,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3" v-if="allSets && allSets.length === 0 && current_user.id === match.challenge.challenger.id">
+                    <div class="col-md-9 text-center text-md-right pt-5 mt-md-5" v-if="allSets && allSets.length === 0 && current_user.id === match.challenge.challenger.id">
                         <h3>{{ translations['matches.not_available_sets'] }}</h3>
                     </div>
 
@@ -88,12 +88,13 @@
                             <div class="card-body" >
                                 <form @submit.prevent="addSet()">
                                     <div class="form-group">
-                                        <input class="form-control" v-model.number="formSet.score_2" min="0" type="number" :class="{'is-invalid': formSet.errors.has('score_2')}">
+                                        <input class="form-control" v-model.number="formSet.score_2" min="0" type="number" :class="{'is-invalid': formSet.errors.has('score_2') || formSet.errors.has('set')}">
                                         <field-error :form="formSet" field="score_2"></field-error>
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control" v-model.number="formSet.score_1" min="0" type="number" :class="{'is-invalid': formSet.errors.has('score_1')}">
+                                        <input class="form-control" v-model.number="formSet.score_1" min="0" type="number" :class="{'is-invalid': formSet.errors.has('score_1') || formSet.errors.has('set')}">
                                         <field-error :form="formSet" field="score_1"></field-error>
+                                        <field-error :form="formSet" field="set"></field-error>
                                     </div>
                                     <button class="btn btn-info" type="submit">{{ translations['matches.add'] }}</button>
                                 </form>
@@ -142,11 +143,13 @@
                 vueFinished: false,
                 formSet: new Form({
                     score_1: '',
-                    score_2: ''
+                    score_2: '',
+                    set: ''
                 }),
                 formRedactor: new Form({
                     sets: [],
-                    match_id: ''
+                    match_id: '',
+                    allSets: ''
                 }),
                 now: new Date,
                 vueCanAddSets: false,

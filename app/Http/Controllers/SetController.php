@@ -122,8 +122,9 @@ class SetController extends Controller
     public function validateSet(Request $request)
     {
         $this->validate($request, [
-            'score_1' => ['required', new SetValidator($request['score_2'])],
-            'score_2' => ['required', new SetValidator($request['score_1'])]
+            'score_1' => 'required',
+            'score_2' => 'required',
+            'set' => [new SetValidator($request['score_1'], $request['score_2'])]
         ]);
 
         return response()->json([

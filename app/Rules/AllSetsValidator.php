@@ -60,6 +60,6 @@ class AllSetsValidator implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return __('sets.invalid_sets');
     }
 }

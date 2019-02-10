@@ -7,14 +7,16 @@ use Illuminate\Contracts\Validation\Rule;
 class SetValidator implements Rule
 {
     public $score1;
+    public $score2;
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($score1)
+    public function __construct($score1, $score2)
     {
         $this->score1 = $score1;
+        $this->score2 = $score2;
     }
 
     /**
@@ -28,7 +30,7 @@ class SetValidator implements Rule
     {
 
         $score1 = (int) $this->score1;
-        $score2 = (int) $value;
+        $score2 = (int) $this->score2;
 
         if ( ($score1 >= 10 && $score2 >= 10 && abs($score1 - $score2) == 2) || ($score1 == 11 && $score2 < 10) || ($score2 == 11 && $score1 < 10)) {
             return true;
@@ -43,6 +45,6 @@ class SetValidator implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return __('sets.invalid_set');
     }
 }
