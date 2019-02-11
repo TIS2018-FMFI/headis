@@ -7,6 +7,6 @@
                  :season="{{ json_encode($season) }}"
                  :not_available_dates="{{ json_encode($notAvailableDates) }}"
                  :today="{{ json_encode(\Carbon\Carbon::today(config('app.timezone'))->toDateString()) }}"
-                 :time_zone="{{ config('app.timezone') }}"
+                 :time_zone="{{ json_encode(config('app.timezone')) }}"
     ></vue-manager>
 @endsection
