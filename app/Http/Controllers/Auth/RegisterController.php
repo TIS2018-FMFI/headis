@@ -91,8 +91,7 @@ class RegisterController extends Controller
                 'first_name' => $data['first_name'],
                 'last_name' => $data['last_name'],
                 'image' => $fileName,
-                'position' => User::max('position') + 1,
-                'email_verified_at' => Carbon::now()
+                'position' => User::max('position') + 1
             ]);
 
             $pointCount = 0;
