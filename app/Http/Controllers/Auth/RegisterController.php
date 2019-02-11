@@ -60,7 +60,7 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:6', 'confirmed'],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'image' => ['required', 'image',' mimes:jpg,jpeg,png', 'size:2500'],
+            'image' => ['required', 'image',' mimes:jpg,jpeg,png', 'max:2500'],
             'terms' => ['required']
         ]);
     }
