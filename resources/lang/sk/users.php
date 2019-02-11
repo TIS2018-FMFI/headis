@@ -23,7 +23,7 @@ return [
     'deactivateBtn' => 'Deaktivovať',
     'reactivate' => 'Znovuaktivácia hráčov',
     'reactivateBtn' => 'Znovuaktivovať',
-    'noFoundUsers' => 'Žiadny hráči nenájdení',
+    'noFoundUsers' => 'Žiadni hráči nenájdení',
     'Edit profile' => 'Upraviť profil',
     'Actual Challenge' => 'Aktuálna výzva',
     'Challenge' => 'Vyzvať',
