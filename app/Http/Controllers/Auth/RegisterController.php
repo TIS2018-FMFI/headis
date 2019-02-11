@@ -6,6 +6,7 @@ use App\Point;
 use App\Season;
 use App\User;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -59,7 +60,7 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:6', 'confirmed'],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'image' => ['required', 'image',' mimes:jpg,jpeg,png'],
+            'image' => ['required', 'image',' mimes:jpg,jpeg,png', 'size:2500'],
             'terms' => ['required']
         ]);
     }
@@ -90,7 +91,8 @@ class RegisterController extends Controller
                 'first_name' => $data['first_name'],
                 'last_name' => $data['last_name'],
                 'image' => $fileName,
-                'position' => User::max('position') + 1
+                'position' => User::max('position') + 1,
+                'email_verified_at' => Carbon::now()
             ]);
 
             $pointCount = 0;
