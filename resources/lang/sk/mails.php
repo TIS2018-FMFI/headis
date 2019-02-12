@@ -11,7 +11,7 @@ return [
     */
     //SUBJECTS
     'ActivateUserSubject' => 'Znovuaktivácia hráča.',
-    'DeactivateUserSubject' => 'Znovuaktivácia hráča.',
+    'DeactivateUserSubject' => 'Deaktivácia hráča.',
     'ChallengeCreateSubject' => 'Výzva',
     'MatchRejectSubject'=>'Odmietnutie zápasu',
     'MatchDateConfirmedSubject' => 'Potvrdený termín zápasu',

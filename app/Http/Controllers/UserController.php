@@ -190,7 +190,7 @@ class UserController extends Controller
 
             return $user;
         });
-        if ($user->deleted_at){
+        if ($user->deleted_at == null){
             Mail::send(new ActivateUser($user));
         }
         return response()->json([
