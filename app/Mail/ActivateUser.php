@@ -43,7 +43,7 @@ class ActivateUser extends Mailable
                     trans('mails.ActivateUserText')
                 ],
                 "actionText" => trans('mails.MyAccount'),
-                "actionUrl" =>  url('users/'.$this->user->id),
+                "actionUrl" =>  url(config('app.url').'/users/'.$this->user->id),
                 "outroLines" => [
     //                "A line after the big button"
                 ],

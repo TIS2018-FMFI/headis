@@ -45,7 +45,7 @@ class RejectedMatch extends Mailable
                     ])
                 ],
                 "actionText" => trans('mails.EditMatch'),
-                "actionUrl" =>  url('matches/'.$this->match->id),
+                "actionUrl" =>  url(config('app.url').'/matches/'.$this->match->id),
                 "outroLines" => [
                     //
                 ],

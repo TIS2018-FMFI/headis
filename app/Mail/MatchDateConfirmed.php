@@ -51,7 +51,7 @@ class MatchDateConfirmed extends Mailable
                     ]),
                 ],
                 "actionText" => trans('mails.CurrentMatch'),
-                "actionUrl" =>  url('matches/'.$this->match->id),
+                "actionUrl" =>  url(config('app.url').'/matches/'.$this->match->id),
                 "outroLines" => [
                     //
                 ],

@@ -43,7 +43,7 @@ class CreatedChallenge extends Mailable
                     ])
                 ],
                 "actionText" => trans('mails.CurrentChallenge'),
-                "actionUrl" =>  url('challenges/'.$this->challenge->id),
+                "actionUrl" =>  url(config('app.url').'/challenges/'.$this->challenge->id),
                 "outroLines" => [
                     trans('mails.ChallengeCreateOutText')
                 ],
