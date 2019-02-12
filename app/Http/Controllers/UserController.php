@@ -86,8 +86,8 @@ class UserController extends Controller
     {
 //        dd($request);
         $this->validate($request, [
-            'user_name' => ['nullable', 'string', 'max:255', 'unique:users'],
-            'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users'],
+            'user_name' => ['nullable', 'string', 'max:255', 'unique:users,user_name'],
+            'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['nullable', 'string', 'min:6', 'confirmed'],
             'first_name' => ['nullable', 'string', 'max:255'],
             'last_name' => ['nullable', 'string', 'max:255'],
