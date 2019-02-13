@@ -84,7 +84,7 @@ class PostController extends Controller
 
         return response()->json([
             'status' => 'ok',
-            'message' => 'good'
+            'message' => __('posts.addedPost')
         ]);
     }
 

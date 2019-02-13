@@ -7,8 +7,9 @@
                         <div class="card" id="addPost">
                             <div class="card-header"><h2 class="mb-0">{{ translations['posts.add'] }}</h2></div>
                             <div class="card-body">
+                                <div class="alert alert-success" v-if="successAddedPost" v-html="successAddedPostMessage">
+                                </div>
                                 <form @submit.prevent="addPost()">
-
                                     <div class="form-group row">
                                         <label for="title" class="col-md-2 col-sm-4 col-form-label text-md-right">{{ translations['posts.title'] }}</label>
 
@@ -340,7 +341,10 @@
                 axiosCanReactivateUsers: '',
                 searchCanReactivateUsers: '',
                 axiosSeasons: '',
-                axiosNotAvailableDates: ''
+                axiosNotAvailableDates: '',
+                canAddPost: true,
+                successAddedPost: false,
+                successAddedPostMessage: ''
             }
         },
         computed: {
@@ -411,7 +415,17 @@
                 this.formPost.image = e.target.files[0];
             },
             addPost() {
-                this.formPost.post('/posts/store').then(response => {}).catch(e => {})
+                if (this.canAddPost) {
+                    this.canAddPost = false;
+                    this.formPost.post('/posts/store').then(response => {
+                        this.canAddPost = true;
+                        this.successAddedPost = true;
+                        this.successAddedPostMessage = response['message'];
+                        setTimeout(() => {
+                            this.successAddedPost = false;
+                        }, 3000);
+                    }).catch(e => {})
+                }
             },
             deactivateUser(user) {
                 axios.post('/users/' + user.id + '/destroy')
