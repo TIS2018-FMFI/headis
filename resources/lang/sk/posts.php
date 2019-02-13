@@ -19,6 +19,6 @@ return [
     'addBtn' => 'Pridať',
     'editBtn' => 'Upraviť',
     'hidden' => 'Skryť',
-    'hiddenPost' => 'Skrytý',
+    'hiddenPost' => 'Novinka skrytá',
     'addedPost' => 'Novinka bola úspešne vytvorená'
 ];
