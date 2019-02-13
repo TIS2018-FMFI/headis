@@ -77,6 +77,7 @@ class PostController extends Controller
             'hidden' => $request['hidden'] == "true" ? 1 : 0,
             'text' => htmlentities($request['text']),
             'image' => $fileName,
+            'user_id' => auth()->user()->id,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
