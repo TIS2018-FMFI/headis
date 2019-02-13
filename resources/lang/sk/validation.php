@@ -149,7 +149,16 @@ return [
         'last_name' => 'Priezvisko',
         'score_1' => 'Body',
         'score_2' => 'Body',
-        'date' => 'Dátum'
+        'date' => 'Dátum',
+        'title' => 'Nadpis',
+        'intro_text' => 'Krátky text',
+        'image' => 'Obrázok',
+        'text' => 'Text',
+        'start' => 'Začiatok',
+        'end' => 'Koniec',
+        'sets' => 'Sety',
+        'email' => 'Email',
+        'terms' => 'Podmienky',
     ],
 
 ];

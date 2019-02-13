@@ -5,14 +5,16 @@
         <div class="row">
             <div class="col">
                 <div class="row">
-                    <div class="col"><h1>{{ $post->title }}</h1></div>
+                    <div class="col"><h1>{{ $post->title }} @if ($post->hidden) ({{ __('posts.hiddenPost') }}) @endif</h1></div>
                     @if ($currentAuthUser && $currentAuthUser->isRedactor)
                         <div class="col text-right" ><a href="/posts/{{ $post->id }}/edit" class="btn btn-primary">{{ __('posts.editBtn') }}</a></div>
                     @endif
                 </div>
                 <div class="row">
                     <div class="col-md-8 col-12">
-                        <p>{{ $post->intro_text }}</p>
+                        @if ($post->intro_text)
+                            <p>{{ $post->intro_text }}</p>
+                        @endif
                     </div>
                     <div class="col text-right">
                         <span>{{ \Carbon\Carbon::parse($post->created_at)->format('d.m.Y') }}</span>

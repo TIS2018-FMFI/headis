@@ -28,7 +28,14 @@ return [
     'Actual Challenge' => 'Aktuálna výzva',
     'Challenge' => 'Vyzvať',
     'You can not challenge the player' => 'Nemôžes vyzvať hráča!',
-    'Actual position' => 'Aktuálna pozícia'
+    'Actual position' => 'Aktuálna pozícia',
+    'user_name' => 'Používateľské meno',
+    'email' => 'Email',
+    'password' => 'Heslo',
+    'password_confirmation' => 'Potvrdenie hesla',
+    'image' => 'Fotka'
+
+
 
 
 ];

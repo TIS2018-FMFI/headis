@@ -7,31 +7,37 @@
                         <div class="card" id="addPost">
                             <div class="card-header"><h2 class="mb-0">{{ translations['posts.add'] }}</h2></div>
                             <div class="card-body">
+                                <div class="alert alert-success" v-if="successAddedPost" v-html="successAddedPostMessage">
+                                </div>
                                 <form @submit.prevent="addPost()">
-
                                     <div class="form-group row">
                                         <label for="title" class="col-md-2 col-sm-4 col-form-label text-md-right">{{ translations['posts.title'] }}</label>
 
                                         <div class="col-md-7">
-                                            <input type="text" id="title" v-model="formPost.title" class="form-control" name="title" autofocus>
+                                            <input type="text" id="title" v-model="formPost.title" class="form-control" :class="{'is-invalid': formPost.errors.has('title')}" name="title" autofocus>
+                                            <field-error :form="formPost" field="title"></field-error>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="intro_text" class="col-md-2 col-sm-4 col-form-label text-md-right">{{ translations['posts.intro_text'] }}</label>
                                         <div class="col-md-7">
-                                            <textarea v-model="formPost.intro_text" class="form-control" rows="3" id="intro_text"></textarea>
+                                            <textarea v-model="formPost.intro_text" class="form-control" rows="3" id="intro_text" :class="{'is-invalid': formPost.errors.has('intro_text')}"></textarea>
+                                            <field-error :form="formPost" field="intro_text"></field-error>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="image" class="col-md-2 col-sm-4 col-form-label text-md-right">{{ translations['posts.image'] }}</label>
                                         <div class="col-md-7">
-                                            <input type="file"  name="image" class="form-control-file" id="image" @change="fileChange">
+                                            <input type="file"  name="image" class="form-control-file" id="image" @change="fileChange" :class="{'is-invalid': formPost.errors.has('image')}">
+                                            <field-error :form="formPost" field="image"></field-error>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-md-2 col-sm-4 col-form-label text-md-right">{{ translations['posts.text'] }}</label>
                                         <div class="col-md-7">
                                             <ckeditor :editor="editor" v-model="formPost.text" :config="editorConfig"></ckeditor>
+                                            <span :class="{'is-invalid-input': formPost.errors.has('text')}"></span>
+                                            <field-error :form="formPost" field="text"></field-error>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -66,7 +72,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" v-if="canShowDeactivateUsers">
+                                <div class="row pre-scrollable" v-if="canShowDeactivateUsers">
                                     <div class="col-md-4 col-sm-6 col-12 mb-3" v-for="user in filteredListCanDeactivateUsers">
                                         <div class="card text-center">
                                             <div class="card-body">
@@ -85,6 +91,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row mb-5">
                     <div class="col">
                         <div class="card" id="reactivateUsers">
@@ -97,7 +104,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" v-if="canShowReactivateUsers">
+                                <div class="row pre-scrollable" v-if="canShowReactivateUsers">
                                     <div class="col-md-4 col-sm-6 col-12 mb-3"  v-for="user in filteredListCanReactivateUsers">
                                         <div class="card text-center">
                                             <div class="card-body">
@@ -116,6 +123,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row mb-5">
                     <div class="col">
                         <div class="card" id="addSeason">
@@ -183,6 +191,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row mb-5">
                     <div class="col">
                         <div class="card" id="deleteSeason">
@@ -209,6 +218,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row mb-5">
                     <div class="col">
                         <div class="card" id="addNotAvailableDates">
@@ -250,6 +260,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row mb-5">
                     <div class="col">
                         <div class="card" id="deleteNotAvailableDates">
@@ -257,7 +268,7 @@
                                 <h2 class="mb-0">{{ translations['not_available_dates.delete'] }}</h2>
                             </div>
                             <div class="card-body">
-                                <div class="row" v-if="season && currentSeason">
+                                <div class="row pre-scrollable" v-if="season && currentSeason">
                                     <template v-if="allNotAvailableDates && allNotAvailableDates.length > 0">
                                         <div class="col-md-3 col-sm-4 mb-4" v-for="date in allNotAvailableDates">
                                             <div class="card text-center">
@@ -335,7 +346,10 @@
                 axiosCanReactivateUsers: '',
                 searchCanReactivateUsers: '',
                 axiosSeasons: '',
-                axiosNotAvailableDates: ''
+                axiosNotAvailableDates: '',
+                canAddPost: true,
+                successAddedPost: false,
+                successAddedPostMessage: ''
             }
         },
         computed: {
@@ -406,7 +420,17 @@
                 this.formPost.image = e.target.files[0];
             },
             addPost() {
-                this.formPost.post('/posts/store').then(response => {}).catch(e => {})
+                if (this.canAddPost) {
+                    this.canAddPost = false;
+                    this.formPost.post('/posts/store').then(response => {
+                        this.canAddPost = true;
+                        this.successAddedPost = true;
+                        this.successAddedPostMessage = response['message'];
+                        setTimeout(() => {
+                            this.successAddedPost = false;
+                        }, 3000);
+                    }).catch(e => {})
+                }
             },
             deactivateUser(user) {
                 axios.post('/users/' + user.id + '/destroy')
