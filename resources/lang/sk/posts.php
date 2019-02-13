@@ -13,7 +13,7 @@ return [
     'title' => 'Názov',
     'intro_text' => 'Krátky text',
     'image' => 'Obrázok',
-    'text' => 'Hlavný text',
+    'text' => 'Text',
     'edit' => 'Upraviť novinku',
     'add' => 'Pridať novinku',
     'addBtn' => 'Pridať',
