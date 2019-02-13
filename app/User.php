@@ -90,7 +90,6 @@ class User extends Authenticatable
     {
         return Match::where('confirmed', null)->whereIn('matches.challenge_id', $this->challenges->pluck('id')->toArray())
             ->first();
-//        return $this->matches()->where('confirmed', null)->first();
     }
 
     public function matches()
@@ -118,7 +117,18 @@ class User extends Authenticatable
             return User::where('isRedactor',false)->get($columns);
         }
         $max = User::max('position');
-        return User::where('position', '>', pow(floor(sqrt($max-1)), 2))->get($columns);
+
+        $allUsers = User::where('position', '>', pow(floor(sqrt($max-1)), 2))->get($columns);
+
+        $users = [];
+
+        foreach ($allUsers as $user) {
+            if (self::currentChallenge($user) == null && $user->currentMatch() == null) {
+                $users[] = $user;
+            }
+        }
+
+        return $users;
     }
 
     public static function canActivate($columns = null)

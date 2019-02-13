@@ -72,7 +72,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" v-if="canShowDeactivateUsers">
+                                <div class="row pre-scrollable" v-if="canShowDeactivateUsers">
                                     <div class="col-md-4 col-sm-6 col-12 mb-3" v-for="user in filteredListCanDeactivateUsers">
                                         <div class="card text-center">
                                             <div class="card-body">
@@ -91,6 +91,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row mb-5">
                     <div class="col">
                         <div class="card" id="reactivateUsers">
@@ -103,7 +104,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" v-if="canShowReactivateUsers">
+                                <div class="row pre-scrollable" v-if="canShowReactivateUsers">
                                     <div class="col-md-4 col-sm-6 col-12 mb-3"  v-for="user in filteredListCanReactivateUsers">
                                         <div class="card text-center">
                                             <div class="card-body">
@@ -122,6 +123,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row mb-5">
                     <div class="col">
                         <div class="card" id="addSeason">
@@ -189,6 +191,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row mb-5">
                     <div class="col">
                         <div class="card" id="deleteSeason">
@@ -215,6 +218,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row mb-5">
                     <div class="col">
                         <div class="card" id="addNotAvailableDates">
@@ -256,6 +260,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row mb-5">
                     <div class="col">
                         <div class="card" id="deleteNotAvailableDates">
@@ -263,7 +268,7 @@
                                 <h2 class="mb-0">{{ translations['not_available_dates.delete'] }}</h2>
                             </div>
                             <div class="card-body">
-                                <div class="row" v-if="season && currentSeason">
+                                <div class="row pre-scrollable" v-if="season && currentSeason">
                                     <template v-if="allNotAvailableDates && allNotAvailableDates.length > 0">
                                         <div class="col-md-3 col-sm-4 mb-4" v-for="date in allNotAvailableDates">
                                             <div class="card text-center">
