@@ -13,25 +13,30 @@
                                         <label for="title" class="col-md-2 col-sm-4 col-form-label text-md-right">{{ translations['posts.title'] }}</label>
 
                                         <div class="col-md-7">
-                                            <input type="text" id="title" v-model="formPost.title" class="form-control" name="title" autofocus>
+                                            <input type="text" id="title" v-model="formPost.title" class="form-control" :class="{'is-invalid': formPost.errors.has('title')}" name="title" autofocus>
+                                            <field-error :form="formPost" field="title"></field-error>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="intro_text" class="col-md-2 col-sm-4 col-form-label text-md-right">{{ translations['posts.intro_text'] }}</label>
                                         <div class="col-md-7">
-                                            <textarea v-model="formPost.intro_text" class="form-control" rows="3" id="intro_text"></textarea>
+                                            <textarea v-model="formPost.intro_text" class="form-control" rows="3" id="intro_text" :class="{'is-invalid': formPost.errors.has('intro_text')}"></textarea>
+                                            <field-error :form="formPost" field="intro_text"></field-error>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="image" class="col-md-2 col-sm-4 col-form-label text-md-right">{{ translations['posts.image'] }}</label>
                                         <div class="col-md-7">
-                                            <input type="file"  name="image" class="form-control-file" id="image" @change="fileChange">
+                                            <input type="file"  name="image" class="form-control-file" id="image" @change="fileChange" :class="{'is-invalid': formPost.errors.has('image')}">
+                                            <field-error :form="formPost" field="image"></field-error>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-md-2 col-sm-4 col-form-label text-md-right">{{ translations['posts.text'] }}</label>
                                         <div class="col-md-7">
                                             <ckeditor :editor="editor" v-model="formPost.text" :config="editorConfig"></ckeditor>
+                                            <span :class="{'is-invalid-input': formPost.errors.has('text')}"></span>
+                                            <field-error :form="formPost" field="text"></field-error>
                                         </div>
                                     </div>
                                     <div class="form-group row">

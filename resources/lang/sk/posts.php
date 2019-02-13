@@ -18,6 +18,7 @@ return [
     'add' => 'Pridať novinku',
     'addBtn' => 'Pridať',
     'editBtn' => 'Upraviť',
-    'hidden' => 'Skryť'
+    'hidden' => 'Skryť',
+    'hiddenPost' => 'Skrytý'
 
 ];

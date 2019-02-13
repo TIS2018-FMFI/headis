@@ -73,7 +73,7 @@ class PostController extends Controller
 
         $post = Post::create([
             'title' => $request['title'],
-            'intro_text' => isset($request['intro_text']) ? $request['intro_text'] : null,
+            'intro_text' => $request['intro_text'],
             'hidden' => $request['hidden'] == "true" ? 1 : 0,
             'text' => htmlentities($request['text']),
             'image' => $fileName,
