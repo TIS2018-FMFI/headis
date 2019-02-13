@@ -84,16 +84,15 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-//        dd($request);
         $this->validate($request, [
             'user_name' => ['nullable', 'string', 'max:255', 'unique:users,user_name'],
             'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['nullable', 'string', 'min:6', 'confirmed'],
             'first_name' => ['nullable', 'string', 'max:255'],
             'last_name' => ['nullable', 'string', 'max:255'],
-            'image' => ['nullable', 'image','mimes:jpg,jpeg,png'],
+            'image' => ['nullable', 'image','mimes:jpg,jpeg,png', 'max:2500'],
         ]);
-        $fileName = 'default.png';
+        $fileName = $user->image;
         if (isset($request['image'])) {
             $file = $request['image'];
             $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
@@ -113,7 +112,7 @@ class UserController extends Controller
             if (!empty($request['last_name'])) {
                 $user->last_name = $request['last_name'];
             }
-            if (file_exists('/images/'.$user->image)){
+            if (isset($request['image']) && file_exists('/images/'.$user->image)){
                 unlink('/images/'.$user->image);
             }
             $user->image = $fileName;
