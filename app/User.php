@@ -118,7 +118,7 @@ class User extends Authenticatable
         }
         $max = User::max('position');
 
-        $allUsers = User::where('position', '>', pow(floor(sqrt($max-1)), 2))->get($columns);
+        $allUsers = User::where('isRedactor', false)->where('position', '>', pow(floor(sqrt($max-1)), 2))->get($columns);
 
         $users = [];
 
