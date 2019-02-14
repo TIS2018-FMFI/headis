@@ -116,9 +116,9 @@ class User extends Authenticatable
         if (Season::current() == null) {
             return User::where('isRedactor',false)->get($columns);
         }
-        $max = User::max('position');
 
-        $allUsers = User::where('isRedactor', false)->where('position', '>', pow(floor(sqrt($max-1)), 2))->get($columns);
+
+        $allUsers = User::where('isRedactor',false)->get($columns);
 
         $users = [];
 
