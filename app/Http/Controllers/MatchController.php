@@ -9,6 +9,7 @@ use App\Mail\MatchRejectedAsked;
 use App\Mail\RejectedMatch;
 use App\Mail\MatchDateConfirmed;
 use App\Match;
+use App\NotAvailableDate;
 use App\Rules\ValidChallengeDate;
 use App\User;
 use Carbon\Carbon;
@@ -88,11 +89,11 @@ class MatchController extends Controller
             'date_id' => $date->id
         ]);
 
-        /*$job = (new CheckSetsJob($match->id))->delay(60);
-        $this->dispatch($job);
+        $date = NotAvailableDate::addDaysTo(Carbon::now(), 4);
+        dispatch(new CheckMatchConfirmedJob($match->id))->delay($date);
 
-        $job2 = (new CheckMatchConfirmedJob($match->id))->delay(60);
-        $this->dispatch($job2);*/
+        $date = NotAvailableDate::addDaysTo(Carbon::now(), 3);
+        dispatch(new CheckSetsJob($match->id))->delay($date);
 
         Mail::send(new MatchDateConfirmed($match));
 
