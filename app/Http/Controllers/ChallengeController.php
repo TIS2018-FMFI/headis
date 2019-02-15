@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Challenge;
+use App\Jobs\CheckChallengeConfirmedJob;
+use App\Jobs\CheckChallengeDatesJob;
 use App\Mail\CreatedChallenge;
 use App\Rules\CanChallenge;
 use Carbon\Carbon;
@@ -38,12 +40,19 @@ class ChallengeController extends Controller
         $this->validate($request, [
             'user' => ['required', 'exists:users,id', new CanChallenge(auth()->user()->id, $request['user'])]
         ]);
-//        dd($request['user']);
+
         $challenge = Challenge::create([
             'user_id_1' => auth()->user()->id,
             'user_id_2' => intval($request['user']),
             'created_date' => Carbon::now()->toDateString()
         ]);
+
+        $date = NotAvailableDate::addDaysTo(Carbon::now(), 3);
+        dispatch(new CheckChallengeDatesJob($challenge->id))->delay($date);
+
+        $date = NotAvailableDate::addDaysTo(Carbon::now(), 4);
+        dispatch(new CheckChallengeConfirmedJob($challenge->id))->delay($date);
+
         Mail::send(new CreatedChallenge($challenge));
         return redirect('/challenges/'.$challenge->id);
     }
