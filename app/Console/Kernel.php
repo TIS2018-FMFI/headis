@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\WritePointsJob;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,8 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->job(new WritePointsJob())->monthlyOn(1, '1:00')->timezone(config('app.timezone'));
     }
 
     /**
