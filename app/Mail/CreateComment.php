@@ -34,7 +34,7 @@ class CreateComment extends Mailable
     {
         $challenge = $this->comment->challenge;
 
-        $userTo = $challenge->asked->id == $this->comment->user->id ? $challenge->asked : $challenge->challenger;
+        $userTo = $challenge->asked->id == $this->comment->user->id ? $challenge->challenger : $challenge->asked;
 
         return $this
             ->to($userTo->email)
