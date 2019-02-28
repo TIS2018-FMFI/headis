@@ -31,11 +31,11 @@ class CreateDate extends Mailable
     public function build()
     {
         return $this
-            ->to($this->challenge->asked->email)
+            ->to($this->challenge->challenger->email)
             ->subject(trans('mails.CreateDateSubject'))
             ->markdown('vendor.notifications.email')->with([
                 "level" => "default",
-                "greeting" => trans('mails.Hello', ['username' => $this->challenge->asked->user_name]),
+                "greeting" => trans('mails.Hello', ['username' => $this->challenge->challenger->user_name]),
                 "introLines" => [
                     trans('mails.CreateDateText')
                 ],
