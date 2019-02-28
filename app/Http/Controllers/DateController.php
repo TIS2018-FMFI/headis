@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Challenge;
 use App\Date;
+use App\Mail\CreateDate;
 use Illuminate\Http\Request;
 use Illuminate\Queue\RedisQueue;
 use App\Rules\CheckHours;
 use App\Rules\ValidChallengeDate;
+use Illuminate\Support\Facades\Mail;
 
 class DateController extends Controller
 {
@@ -29,10 +31,12 @@ class DateController extends Controller
             'date' => ['required','date','unique:dates,date,NULL,id,deleted_at,NULL', new CheckHours(), new ValidChallengeDate($request['challenge'])]
         ]);
 
-        Date::create([
+        $date = Date::create([
             'challenge_id' => $request['challenge'],
             'date' => $request['date']
         ]);
+
+        Mail::send(new CreateDate($date->challenge));
 
         $dates = Date::where('challenge_id', $request['challenge'])->get();
         return response()->json([

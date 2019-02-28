@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use App\Mail\CreateComment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class CommentController extends Controller
 {
@@ -32,13 +34,15 @@ class CommentController extends Controller
             'data.text' => 'required'
         ]);
 
-        Comment::create([
+        $comment = Comment::create([
             'challenge_id' => $request['data']['challenge'],
             'date' => Carbon::now(),
             'user_id' => $request['data']['user_id'],
             'text' => $request['data']['text']
 
         ]);
+
+        Mail::send(new CreateComment($comment));
 
         $comments = Comment::where('challenge_id', $request['data']['challenge'])->get();
         return response()->json([
