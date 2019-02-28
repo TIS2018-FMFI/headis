@@ -43,7 +43,7 @@ class WritePointsJob implements ShouldQueue
             foreach ($users as $user){
                 Point::create([
                     'user_id' => $user->id,
-                    'date' => Carbon::now(),
+                    'date' => Carbon::now()->subDays(2),
                     'point' => $user->position,
                     'season_id' => $season->id
                 ]);
