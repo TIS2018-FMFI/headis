@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Challenge;
 use App\Date;
 use App\Mail\CreateDate;
+use App\Rules\UniqueDate;
 use Illuminate\Http\Request;
 use Illuminate\Queue\RedisQueue;
 use App\Rules\CheckHours;
@@ -28,7 +29,7 @@ class DateController extends Controller
     {
         $this->validate($request,[
             'challenge' => 'required|exists:challenges,id',
-            'date' => ['required','date','unique:dates,date,NULL,id,deleted_at,NULL', new CheckHours(), new ValidChallengeDate($request['challenge'])]
+            'date' => ['required','date', new UniqueDate($request['challenge']), new CheckHours(), new ValidChallengeDate($request['challenge'])]
         ]);
 
         $date = Date::create([
