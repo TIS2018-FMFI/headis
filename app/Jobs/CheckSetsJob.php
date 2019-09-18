@@ -43,7 +43,7 @@ class CheckSetsJob implements ShouldQueue
                     Set::create([
                         'match_id' => $this->match_id,
                         'score_1' => 11,
-                        'score_' => 0
+                        'score_2' => 0
                     ]);
                 }
                 $this->match->confirmed = true;
