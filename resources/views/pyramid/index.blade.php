@@ -10,7 +10,7 @@
             @php ($maxLevel--)
             @foreach ($users as $user)
 
-                @if($user->id == $currentAuthUser->id)
+                @if($currentAuthUser && $user->id == $currentAuthUser->id)
                     <div class="scrolling-wrapper-flexbox-item scrolling-wrapper-flexbox-item-current col mr-4 border pt-4" ><a class="text-white" href="/users/{{$user->id}}"><span class="d-sm-block">{{$user->position}}.</span>{{$user->user_name}}</a></div>
                 @else
                     <div class="scrolling-wrapper-flexbox-item col mr-4 border pt-4"><a class="text-white" href="/users/{{$user->id}}"><span class="d-sm-block">{{$user->position}}.</span> {{$user->user_name}}</a></div>
