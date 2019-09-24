@@ -33,7 +33,9 @@ return [
     'email' => 'Email',
     'password' => 'Heslo',
     'password_confirmation' => 'Potvrdenie hesla',
-    'image' => 'Fotka'
+    'image' => 'Fotka',
+    'rest' => 'Môžeš ešte vyzvať',
+    'players' => 'hráčov'
 
 
 
