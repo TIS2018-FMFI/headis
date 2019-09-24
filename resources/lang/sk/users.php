@@ -35,6 +35,7 @@ return [
     'password_confirmation' => 'Potvrdenie hesla',
     'image' => 'Fotka',
     'rest' => 'Môžeš ešte vyzvať',
+    'player' => 'hráča',
     'players' => 'hráčov'
 
 

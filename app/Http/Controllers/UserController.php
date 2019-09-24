@@ -54,7 +54,7 @@ class UserController extends Controller
             'matches' => $matches,
             'canChallenge' => $canChallenge,
             'declinedMatches' => Match::allDeclinedMatches(),
-            'restChallenge' => $user->countOfChallengesAsChallenger()
+            'restChallenge' => 3-$user->countOfChallengesAsChallenger()
         ]);
     }
 

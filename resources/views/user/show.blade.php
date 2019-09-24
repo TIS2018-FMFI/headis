@@ -12,7 +12,7 @@
                 @if($currentAuthUser->id == $user->id)
                     <a class="btn btn-primary" href="/users/{{$user->id}}/edit">{{__('users.Edit profile')}}</a>
                     <div>
-                        {{ __('users.rest') }} {{ $restChallenge }} {{ __('users.players') }}
+                        {{ __('users.rest') }} {{ $restChallenge }} {{ $restChallenge == 1 ? __('users.player') : __('users.players') }}
                     </div>
                 @endif
 
