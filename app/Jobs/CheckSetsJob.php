@@ -41,7 +41,7 @@ class CheckSetsJob implements ShouldQueue
             if (count($sets) == 0){
                 foreach (range(0, 1) as $number) {
                     Set::create([
-                        'match_id' => $this->match_id,
+                        'match_id' => $this->match->id,
                         'score_1' => 11,
                         'score_2' => 0
                     ]);
