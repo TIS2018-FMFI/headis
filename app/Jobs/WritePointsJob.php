@@ -38,7 +38,7 @@ class WritePointsJob implements ShouldQueue
             return;
         }
         DB::transaction(function () {
-            $users = User::all();
+            $users = User::where('isRedactor', 0)->get();
             $season = Season::current();
             foreach ($users as $user){
                 Point::create([
