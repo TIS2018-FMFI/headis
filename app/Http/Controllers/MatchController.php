@@ -82,7 +82,7 @@ class MatchController extends Controller
             'date' => ['required','exists:dates,date', new ValidChallengeDate($request['challenge_id'])]
         ]);
 
-        $date = Date::where('date', $request['date'])->first();
+        $date = Date::where('date', $request['date'])->where('challenge_id', $request['challenge_id'])->first();
 
         $match = Match::create([
             'challenge_id' => $request['challenge_id'],

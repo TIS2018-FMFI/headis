@@ -46,4 +46,9 @@ class Challenge extends Model
     {
         return auth()->user()->id == $this->asked->id || auth()->user()->id == $this->challenger->id;
     }
+
+    public static function current()
+    {
+        return self::query()->doesntHave('match')->get();
+    }
 }
