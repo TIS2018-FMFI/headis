@@ -34,4 +34,15 @@ class Season extends Model
     {
         return static::query()->whereDate('date_to', '>=', Carbon::now())->get();
     }
+
+    public function points()
+    {
+        return $this->hasMany(Point::class);
+    }
+
+    public function pyramid()
+    {
+        return $this->points()->whereDate('date', $this->points()->max('date'))->join('users', 'points.user_id','=', 'users.id')
+            ->select('points.point AS position', 'users.user_name', 'users.id');
+    }
 }

@@ -42,7 +42,10 @@ Route::post('/sets/store', 'SetController@store');
 Route::post('/sets/update', 'SetController@update');
 Route::post('/sets/validateSet', 'SetController@validateSet');
 
-Route::get('/pyramid', 'PyramidController@index')->name('pyramid');
+Route::prefix('pyramid')->group(function (){
+    Route::get('/', 'PyramidController@index')->name('pyramid');
+    Route::get('/season/{season}', 'PyramidController@index');
+});
 
 Route::get('/posts', 'PostController@index');
 Route::post('/posts/store', 'PostController@store');
