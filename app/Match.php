@@ -66,4 +66,9 @@ class Match extends Model
     {
         return Match::where('confirmed', false)->get();
     }
+
+    public static function current()
+    {
+        return self::query()->where('confirmed', null)->get();
+    }
 }

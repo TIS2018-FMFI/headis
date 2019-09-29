@@ -20,7 +20,7 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/users', 'UserController@index')->name('users');
-Route::get('/users/{user}', 'UserController@show');
+Route::get('/users/{user}', 'UserController@show')->name('users.show');
 Route::post('/users/{user}/destroy', 'UserController@destroy');
 Route::post('/users/{user}/update', 'UserController@update');
 Route::get('/users/{user}/edit', 'UserController@edit');
