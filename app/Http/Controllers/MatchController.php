@@ -11,6 +11,7 @@ use App\Mail\MatchDateConfirmed;
 use App\Match;
 use App\NotAvailableDate;
 use App\Rules\ValidChallengeDate;
+use App\Season;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -86,7 +87,8 @@ class MatchController extends Controller
 
         $match = Match::create([
             'challenge_id' => $request['challenge_id'],
-            'date_id' => $date->id
+            'date_id' => $date->id,
+            'season_id' => Season::current()->id
         ]);
 
         $date = NotAvailableDate::addDaysTo(Carbon::now(), 4);

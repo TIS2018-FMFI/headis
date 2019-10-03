@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Challenge;
 use App\Date;
 use App\Match;
+use App\Season;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -53,7 +54,8 @@ class CheckChallengeDatesJob implements ShouldQueue
                     'challenge_id' => $this->challenge->id,
                     'date_id' => $date->id,
                     'confirmed' => true,
-                    'type' => 'notPenalized'
+                    'type' => 'notPenalized',
+                    'season_id' => Season::current()->id
                 ]);
                 $matchesWhereNotPenalized = $this->challenge->asked->matchWithNotPenalized;
                 if (sizeof($matchesWhereNotPenalized) == 3){

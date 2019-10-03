@@ -21,6 +21,8 @@ class CreateMatchesTable extends Migration
             $table->foreign('date_id')->references('id')->on('dates');
             $table->boolean('confirmed')->nullable();
             $table->string('type')->default('normal');
+            $table->integer('season_id')->unsigned();
+            $table->foreign('season_id')->references('id')->on('seasons');
         });
     }
 
