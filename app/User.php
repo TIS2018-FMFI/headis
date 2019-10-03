@@ -92,9 +92,16 @@ class User extends Authenticatable
             ->first();
     }
 
-    public function matches()
+    /**
+     * @param $season_id
+     * @return mixed
+     */
+    public function matches($season_id)
     {
-        return Match::select('matches.*')->where('confirmed', true)->where('type','normal')
+        return Match::select('matches.*')
+            ->where('confirmed', true)
+            ->where('type','normal')
+            ->where('season_id', $season_id)
             ->whereIn('matches.challenge_id', $this->challenges->pluck('id')->toArray())
             ->join('dates', 'matches.date_id','=','dates.id')
             ->orderBy('date', 'desc')

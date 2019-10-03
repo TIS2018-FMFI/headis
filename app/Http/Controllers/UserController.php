@@ -28,16 +28,17 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth', 'verified']);
+        $this->middleware(['auth', 'verified'])->except('show');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  User $user
+     * @param User $user
+     * @param Season|null $season
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(User $user, Season $season = null)
     {
         $canChallenge = auth()->user()->id !== $user->id && auth()->user()->currentMatch() == null &&
                         $user->countOfChallengesAsAsked() < 3 && User::currentChallenge(auth()->user())== null &&
@@ -48,13 +49,17 @@ class UserController extends Controller
                         floor(sqrt(auth()->user()->position - 1)) - 1 === floor(sqrt($user->position - 1))) &&
                         NotAvailableDate::isAvailableDate(null, false);
 
-        $matches = $user->matches();
+        $season = $season ?: Season::current();
+
+        $matches = $user->matches($season->id);
+
         return view('user.show', [
             'user' => $user,
             'matches' => $matches,
             'canChallenge' => $canChallenge,
             'declinedMatches' => Match::allDeclinedMatches(),
-            'restChallenge' => 3-$user->countOfChallengesAsChallenger()
+            'restChallenge' => 3-$user->countOfChallengesAsChallenger(),
+            'season' => $season
         ]);
     }
 

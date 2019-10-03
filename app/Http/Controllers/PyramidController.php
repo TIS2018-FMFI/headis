@@ -13,6 +13,7 @@ class PyramidController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Season|null $season
      * @return \Illuminate\Http\Response
      */
     public function index(Season $season = null)
