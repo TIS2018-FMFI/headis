@@ -1,8 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.app', ['seasons' => $seasons])
 
 @section('content')
     <div class="container-fluid">
-        <h4 class="mb-3">Sezóna: {{ date('d.m.Y', strtotime($season->date_from)) }} - {{ date('d.m.Y', strtotime($season->date_to)) }}</h4>
         <div class="text-center d-sm-none d-block"><h5>1. level</h5></div>
         <div class="row mb-4 text-center flex-sm-nowrap mx-0">
             @for ($i = $maxLevel; $i > 0; $i--)
