@@ -1,0 +1,2 @@
+UPDATE matches SET season_id = 1 WHERE id < 76
+UPDATE matches SET season_id = 2 WHERE id > 75

@@ -45,4 +45,14 @@ class Season extends Model
         return $this->points()->whereDate('date', $this->points()->max('date'))->join('users', 'points.user_id','=', 'users.id')
             ->select('points.point AS position', 'users.user_name', 'users.id');
     }
+
+    public function getCurrentLabel()
+    {
+        $current = self::current();
+
+        if ($current) {
+            return Carbon::parse($current->date_from)->format('Y') . '/' . Carbon::parse($current->date_to)->format('Y');
+        }
+        return '';
+    }
 }

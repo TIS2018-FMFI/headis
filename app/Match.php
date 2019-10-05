@@ -24,6 +24,11 @@ class Match extends Model
         return $this->hasMany(Set::class)->orderBy('id');
     }
 
+    public function season()
+    {
+        return $this->belongsTo(Season::class);
+    }
+
     public function winner()
     {
         $sets = $this->sets;

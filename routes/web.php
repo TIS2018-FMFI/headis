@@ -21,6 +21,7 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/users', 'UserController@index')->name('users');
 Route::get('/users/{user}', 'UserController@show')->name('users.show');
+Route::get('/users/{user}/season/{season}', 'UserController@show')->name('users.show.season');
 Route::post('/users/{user}/destroy', 'UserController@destroy');
 Route::post('/users/{user}/update', 'UserController@update');
 Route::get('/users/{user}/edit', 'UserController@edit');

@@ -72,6 +72,11 @@
             @else
                 <div class="col-sm-8 pre-scrollable">
                     <div class="row">
+                        <div class="col-12 text-center">
+                            <h3>Sezóna {{ $season->getCurrentLabel() }}</h3>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="text-center col-sm-11">
                             <div class="row">
                                 <div class="col-4 font-weight-bold">{{ __('users.Opponent') }}</div>
