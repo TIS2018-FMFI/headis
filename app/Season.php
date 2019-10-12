@@ -55,4 +55,15 @@ class Season extends Model
         }
         return '';
     }
+
+    public function getLabel()
+    {
+        return Carbon::parse($this->date_from)->format('Y') . '/' . Carbon::parse($this->date_to)->format('Y');
+    }
+
+    public function isCurrent()
+    {
+        return $this->id === self::current()->id;
+    }
+
 }

@@ -1,4 +1,4 @@
-@extends('layouts.app', ['seasons' => $seasons])
+@extends('layouts.app')
 
 @section('content')
     <div class="container-fluid">
@@ -75,4 +75,21 @@
             </div>
         @endforeach
     </div>
+@endsection
+
+@section('seasons')
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
+            {{ __('Season') }}
+        </a>
+        <div class="dropdown-menu text-center pre-scrollable" aria-labelledby="navbarDropdown">
+            @foreach($seasons as $s)
+                @if (!$s->isCurrent())
+                    <a class="nav-link" href="/pyramid/season/{{ $s->id }}">{{ $s->getLabel() }}</a>
+                @else
+                    <a class="nav-link" href="/pyramid">{{ __("Current") }}</a>
+                @endif
+            @endforeach
+        </div>
+    </li>
 @endsection

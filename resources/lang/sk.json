@@ -40,5 +40,7 @@
     "Sorry, you are making too many requests to our servers.": "Poslali ste priveľa požiadaviek na server.",
     "Whoops, something went wrong on our servers.": "Whoops, niečo sa pokazilo na serveri.",
     "Sorry, we are doing some maintenance. Please check back soon.": "Na serveri práve prebieha aktualizácia. Vráťte sa prosím neskôr.",
-    "Invalid signature.": "Neplatný podpis."
+    "Invalid signature.": "Neplatný podpis.",
+    "Season": "Sezóna",
+    "Current": "Aktuálna"
 }

@@ -47,27 +47,12 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
-                        @isset($seasons)
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{ __('Pyramid') }}
-                                </a>
-                                <div class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
-                                    <a href="{{ route('pyramid') }}" class="nav-link">
-                                        {{ __('Pyramid') }}
-                                    </a>
-                                    @foreach($seasons as $s)
-                                        <a class="nav-link" href="/pyramid/season/{{ $s->id }}">{{ date('Y', strtotime($s->date_from)) }} - {{ date('Y', strtotime($s->date_to)) }}</a>
-                                    @endforeach
-                                </div>
-                            </li>
-                        @else
-                            <li class="nav-item">
-                                <a href="{{ route('pyramid') }}" class="nav-link">
-                                    {{ __('Pyramid') }}
-                                </a>
-                            </li>
-                        @endisset
+                        <li class="nav-item">
+                            <a href="{{ route('pyramid') }}" class="nav-link">
+                                {{ __('Pyramid') }}
+                            </a>
+                        </li>
+                        @yield('seasons')
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login page') }}</a>

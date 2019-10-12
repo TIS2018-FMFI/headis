@@ -40,14 +40,19 @@ class UserController extends Controller
      */
     public function show(User $user, Season $season = null)
     {
-        $canChallenge = auth()->user()->id !== $user->id && auth()->user()->currentMatch() == null &&
-                        $user->countOfChallengesAsAsked() < 3 && User::currentChallenge(auth()->user())== null &&
-                        $user->currentMatch() == null && User::currentChallenge($user) == null &&
-                        !$user->isRedactor && !auth()->user()->isRedactor && Season::current() != null &&
-                        auth()->user()->position > $user->position && auth()->user()->countOfChallengesAsChallenger() < 3 &&
-                        (floor(sqrt(auth()->user()->position - 1)) === floor(sqrt($user->position - 1)) ||
-                        floor(sqrt(auth()->user()->position - 1)) - 1 === floor(sqrt($user->position - 1))) &&
-                        NotAvailableDate::isAvailableDate(null, false);
+        if (auth()->user()) {
+            $canChallenge = auth()->user()->id !== $user->id && auth()->user()->currentMatch() == null &&
+                $user->countOfChallengesAsAsked() < 3 && User::currentChallenge(auth()->user())== null &&
+                $user->currentMatch() == null && User::currentChallenge($user) == null &&
+                !$user->isRedactor && !auth()->user()->isRedactor && Season::current() != null &&
+                auth()->user()->position > $user->position && auth()->user()->countOfChallengesAsChallenger() < 3 &&
+                (floor(sqrt(auth()->user()->position - 1)) === floor(sqrt($user->position - 1)) ||
+                    floor(sqrt(auth()->user()->position - 1)) - 1 === floor(sqrt($user->position - 1))) &&
+                NotAvailableDate::isAvailableDate(null, false);
+        } else {
+            $canChallenge = false;
+        }
+
 
         $season = $season ?: Season::current();
 
@@ -59,7 +64,8 @@ class UserController extends Controller
             'canChallenge' => $canChallenge,
             'declinedMatches' => Match::allDeclinedMatches(),
             'restChallenge' => 3-$user->countOfChallengesAsChallenger(),
-            'season' => $season
+            'season' => $season,
+            'seasons' => Season::orderBy('date_to', 'desc')->get(),
         ]);
     }
 

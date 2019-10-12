@@ -39,7 +39,7 @@ class PyramidController extends Controller
             WHERE season_id = ".$season->id." and point = 1 GROUP BY MONTH(date)");
         return view('pyramid.index', [
             'season' => $season,
-            'seasons' => Season::all(),
+            'seasons' => Season::orderBy('date_to', 'desc')->get(),
             'maxLevel' => $maxLevel,
             'users' => $pyramid,
             'actualStatistics' => Point::hydrate($actualStatistics),
