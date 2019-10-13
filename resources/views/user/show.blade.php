@@ -15,7 +15,7 @@
                         <a class="btn btn-primary" href="/users/{{$user->id}}/edit">{{__('users.Edit profile')}}</a>
                         @if (!$currentAuthUser->isRedactor)
                             <div>
-                                {{ __('users.rest') }} {{ $restChallenge }} {{ $restChallenge == 1 ? __('users.player') : __('users.players') }}
+                                {{ trans_choice('users.rest', $restChallenge, ['count' => $restChallenge]) }}
                             </div>
                         @endif
                     @endif
