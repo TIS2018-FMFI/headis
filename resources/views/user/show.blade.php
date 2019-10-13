@@ -20,7 +20,7 @@
                         @endif
                     @endif
 
-                        @if($canChallenge)
+                        @if($canChallenge && !$currentAuthUser->isRedactor)
                             <form action="/challenges/store" method="POST" >
                                 @csrf
                                 <input type="hidden" name="user" value="{{ $user->id }}">
@@ -34,7 +34,7 @@
                                 </div>
                             </form>
                         @else
-                            @if($user->id != $currentAuthUser->id)
+                            @if($user->id != $currentAuthUser->id && !$currentAuthUser->isRedactor)
                                 <button disabled class="btn btn-danger">{{ __('users.You can not challenge the player') }}</button>
                             @endif
                         @endif
