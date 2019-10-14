@@ -42,7 +42,7 @@ class MatchController extends Controller
         if (!$match->isMember()){
             return back();
         }
-        if ($match->confirmed){
+        if ($match->confirmed && !auth()->user()->isRedactor){
             return redirect('/users/'.auth()->user()->id);
         }
         $translations = array();
@@ -147,5 +147,4 @@ class MatchController extends Controller
             'message' => ''
         ]);
     }
-
 }

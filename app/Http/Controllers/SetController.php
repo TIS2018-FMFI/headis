@@ -74,6 +74,8 @@ class SetController extends Controller
                 'sets' => ['required', new AllSetsValidator()]
             ]);
 
+            $updatePyramid = $match->confirmed === 0;
+
             $match->confirmed = true;
             $match->save();
 
@@ -92,7 +94,7 @@ class SetController extends Controller
                 ]);
             }
 
-            if ($challengerPoints == 2) {
+            if ($updatePyramid && $challengerPoints === 2) {
                 $challenger = User::find($match->challenge->challenger->id);
                 $asked = User::find($match->challenge->asked->id);
                 $pos1 = $asked->position;

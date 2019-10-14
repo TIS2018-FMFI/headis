@@ -76,4 +76,20 @@ class Match extends Model
     {
         return self::query()->where('confirmed', null)->get();
     }
+
+    public function result($user)
+    {
+        $sets['challenger'] = 0;
+        $sets['asked'] = 0;
+
+        foreach ($this->sets as $set) {
+            if ($set->score_1 > $set->score_2) {
+                $sets['challenger']++;
+            } else {
+                $sets['asked']++;
+            }
+        }
+
+        return $user->id === $this->challenge->challenger->id ? $sets['challenger'] . ':' . $sets['asked'] : $sets['asked'] . ':' . $sets['challenger'];
+    }
 }

@@ -10799,6 +10799,11 @@ body {
   opacity: .4;
 }
 
+.text-decoration-none,
+.text-decoration-none:hover {
+  text-decoration: none;
+}
+
 .navbar-laravel {
   background-color: #fff;
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);

@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="text-center col-sm-4">
+            <div class="text-center col-md-4">
                 <h3> {{ $user->user_name }} </h3>
                 <img class="img-fluid mb-4" src="{{ url('images/'.$user->image)}}"  alt="{{ $user->user_name }}">
 
@@ -38,7 +38,7 @@
                                 <button disabled class="btn btn-danger">{{ __('users.You can not challenge the player') }}</button>
                             @endif
                         @endif
-                        @if (!$currentAuthUser->isRedactor)
+                        @if (!$user->isRedactor)
                             <h5>{{ __('users.Actual position') }}: {{ $user->position }}.</h5>
                         @endif
                         @if($currentAuthUser->isRedactor)
@@ -56,7 +56,7 @@
                 @endif
             </div>
                 @if($currentAuthUser && $currentAuthUser->isRedactor && $user->isRedactor)
-                    <div class="col-sm-8 pre-scrollable">
+                    <div class="col-md-8 pre-scrollable">
                         <div class="row">
                             <div class="text-center col-sm-11">
                                 <div class="row">
@@ -81,14 +81,14 @@
                         </div>
                     </div>
                 @else
-                <div class="col-sm-8 pre-scrollable">
+                <div class="col-md-8 pre-scrollable">
                     <div class="row">
                         <div class="col-12 text-center">
                             <h3>Sezóna {{ $season->getCurrentLabel() }}</h3>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="text-center col-sm-11">
+                        <div class="text-center col-12">
                             <div class="row">
                                 <div class="col-4 font-weight-bold">{{ __('users.Opponent') }}</div>
                                 <div class="col-8">
@@ -109,35 +109,28 @@
                                         @else
                                             <a href="/users/{{$match->challenge->challenger->id}}">{{$match->challenge->challenger->user_name}}</a>
                                         @endif
-                                        <span> {{ $match->id }}</span>
                                     </div>
                                     <div class="col-8">
-                                        <div class="row">
-                                            <div class="col-4">{{ \Carbon\Carbon::parse($match->date->date)->format('d.m.Y')}}</div>
-                                            @foreach($match->sets as $set)
-                                                @if($user->id == $match->challenge->challenger->id)
-                                                    <div class="col-2 d-none d-sm-block">{{$set->score_1}}:{{$set->score_2}}</div>
-                                                @else
-                                                    <div class="col-2 d-none d-sm-block">{{$set->score_2}}:{{$set->score_1}}</div>
+                                        @if($currentAuthUser && $currentAuthUser->isRedactor)
+                                            <a href="/matches/{{ $match->id }}" class="text-decoration-none">
+                                        @endif
+                                            <div class="row">
+                                                <div class="col-4">{{ \Carbon\Carbon::parse($match->date->date)->format('d.m.Y')}}</div>
+                                                @foreach($match->sets as $set)
+                                                    @if($user->id == $match->challenge->challenger->id)
+                                                        <div class="col-2 d-none d-sm-block">{{$set->score_1}}:{{$set->score_2}}</div>
+                                                    @else
+                                                        <div class="col-2 d-none d-sm-block">{{$set->score_2}}:{{$set->score_1}}</div>
+                                                    @endif
+                                                @endforeach
+                                                @if(sizeof($match->sets) == 2)
+                                                    <div class="col-2 d-none d-sm-block">0:0</div>
                                                 @endif
-                                            @endforeach
-                                            @if(sizeof($match->sets) == 2)
-                                                <div class="col-2 d-none d-sm-block">0:0</div>
-                                            @endif
-                                            @if($user->id == $match->winner->id)
-                                                @if(sizeof($match->sets) == 3)
-                                                    <div class="col-2">2:1</div>
-                                                @else
-                                                    <div class="col-2">2:{{2-sizeof($match->sets)}}</div>
-                                                @endif
-                                            @else
-                                                @if(sizeof($match->sets) == 3)
-                                                    <div class="col-2">1:2</div>
-                                                @else
-                                                    <div class="col-2">{{2-sizeof($match->sets)}}:2</div>
-                                                @endif
-                                            @endif
-                                        </div>
+                                                <div class="col-2">{{ $match->result($user) }}</div>
+                                            </div>
+                                        @if($currentAuthUser && $currentAuthUser->isRedactor)
+                                            </a>
+                                        @endif
                                     </div>
                                 </div>
                             @endforeach
