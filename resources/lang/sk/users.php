@@ -35,4 +35,7 @@ return [
     'password_confirmation' => 'Potvrdenie hesla',
     'image' => 'Fotka',
     'rest' => '{0} Nemôžeš vyzvať už žiadneho hráča|{1} Môžeš ešte vyzvať 1 hráča|[2,*] Môžeš ešte vyzvať :count hráčov',
+    'count_of_all_matches' => 'Počet vyhraných zápasov: :count',
+    'count_of_won_matches' => 'Počet odohratých zápasov: :count',
+    'statistics' => 'Štatistika',
 ];

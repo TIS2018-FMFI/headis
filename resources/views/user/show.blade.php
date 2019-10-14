@@ -49,6 +49,11 @@
                             </p>
                         @endif
                 @endauth
+                @if ($currentAuthUser && !$currentAuthUser->isRedactor)
+                    <h4 class="mt-5">{{ __('users.statistics') }}</h4>
+                    <p>{{ __('users.count_of_won_matches', ['count' => $user->allWonMatches()]) }}</p>
+                    <p>{{ __('users.count_of_all_matches', ['count' => $user->allMatches()]) }}</p>
+                @endif
             </div>
                 @if($currentAuthUser && $currentAuthUser->isRedactor && $user->isRedactor)
                     <div class="col-sm-8 pre-scrollable">
@@ -108,7 +113,7 @@
                                     </div>
                                     <div class="col-8">
                                         <div class="row">
-                                            <div class="col-4">{{date('d-m-Y', strtotime($match->date->date))}}</div>
+                                            <div class="col-4">{{ \Carbon\Carbon::parse($match->date->date)->format('d.m.Y')}}</div>
                                             @foreach($match->sets as $set)
                                                 @if($user->id == $match->challenge->challenger->id)
                                                     <div class="col-2 d-none d-sm-block">{{$set->score_1}}:{{$set->score_2}}</div>
