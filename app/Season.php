@@ -24,7 +24,7 @@ class Season extends Model
      */
     public static function current()
     {
-        return static::query()->where('date_from', '<=', Carbon::now())->where('date_to', '>=', Carbon::now())->first();
+        return static::query()->where('date_from', '<=', Carbon::today()->toDateString())->where('date_to', '>=', Carbon::today()->toDateString())->first();
     }
 
     /**
@@ -32,7 +32,7 @@ class Season extends Model
      */
     public static function available()
     {
-        return static::query()->whereDate('date_to', '>=', Carbon::now())->get();
+        return static::query()->whereDate('date_to', '>=', Carbon::today()->toDateString())->get();
     }
 
     public function points()
