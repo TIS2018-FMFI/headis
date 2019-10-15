@@ -49,7 +49,7 @@
                             </p>
                         @endif
                 @endauth
-                @if ($currentAuthUser && !$currentAuthUser->isRedactor)
+                @if (!$user->isRedactor)
                     <h4 class="mt-5">{{ __('users.statistics') }}</h4>
                     <p>{{ __('users.count_of_won_matches', ['count' => $user->allWonMatches()]) }}</p>
                     <p>{{ __('users.count_of_all_matches', ['count' => $user->allMatches()]) }}</p>
