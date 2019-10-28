@@ -57,6 +57,12 @@ class UserController extends Controller
         $season = $season ?: Season::current();
 
         $matches = $user->matches($season->id);
+        $countOfWins = 0;
+        foreach ($matches as $match){
+            if ($match->winner->id == $user->id){
+                $countOfWins++;
+            }
+        }
 
         return view('user.show', [
             'user' => $user,
@@ -66,6 +72,7 @@ class UserController extends Controller
             'restChallenge' => 3-$user->countOfChallengesAsChallenger(),
             'season' => $season,
             'seasons' => Season::orderBy('date_to', 'desc')->get(),
+            'countOfWins' => $countOfWins
         ]);
     }
 

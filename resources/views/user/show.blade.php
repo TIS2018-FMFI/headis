@@ -51,8 +51,8 @@
                 @endauth
                 @if (!$user->isRedactor)
                     <h4 class="mt-5">{{ __('users.statistics') }}</h4>
-                    <p>{{ __('users.count_of_won_matches', ['count' => $user->allWonMatches()]) }}</p>
-                    <p>{{ __('users.count_of_all_matches', ['count' => $user->allMatches()]) }}</p>
+                    <p>{{ __('users.count_of_won_matches', ['count' => $countOfWins]) }}</p>
+                    <p>{{ __('users.count_of_all_matches', ['count' => count($matches)]) }}</p>
                 @endif
             </div>
                 @if($currentAuthUser && $currentAuthUser->isRedactor && $user->isRedactor)

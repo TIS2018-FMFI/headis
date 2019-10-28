@@ -137,22 +137,6 @@ class User extends Authenticatable
     }
 
     /**
-     * @return int
-     */
-    public function allMatches()
-    {
-        return count($this->matches());
-    }
-
-    /**
-     * @return int
-     */
-    public function allWonMatches()
-    {
-        return count($this->matches());
-    }
-
-    /**
      * @return mixed
      */
     public static function pyramid()
