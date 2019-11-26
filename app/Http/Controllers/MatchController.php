@@ -8,6 +8,8 @@ use App\Jobs\CheckSetsJob;
 use App\Mail\MatchRejectedAsked;
 use App\Mail\RejectedMatch;
 use App\Mail\MatchDateConfirmed;
+use App\Mail\RequestCancelMatch;
+use App\Mail\RequestCancelMatchAccepted;
 use App\Match;
 use App\NotAvailableDate;
 use App\Rules\ValidChallengeDate;
@@ -61,6 +63,14 @@ class MatchController extends Controller
         $translations['matches.not_available_sets'] = __('matches.not_available_sets');
         $translations['matches.cannot_add_sets'] = __('matches.cannot_add_sets');
         $translations['matches.are_not_available_sets'] = __('matches.are_not_available_sets');
+        $translations['matches.cancel_match'] = __('matches.cancel_match');
+        $translations['matches.cancel_match_requested'] = __('matches.cancel_match_requested');
+        $translations['matches.cancel_match_rejected'] = __('matches.cancel_match_rejected');
+        $translations['matches.cancel_match_accept'] = __('matches.cancel_match_accept');
+        $translations['matches.cancel_match_reject'] = __('matches.cancel_match_reject');
+        $translations['matches.cancel_match_purpose'] = __('matches.cancel_match_purpose');
+        $translations['matches.cancel_match_modal_text'] = __('matches.cancel_match_modal_text');
+        $translations['matches.cancel_match_modal_send'] = __('matches.cancel_match_modal_send');
         return view('match.show', [
             'match' => $match->load(['sets', 'challenge.challenger', 'challenge.asked', 'date']),
             'finished' => $match->finished(),
@@ -146,5 +156,42 @@ class MatchController extends Controller
            'status' => $match->confirmed ? 'success' : 'danger',
             'message' => ''
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param Match $match
+     * @return \Illuminate\Http\Response
+     */
+    public function cancel(Request $request, Match $match)
+    {
+        /** @var User $user */
+        $user = User::find(auth()->id());
+
+        if ($user->isRedactor) {
+            if ($request['data']['confirmed']) {
+                $match->type = 'requestCancelAccepted';
+                $match->confirmed = true;
+                Mail::send(new RequestCancelMatchAccepted($match->challenge->challenger));
+                Mail::send(new RequestCancelMatchAccepted($match->challenge->asked));
+            } else {
+                $match->type = 'requestCancelRejected';
+            }
+            $match->save();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => ''
+            ]);
+
+        } else {
+            $match->type = 'requestCancel';
+            $match->save();
+            Mail::send(new RequestCancelMatch($user, $match, $request['message']));
+            return response()->json([
+                'status' => 'success',
+                'message' => ''
+            ]);
+        }
     }
 }

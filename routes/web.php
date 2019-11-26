@@ -33,6 +33,7 @@ Route::post('/challenges/store', 'ChallengeController@store');
 Route::post('/matches/store', 'MatchController@store');
 Route::get('/matches/{match}', 'MatchController@show');
 Route::post('/matches/{match}/update', 'MatchController@update');
+Route::post('/matches/{match}/cancel', 'MatchController@cancel');
 
 Route::post('/comments/store', 'CommentController@store');
 

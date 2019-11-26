@@ -4,15 +4,25 @@
             <div class="col-12">
                 <h1>{{ translations['matches.match'] }}</h1>
                 <p>{{ match.date.date | moment("DD.MM.YYYY HH:mm") }}</p>
+                <div v-if="current_user.isRedactor">
+                    <button @click.prevent="redactorCancelMatchRequest(true)" class="btn btn-success">{{ translations['matches.cancel_match_accept'] }}</button>
+                    <button v-if="match.type === 'requestCancel'" @click.prevent="redactorCancelMatchRequest(false)" class="btn btn-danger">{{ translations['matches.cancel_match_reject'] }}</button>
+                </div>
             </div>
         </div>
 
         <div class="row mb-5">
             <div class="col-sm-6 text-left">
                 <h2><b>{{ translations['matches.challenger'] }}: <a :href="'/users/' + match.challenge.challenger.id">{{ match.challenge.challenger.user_name }}</a></b></h2>
+                <button v-if="current_user.id === match.challenge.challenger.id && !isCanceled && match.type !== 'requestCancelRejected'" @click.prevent="cancelMatch()" class="btn btn-danger">{{ translations['matches.cancel_match'] }}</button>
+                <p v-if="current_user.id === match.challenge.challenger.id && isCanceled">{{ translations['matches.cancel_match_requested'] }}</p>
+                <p v-if="current_user.id === match.challenge.challenger.id && match.type === 'requestCancelRejected'">{{ translations['matches.cancel_match_rejected'] }}</p>
             </div>
             <div class="col-sm-6 text-right">
                 <h2><b>{{ translations['matches.challenged'] }}: <a :href="'/users/' + match.challenge.asked.id">{{ match.challenge.asked.user_name }}</a></b></h2>
+                <button v-if="current_user.id === match.challenge.asked.id && !isCanceled && match.type !== 'requestCancelRejected'" @click.prevent="cancelMatch()" class="btn btn-danger">{{ translations['matches.cancel_match'] }}</button>
+                <p v-if="current_user.id === match.challenge.asked.id && isCanceled">{{ translations['matches.cancel_match_requested'] }}</p>
+                <p v-if="current_user.id === match.challenge.asked.id && match.type === 'requestCancelRejected'">{{ translations['matches.cancel_match_rejected'] }}</p>
             </div>
         </div>
 
@@ -26,15 +36,15 @@
                         <h3>{{ match.challenge.asked.user_name }}: </h3>
                         <h3>{{ match.challenge.challenger.user_name }}: </h3>
                         <div v-if="current_user.id === match.challenge.asked.id || current_user.isRedactor">
-                            <button v-if="vueFinished || (current_user.isRedactor && isConfirmed === 0)" @click.prevent="sendSets()" class="btn btn-success">{{ translations['matches.confirm'] }}</button>
-                            <button v-if="vueSets.length > 0 || (current_user.isRedactor && isConfirmed === 0)" @click.prevent="resetSets()" class="btn btn-danger">{{ translations['matches.reset'] }}</button>
+                            <button v-if="vueFinished || current_user.isRedactor" @click.prevent="sendSets()" class="btn btn-success">{{ translations['matches.confirm'] }}</button>
+                            <button v-if="vueSets.length > 0 || current_user.isRedactor" @click.prevent="resetSets()" class="btn btn-danger">{{ translations['matches.reset'] }}</button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <template v-if="isTimeForAddSets">
-                <template v-if="current_user.isRedactor && isConfirmed === 0">
+                <template v-if="current_user.isRedactor">
                     <div class="col-md-3" v-for="(set, index) in formRedactor.sets">
                         <div class="card text-center mb-4">
                             <div class="card-header">{{ index+1 }}</div>
@@ -58,12 +68,6 @@
                                 <button @click.prevent="redactorAddSet()" class="btn btn-success">{{ translations['matches.add'] }}</button>
                             </div>
                         </div>
-                    </div>
-                </template>
-
-                <template v-else-if="current_user.isRedactor && isConfirmed !== 0">
-                    <div class="col-md-9 text-center text-md-right pt-5 mt-md-5">
-                        <h3>{{ translations['matches.cannot_edit_match'] }}</h3>
                     </div>
                 </template>
 
@@ -123,6 +127,16 @@
                 </div>
             </div>
         </div>
+        <b-modal v-model="cancelModal" hide-footer :title="translations['matches.cancel_match']">
+            <div class="d-block">
+                <div class="form-group">
+                    <label for="message">{{ translations['matches.cancel_match_purpose'] }}</label>
+                    <textarea v-model="formCancelMatch.message" class="form-control" rows="3" id="message"></textarea>
+                </div>
+                <p>{{ translations['matches.cancel_match_modal_text'] }}</p>
+            </div>
+            <button class="mt-3 btn btn-danger btn-block" @click="cancelMatchSend">{{ translations['matches.cancel_match_modal_send'] }}</button>
+        </b-modal>
     </div>
 </template>
 
@@ -139,6 +153,7 @@
                 selectedSet: null,
                 axiosFinished: null,
                 axiosConfirmed: null,
+                axiosCanceledMatch: false,
                 vueSets: [],
                 vueFinished: false,
                 formSet: new Form({
@@ -151,10 +166,14 @@
                     match_id: '',
                     allSets: ''
                 }),
+                formCancelMatch: new Form({
+                    message: '',
+                }),
                 now: new Date,
                 vueCanAddSets: false,
                 canAddSet: true,
-                canPress: true
+                canPress: true,
+                cancelModal: false
             }
         },
         computed: {
@@ -185,10 +204,13 @@
             },
             isTimeForAddSets() {
                 return this.can_add_sets || this.vueCanAddSets;
+            },
+            isCanceled() {
+                return this.axiosCanceledMatch || this.match.type === 'requestCancel';
             }
         },
         mounted() {
-            if (this.$props.match.confirmed === 0 && this.$props.current_user.isRedactor) {
+            if (this.$props.current_user.isRedactor) {
                 this.$props.match.sets.forEach(item => {
                     this.formRedactor.sets.push({score_1: item['score_1'], score_2: item['score_2']})
                 });
@@ -209,7 +231,6 @@
                     });
                 }
             },
-
             addSet() {
                 this.canAddSet = false;
                 this.formSet.post('/sets/validateSet').then(response => {
@@ -220,7 +241,6 @@
                     this.canAddSet = true;
                 });
             },
-
             sendSets() {
                 if (this.current_user.isRedactor) {
                     axios.post('/sets/update', {
@@ -246,7 +266,6 @@
                     });
                 }
             },
-
             resetSets() {
                 if (this.current_user.isRedactor) {
                     this.formRedactor.sets = [];
@@ -258,7 +277,6 @@
                     this.vueFinished = false;
                 }
             },
-
             checkFinishMatch() {
                 let challenger = 0;
                 let asked = 0;
@@ -271,21 +289,37 @@
                     }
                 });
                 if (challenger === 2 || asked === 2) {
-
                     this.vueFinished = true;
                 }
             },
-
             redactorAddSet() {
                 if (this.formRedactor.sets.length < 3) {
                     this.formRedactor.sets.push({score_1: 0, score_2: 0});
                 }
             },
-
             redactorRemoveSet() {
                 if (this.formRedactor.sets.length === 3) {
                     this.formRedactor.sets.splice(2);
                 }
+            },
+            cancelMatch() {
+                this.formCancelMatch.message = '';
+                this.cancelModal = true;
+            },
+            cancelMatchSend() {
+                this.formCancelMatch.post('/matches/' + this.match.id + '/cancel').then(response => {
+                    this.axiosCanceledMatch = true;
+                    this.cancelModal = false;
+                });
+            },
+            redactorCancelMatchRequest(accept) {
+                axios.post('/matches/' + this.match.id + '/cancel', {
+                    data: {
+                        confirmed: accept
+                    }
+                }).then(response => {
+                    this.axiosCanceledMatch = true;
+                });
             }
         },
         created() {
