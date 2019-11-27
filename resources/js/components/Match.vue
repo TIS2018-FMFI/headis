@@ -318,6 +318,9 @@
                         confirmed: accept
                     }
                 }).then(response => {
+                    if (response['data']['redirect']) {
+                        window.location.href = response['data']['redirect']
+                    }
                     this.axiosCanceledMatch = true;
                 });
             }
