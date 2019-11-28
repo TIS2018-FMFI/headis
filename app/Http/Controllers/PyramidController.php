@@ -19,16 +19,18 @@ class PyramidController extends Controller
      */
     public function index(Season $season = null)
     {
-        $maxLevel = floor(sqrt(User::max('position')-1));
+
 
         if ($season == null) {
             $season = Season::current();
+            $maxLevel = floor(sqrt(User::max('position')-1));
             if ($season == null){
                 $season = Season::orderBy('date_to', 'desc')->first();
             }
             $pyramid = User::pyramid();
         } else {
             $pyramid = $season->pyramid;
+            $maxLevel = floor(sqrt(sizeof($pyramid)));
         }
         //dd($pyramid);
 

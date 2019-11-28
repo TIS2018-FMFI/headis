@@ -42,7 +42,7 @@ class Season extends Model
 
     public function pyramid()
     {
-        return $this->points()->whereDate('date', $this->points()->max('date'))->join('users', 'points.user_id','=', 'users.id')
+        return $this->points()->whereDate('date', $this->points()->max('date'))->join('users', 'points.user_id','=', 'users.id')->orderBy('point')
             ->select('points.point AS position', 'users.user_name', 'users.id');
     }
 
