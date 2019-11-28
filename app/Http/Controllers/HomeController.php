@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Challenge;
+use App\Match;
 use App\Post;
 
 class HomeController extends Controller
@@ -17,7 +19,9 @@ class HomeController extends Controller
         $posts = Post::homeLatest();
 
         return view('home.index', [
-            'posts' => $posts
+            'posts' => $posts,
+            'currentChallenges' => Challenge::current(),
+            'currentMatches' => Match::current()
         ]);
     }
 

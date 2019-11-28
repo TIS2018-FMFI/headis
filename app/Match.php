@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Match extends Model
 {
+    use SoftDeletes;
+
     public $timestamps = false;
     protected $guarded = [];
 
@@ -22,6 +25,11 @@ class Match extends Model
     public function sets()
     {
         return $this->hasMany(Set::class)->orderBy('id');
+    }
+
+    public function season()
+    {
+        return $this->belongsTo(Season::class);
     }
 
     public function winner()
@@ -65,5 +73,26 @@ class Match extends Model
     public static function allDeclinedMatches()
     {
         return Match::where('confirmed', false)->get();
+    }
+
+    public static function current()
+    {
+        return self::query()->where('confirmed', null)->get();
+    }
+
+    public function result($user)
+    {
+        $sets['challenger'] = 0;
+        $sets['asked'] = 0;
+
+        foreach ($this->sets as $set) {
+            if ($set->score_1 > $set->score_2) {
+                $sets['challenger']++;
+            } else {
+                $sets['asked']++;
+            }
+        }
+
+        return $user->id === $this->challenge->challenger->id ? $sets['challenger'] . ':' . $sets['asked'] : $sets['asked'] . ':' . $sets['challenger'];
     }
 }

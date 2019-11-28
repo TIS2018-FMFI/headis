@@ -13,10 +13,12 @@ return [
     'ActivateUserSubject' => 'Znovuaktivácia hráča.',
     'DeactivateUserSubject' => 'Deaktivácia hráča.',
     'ChallengeCreateSubject' => 'Výzva',
-    'MatchRejectSubject'=>'Odmietnutie zápasu',
+    'MatchRejectSubject'=> 'Odmietnutie zápasu',
     'MatchDateConfirmedSubject' => 'Potvrdený termín zápasu',
     'CreateDateSubject' => 'Pridaný dátum k výzve',
     'CreateCommentSubject' => 'Pridaný komentár k výzve',
+    'RequestCancelMatch' => 'Požiadavka na zrušenie zápasu',
+    'RequestCancelMatchAccepted' => 'Zrušenie zápasu',
 
     //GREETINGS
     'Hello' => 'Dobrý deň, :username,',
@@ -30,15 +32,19 @@ return [
     'MatchDateConfirmedText' => ':challenger potvrdil termín zápasu. Zápas sa uskotoční dňa :date o :time.',
     'CreateDateText' => 'Bol pridaný termín zápasu.',
     'CreateCommentText' => 'Bol pridaní komentár k výzve',
+    'CancelMatchText' => 'Hráč :username Vás žiada o zrušenie zápasu.',
+    'CancelMatchPurpose' => 'Dôvod zrušenia:',
+    'CancelMatchAcceptedText' => 'Váš aktuálny zápas zo dňa :date bol zrušený.',
 
     //OUTERLINES
     'ChallengeCreateOutText' => 'Ak sa do troch pracovných dní nedohodnete a nepridáte 5 termínov, tak kontumačne prehráte.',
 
     //ACTIONTEXT
-    'MyAccount' => 'Môj profil.',
+    'MyAccount' => 'Môj profil',
     'CurrentChallenge' => 'Aktuálna výzva',
     'EditMatch' => 'Upravovanie zápasu',
     'CurrentMatch' => 'Aktuálny zápas',
+    'CancelMatch' => 'Zápas na zrušenie',
 
     //SALUTATION
     'Goodbye' => 'Prajem pekný deň.'

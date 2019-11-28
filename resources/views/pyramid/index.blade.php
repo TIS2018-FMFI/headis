@@ -10,7 +10,7 @@
             @php ($maxLevel--)
             @foreach ($users as $user)
 
-                @if($user->id == $currentAuthUser->id)
+                @if($currentAuthUser && $user->id == $currentAuthUser->id)
                     <div class="scrolling-wrapper-flexbox-item scrolling-wrapper-flexbox-item-current col mr-4 border pt-4" ><a class="text-white" href="/users/{{$user->id}}"><span class="d-sm-block">{{$user->position}}.</span>{{$user->user_name}}</a></div>
                 @else
                     <div class="scrolling-wrapper-flexbox-item col mr-4 border pt-4"><a class="text-white" href="/users/{{$user->id}}"><span class="d-sm-block">{{$user->position}}.</span> {{$user->user_name}}</a></div>
@@ -75,4 +75,21 @@
             </div>
         @endforeach
     </div>
+@endsection
+
+@section('seasons')
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
+            {{ __('Season') }}
+        </a>
+        <div class="dropdown-menu text-center pre-scrollable" aria-labelledby="navbarDropdown">
+            @foreach($seasons as $s)
+                @if (!$s->isCurrent())
+                    <a class="nav-link" href="/pyramid/season/{{ $s->id }}">{{ $s->getLabel() }}</a>
+                @else
+                    <a class="nav-link" href="/pyramid">{{ __("Current") }}</a>
+                @endif
+            @endforeach
+        </div>
+    </li>
 @endsection

@@ -17,14 +17,16 @@ class WritePointsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $today;
+
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param $today
      */
-    public function __construct()
+    public function __construct($today = false)
     {
-        //
+        $this->today = $today;
     }
 
     /**
@@ -38,12 +40,12 @@ class WritePointsJob implements ShouldQueue
             return;
         }
         DB::transaction(function () {
-            $users = User::all();
+            $users = User::where('isRedactor', false)->get();
             $season = Season::current();
             foreach ($users as $user){
                 Point::create([
                     'user_id' => $user->id,
-                    'date' => Carbon::now()->subDays(2),
+                    'date' => $this->today ? Carbon::today() : Carbon::today()->subDays(2),
                     'point' => $user->position,
                     'season_id' => $season->id
                 ]);

@@ -1,0 +1,3 @@
+UPDATE matches SET season_id = 1 WHERE id < 76;
+UPDATE matches SET season_id = 2 WHERE id > 75;
+DELETE FROM `points` WHERE id IN (153,138,147,141,156,144,150);

@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Challenge;
 use App\Date;
 use App\Match;
+use App\Season;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -48,7 +49,8 @@ class CheckChallengeConfirmedJob implements ShouldQueue
                     'challenge_id' => $this->challenge->id,
                     'date_id' => $date->id,
                     'confirmed' => true,
-                    'type' => 'contractedLoss'
+                    'type' => 'contractedLoss',
+                    'season_id' => Season::current()->id
                 ]);
             }
 

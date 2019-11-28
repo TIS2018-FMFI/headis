@@ -28,8 +28,8 @@ class DatabaseSeeder extends Seeder
         ));
 
         \App\Season::create([
-            'date_from' => \Carbon\Carbon::createFromDate(2018, 9, 1),
-            'date_to' => \Carbon\Carbon::createFromDate(2019, 6, 1),
+            'date_from' => \Carbon\Carbon::createFromDate(2019, 9, 1),
+            'date_to' => \Carbon\Carbon::createFromDate(2020, 6, 1),
         ]);
 
         factory(App\User::class, 20)->create()->each(function ($user) {

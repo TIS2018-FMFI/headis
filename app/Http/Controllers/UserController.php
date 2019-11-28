@@ -28,32 +28,51 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth', 'verified']);
+        $this->middleware(['auth', 'verified'])->except('show');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  User $user
+     * @param User $user
+     * @param Season|null $season
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(User $user, Season $season = null)
     {
-        $canChallenge = auth()->user()->id !== $user->id && auth()->user()->currentMatch() == null &&
-                        $user->countOfChallengesAsAsked() < 3 && User::currentChallenge(auth()->user())== null &&
-                        $user->currentMatch() == null && User::currentChallenge($user) == null &&
-                        !$user->isRedactor && !auth()->user()->isRedactor && Season::current() != null &&
-                        auth()->user()->position > $user->position && auth()->user()->countOfChallengesAsChallenger() < 3 &&
-                        (floor(sqrt(auth()->user()->position - 1)) === floor(sqrt($user->position - 1)) ||
-                        floor(sqrt(auth()->user()->position - 1)) - 1 === floor(sqrt($user->position - 1))) &&
-                        NotAvailableDate::isAvailableDate(null, false);
+        if (auth()->user()) {
+            $canChallenge = auth()->user()->id !== $user->id && auth()->user()->currentMatch() == null &&
+                $user->countOfChallengesAsAsked() < 3 && User::currentChallenge(auth()->user())== null &&
+                $user->currentMatch() == null && User::currentChallenge($user) == null &&
+                !$user->isRedactor && !auth()->user()->isRedactor && Season::current() != null &&
+                auth()->user()->position > $user->position && auth()->user()->countOfChallengesAsChallenger() < 3 &&
+                (floor(sqrt(auth()->user()->position - 1)) === floor(sqrt($user->position - 1)) ||
+                    floor(sqrt(auth()->user()->position - 1)) - 1 === floor(sqrt($user->position - 1))) &&
+                NotAvailableDate::isAvailableDate(null, false);
+        } else {
+            $canChallenge = false;
+        }
 
-        $matches = $user->matches();
+
+        $season = $season ?: Season::current();
+
+        $matches = $user->matches($season->id);
+        $countOfWins = 0;
+        foreach ($matches as $match){
+            if ($match->winner->id == $user->id){
+                $countOfWins++;
+            }
+        }
+
         return view('user.show', [
             'user' => $user,
             'matches' => $matches,
             'canChallenge' => $canChallenge,
-            'declinedMatches' => Match::allDeclinedMatches()
+            'declinedMatches' => Match::allDeclinedMatches(),
+            'restChallenge' => 3-$user->countOfChallengesAsChallenger(),
+            'season' => $season,
+            'seasons' => Season::orderBy('date_to', 'desc')->get(),
+            'countOfWins' => $countOfWins
         ]);
     }
 

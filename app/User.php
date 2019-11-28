@@ -14,7 +14,6 @@ class User extends Authenticatable
     use Notifiable;
     use SoftDeletes;
 
-
     /**
      * The attributes that are mass assignable.
      *
@@ -33,7 +32,6 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-
     /**
      * The attributes that should be mutated to dates.
      *
@@ -41,43 +39,68 @@ class User extends Authenticatable
      */
     protected $dates = ['deleted_at'];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function posts()
     {
         return $this->hasMany(Post::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function points()
     {
         return $this->hasMany(Point::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Query\Builder
+     */
     public function challenges()
     {
         return $this->challengesAsChallenger()->union($this->challengesAsAsked());
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function challengesAsChallenger()
     {
         return $this->hasMany(Challenge::class,'user_id_1');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function challengesAsAsked()
     {
         return $this->hasMany(Challenge::class,'user_id_2');
     }
 
+    /**
+     * @return int
+     */
     public function countOfChallengesAsChallenger()
     {
         return $this->challengesAsChallenger()->whereMonth('created_date', Carbon::now())
             ->whereYear('created_date', Carbon::now())->count();
     }
 
+    /**
+     * @return int
+     */
     public function countOfChallengesAsAsked()
     {
         return $this->challengesAsAsked()->whereMonth('created_date', Carbon::now())
             ->whereYear('created_date', Carbon::now())->count();
     }
 
+    /**
+     * @param User $user
+     * @return mixed
+     */
     public static function currentChallenge(User $user)
     {
         return Challenge::where(function ($query) use ($user) {
@@ -86,27 +109,45 @@ class User extends Authenticatable
         })->whereNotIn('id', Match::all()->pluck('challenge_id')->toArray())->first();
     }
 
+    /**
+     * @return mixed
+     */
     public function currentMatch()
     {
         return Match::where('confirmed', null)->whereIn('matches.challenge_id', $this->challenges->pluck('id')->toArray())
             ->first();
     }
 
-    public function matches()
+    /**
+     * @param $season_id
+     * @return mixed
+     */
+    public function matches($season_id = null)
     {
-        return Match::select('matches.*')->where('confirmed', true)->where('type','normal')
+        return Match::select('matches.*')
+            ->where('confirmed', true)
+            ->where('type','normal')
+            ->when($season_id, function ($query, $season_id) {
+                return $query->where('season_id', $season_id);
+            })
             ->whereIn('matches.challenge_id', $this->challenges->pluck('id')->toArray())
             ->join('dates', 'matches.date_id','=','dates.id')
             ->orderBy('date', 'desc')
             ->get();
     }
 
-
+    /**
+     * @return mixed
+     */
     public static function pyramid()
     {
         return User::where('isRedactor', false)->orderBy('position')->get();
     }
 
+    /**
+     * @param null $columns
+     * @return array
+     */
     public static function canDeactivate($columns = null)
     {
         if ($columns == null) {
@@ -131,6 +172,10 @@ class User extends Authenticatable
         return $users;
     }
 
+    /**
+     * @param null $columns
+     * @return mixed
+     */
     public static function canActivate($columns = null)
     {
         if ($columns == null) {
@@ -140,6 +185,9 @@ class User extends Authenticatable
         return User::onlyTrashed()->get($columns);
     }
 
+    /**
+     * @return mixed
+     */
     public function matchWithNotPenalized()
     {
         return Match::select('matches.*')->where('confirmed', true)->where('type','notPenalized')
@@ -147,6 +195,9 @@ class User extends Authenticatable
             ->get();
     }
 
+    /**
+     * @return mixed
+     */
     public static function redactor()
     {
         return self::where('isRedactor', true)->first();

@@ -21,6 +21,9 @@ import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
 
 import CKEditor from '@ckeditor/ckeditor5-vue';
 
+import { BModal } from 'bootstrap-vue'
+Vue.component('b-modal', BModal);
+
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('vue-challenge', require('./components/Challenge.vue'));
 Vue.component('match-component', require('./components/Match.vue'));

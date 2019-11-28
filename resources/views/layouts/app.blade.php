@@ -47,6 +47,12 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
+                        <li class="nav-item">
+                            <a href="{{ route('pyramid') }}" class="nav-link">
+                                {{ __('Pyramid') }}
+                            </a>
+                        </li>
+                        @yield('seasons')
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login page') }}</a>
@@ -71,11 +77,6 @@
                                     </a>
                                 </li>
                             @endif
-                            <li class="nav-item">
-                                <a href="{{ route('pyramid') }}" class="nav-link">
-                                    {{ __('Pyramid') }}
-                                </a>
-                            </li>
                             <li class="nav-item">
                                 <a href="/users/{{ auth()->user()->id }}" class="nav-link">
                                     {{ auth()->user()->user_name }}

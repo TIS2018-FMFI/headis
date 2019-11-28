@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Challenge extends Model
 {
+    use SoftDeletes;
+
     public $timestamps = false;
 
     protected $fillable = [
@@ -45,5 +48,10 @@ class Challenge extends Model
     public function isMember()
     {
         return auth()->user()->id == $this->asked->id || auth()->user()->id == $this->challenger->id;
+    }
+
+    public static function current()
+    {
+        return self::query()->doesntHave('match')->get();
     }
 }

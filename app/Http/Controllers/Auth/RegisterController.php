@@ -81,7 +81,7 @@ class RegisterController extends Controller
         }
         $currentSeason = Season::current();
         $maxPoint = Point::where('season_id', $currentSeason->id)->max('point');
-        $points = Point::groupby(DB::raw('MONTH(date)'))->get();
+        $points = Point::where('season_id', $currentSeason->id)->groupby(DB::raw('MONTH(date)'))->get();
 
         $user = DB::transaction(function () use ($data, $fileName, $maxPoint, $points) {
             $user = User::create([

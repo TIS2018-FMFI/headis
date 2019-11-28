@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\WritePointsJob;
 use App\Rules\ValidSeason;
 use App\Season;
 use Illuminate\Http\Request;
@@ -44,8 +45,7 @@ class SeasonController extends Controller
         $season['current'] = Season::current();
         $season['available'] = Season::available();
 
-        //$season['available'][] = $newSeason;
-
+        dispatch(new WritePointsJob(true))->delay($newSeason->date_to);
 
         return response()->json([
             'status' => 'ok',

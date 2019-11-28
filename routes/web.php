@@ -20,7 +20,8 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/users', 'UserController@index')->name('users');
-Route::get('/users/{user}', 'UserController@show');
+Route::get('/users/{user}', 'UserController@show')->name('users.show');
+Route::get('/users/{user}/season/{season}', 'UserController@show')->name('users.show.season');
 Route::post('/users/{user}/destroy', 'UserController@destroy');
 Route::post('/users/{user}/update', 'UserController@update');
 Route::get('/users/{user}/edit', 'UserController@edit');
@@ -32,6 +33,7 @@ Route::post('/challenges/store', 'ChallengeController@store');
 Route::post('/matches/store', 'MatchController@store');
 Route::get('/matches/{match}', 'MatchController@show');
 Route::post('/matches/{match}/update', 'MatchController@update');
+Route::post('/matches/{match}/cancel', 'MatchController@cancel');
 
 Route::post('/comments/store', 'CommentController@store');
 
@@ -42,7 +44,10 @@ Route::post('/sets/store', 'SetController@store');
 Route::post('/sets/update', 'SetController@update');
 Route::post('/sets/validateSet', 'SetController@validateSet');
 
-Route::get('/pyramid', 'PyramidController@index')->name('pyramid');
+Route::prefix('pyramid')->group(function (){
+    Route::get('/', 'PyramidController@index')->name('pyramid');
+    Route::get('/season/{season}', 'PyramidController@index');
+});
 
 Route::get('/posts', 'PostController@index');
 Route::post('/posts/store', 'PostController@store');
