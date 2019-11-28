@@ -172,8 +172,8 @@ class MatchController extends Controller
             if ($request['data']['confirmed']) {
                 $match->type = 'requestCancelAccepted';
                 $match->confirmed = true;
-                Mail::send(new RequestCancelMatchAccepted($match->challenge->challenger));
-                Mail::send(new RequestCancelMatchAccepted($match->challenge->asked));
+                Mail::send(new RequestCancelMatchAccepted($match->challenge->challenger, $match));
+                Mail::send(new RequestCancelMatchAccepted($match->challenge->asked, $match));
                 $challenge = $match->challenge;
                 $challenge->delete();
                 $match->delete();

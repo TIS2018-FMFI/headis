@@ -34,7 +34,7 @@ return [
     'CreateCommentText' => 'Bol pridaní komentár k výzve',
     'CancelMatchText' => 'Hráč :username Vás žiada o zrušenie zápasu.',
     'CancelMatchPurpose' => 'Dôvod zrušenia:',
-    'CancelMatchAcceptedText' => 'Váš aktuálny zápas bol zrušený.',
+    'CancelMatchAcceptedText' => 'Váš aktuálny zápas zo dňa :date bol zrušený.',
 
     //OUTERLINES
     'ChallengeCreateOutText' => 'Ak sa do troch pracovných dní nedohodnete a nepridáte 5 termínov, tak kontumačne prehráte.',
