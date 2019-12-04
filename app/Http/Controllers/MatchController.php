@@ -93,25 +93,31 @@ class MatchController extends Controller
             'date' => ['required','exists:dates,date', new ValidChallengeDate($request['challenge_id'])]
         ]);
 
-        $date = Date::where('date', $request['date'])->where('challenge_id', $request['challenge_id'])->first();
+        $selectedDate = Date::where('date', $request['date'])->where('challenge_id', $request['challenge_id'])->first();
 
-        $match = Match::create([
-            'challenge_id' => $request['challenge_id'],
-            'date_id' => $date->id,
-            'season_id' => Season::current()->id
-        ]);
+        if ($selectedDate) {
+            $match = Match::create([
+                'challenge_id' => $request['challenge_id'],
+                'date_id' => $selectedDate->id,
+                'season_id' => Season::current()->id
+            ]);
 
-        $date = NotAvailableDate::addDaysTo(Carbon::now(), 4);
-        dispatch(new CheckMatchConfirmedJob($match->id))->delay($date);
+            $date = NotAvailableDate::addDaysTo(Carbon::parse($selectedDate->date), 4);
+            dispatch(new CheckMatchConfirmedJob($match->id))->delay($date);
 
-        $date = NotAvailableDate::addDaysTo(Carbon::now(), 3);
-        dispatch(new CheckSetsJob($match->id))->delay($date);
+            $date = NotAvailableDate::addDaysTo(Carbon::parse($selectedDate->date), 3);
+            dispatch(new CheckSetsJob($match->id))->delay($date);
 
-        Mail::send(new MatchDateConfirmed($match));
+            Mail::send(new MatchDateConfirmed($match));
 
+            return response()->json([
+                'status' => 'success',
+                'url' => '/matches/'.$match->id
+            ]);
+        }
         return response()->json([
             'status' => 'success',
-            'url' => '/matches/'.$match->id
+            'url' => '/challenges/'.$request['challenge_id']
         ]);
     }
 
