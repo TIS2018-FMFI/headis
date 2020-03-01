@@ -35,7 +35,7 @@ class CheckMatchConfirmedJob implements ShouldQueue
     {
         DB::transaction(function () {
             $match = Match::find($this->match_id);
-            if ($match->confirmed == NULL){
+            if ($match && $match->confirmed == NULL){
                 $match->confirmed = true;
                 $match->save();
             }

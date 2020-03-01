@@ -19,6 +19,7 @@ return [
     'CreateCommentSubject' => 'Pridaný komentár k výzve',
     'RequestCancelMatch' => 'Požiadavka na zrušenie zápasu',
     'RequestCancelMatchAccepted' => 'Zrušenie zápasu',
+    'MatchConfirmSetsSubject' => '',
 
     //GREETINGS
     'Hello' => 'Dobrý deň, :username,',
@@ -35,6 +36,7 @@ return [
     'CancelMatchText' => 'Hráč :username Vás žiada o zrušenie zápasu.',
     'CancelMatchPurpose' => 'Dôvod zrušenia:',
     'CancelMatchAcceptedText' => 'Váš aktuálny zápas zo dňa :date bol zrušený.',
+    'MatchConfirmSetsText' => '',
 
     //OUTERLINES
     'ChallengeCreateOutText' => 'Ak sa do troch pracovných dní nedohodnete a nepridáte 5 termínov, tak kontumačne prehráte.',
