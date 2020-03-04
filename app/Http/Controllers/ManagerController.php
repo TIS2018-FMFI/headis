@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Date;
+use App\Match;
 use App\NotAvailableDate;
 use App\Season;
 use App\User;
@@ -90,7 +91,9 @@ class ManagerController extends Controller
             'canDeactivateUsers' => User::canDeactivate(['id', 'user_name']),
             'canReactivateUsers' => User::canActivate(['id', 'user_name']),
             'season' => $season,
-            'notAvailableDates' => $notAvailableDates
+            'notAvailableDates' => $notAvailableDates,
+            'currentMatches' => Match::allCurrentMatches(),
+            'users' => User::where('isRedactor',0)->orderBy('position')->get(['id', 'user_name', 'position'])
         ]);
     }
 }

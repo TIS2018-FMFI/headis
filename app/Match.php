@@ -95,4 +95,11 @@ class Match extends Model
 
         return $user->id === $this->challenge->challenger->id ? $sets['challenger'] . ':' . $sets['asked'] : $sets['asked'] . ':' . $sets['challenger'];
     }
+
+    public function allCurrentMatches()
+    {
+        return Match::where('confirmed',null)->get();
+    }
+
+
 }

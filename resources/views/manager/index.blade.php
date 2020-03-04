@@ -8,5 +8,7 @@
                  :not_available_dates="{{ json_encode($notAvailableDates) }}"
                  :today="{{ json_encode(\Carbon\Carbon::today(config('app.timezone'))->toDateString()) }}"
                  :time_zone="{{ json_encode(config('app.timezone')) }}"
+                 :current_matches="{{ json_encode($currentMatches) }}"
+                 :users="{{ json_encode($users) }}"
     ></vue-manager>
 @endsection

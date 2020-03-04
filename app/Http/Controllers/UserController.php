@@ -12,6 +12,7 @@ use App\Season;
 use App\User;
 use Faker\Provider\File;
 use foo\bar;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -215,6 +216,28 @@ class UserController extends Controller
             'status' => $user->deleted_at ? 'danger' : 'success',
             'canReactivateUsers' => User::canActivate(),
             'canDeactivateUsers' => User::canDeactivate()
+        ]);
+    }
+
+    public function updatePosition(Request $request)
+    {
+        $users = $request['users'];
+        try {
+            DB::transaction(function () use ($users) {
+                for ($i = 0; $i < count($users); $i++) {
+                    $users[$i]->position = $i + 1;
+                    $users[$i]->save();
+                }
+            });
+        } catch (\Exception $exception){
+            return back()->withErrors([
+                'status' => 'failed',
+                'error' => $exception->getMessage()
+            ]);
+        }
+
+        return back()->with([
+            'status' => 'success'
         ]);
     }
 }
