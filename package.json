@@ -32,6 +32,7 @@
         "vue-scrollactive": "^0.8.0"
     },
     "dependencies": {
-        "bootstrap-vue": "^2.1.0"
+        "bootstrap-vue": "^2.1.0",
+        "vuedraggable": "^2.23.2"
     }
 }

@@ -62,6 +62,66 @@
 
                 <div class="row mb-5">
                     <div class="col">
+                        <div class="card" id="currentMatches">
+                            <div class="card-header"><h2 class="mb-0">{{ translations['matches.title'] }}</h2></div>
+                            <div class="card-body">
+                                <div class="row mb-3" v-for="match in current_matches">
+                                    <div class="col">
+                                        <div class="card text-center" :class="{'border-danger': match.type === 'requestCancel'}">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-sm-6 align-self-center">
+                                                        <h5 class="card-title mb-sm-0" :class="{'text-danger': match.type === 'requestCancel'}" >{{ match.challenge.asked.user_name }} vs. {{ match.challenge.challenger.user_name }}</h5>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <a :href="'/matches/' + match.id" class="btn btn-primary">{{ translations['matches.btnShow'] }}</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-5">
+                    <div class="col">
+                        <div class="card" id="pyramid">
+                            <div class="card-header"><h2 class="mb-0">{{ translations['pyramids.title'] }}</h2></div>
+                            <div class="card-body">
+                                <div class="row mb-5">
+                                    <div class="offset-sm-3 col-sm-6 col-12">
+                                        <draggable
+                                            class="list-group"
+                                            tag="ul"
+                                            v-model="newUsers"
+                                            v-bind="dragOptions"
+                                            @start="isDragging = true"
+                                            @end="isDragging = false"
+                                        >
+                                            <transition-group type="transition" name="flip-list">
+                                                <li class="list-group-item" v-for="user, index in newUsers" :key="user.id" :class="{'mb-3': isLastInLevel(index + 1)}">
+                                                    <font-awesome-icon :icon="['fas', 'align-justify']" class="mr-3" /> {{ index + 1 }}. {{ user.user_name }}
+                                                </li>
+                                            </transition-group>
+                                        </draggable>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="offset-sm-3 col-sm-6 col-12 d-flex justify-content-between">
+                                        <button class="btn btn-dark" @click="sort">{{ translations['pyramids.reset'] }}</button>
+                                        <button class="btn btn-primary" @click="saveUsers">{{ translations['pyramids.save'] }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-5">
+                    <div class="col">
                         <div class="card" id="deactivateUsers">
                             <div class="card-header"><h2 class="mb-0">{{ translations['users.deactivate'] }}</h2></div>
                             <div class="card-body">
@@ -146,7 +206,8 @@
                                                                  locale="sk"
                                                                  onlyDate
                                                                  autoClose
-                                                                 noButtonNow>
+                                                                 noButtonNow
+                                                                 id="season-add-start">
                                             </vue-datetime-picker>
                                             <field-error :form="formSeason" field="start"></field-error>
                                         </div>
@@ -165,7 +226,8 @@
                                                                  locale="sk"
                                                                  onlyDate
                                                                  autoClose
-                                                                 noButtonNow>
+                                                                 noButtonNow
+                                                                 id="season-add-end">
                                             </vue-datetime-picker>
                                             <field-error :form="formSeason" field="end"></field-error>
                                         </div>
@@ -242,7 +304,8 @@
                                                                  locale="sk"
                                                                  autoClose
                                                                  onlyDate
-                                                                 noButtonNow>
+                                                                 noButtonNow
+                                                                 id="not-available-dates-add">
                                             </vue-datetime-picker>
                                             <field-error :form="formNotAvailableDates" field="date"></field-error>
                                         </div>
@@ -298,6 +361,8 @@
             <div class="col-md-2 d-none d-md-block manager-sidebar">
                 <scrollactive class="nav flex-column" active-class="active">
                     <a href="#addPost" class="scrollactive-item nav-link">{{ translations['posts.add'] }}</a>
+                    <a href="#currentMatches" class="scrollactive-item nav-link">{{ translations['matches.title'] }}</a>
+                    <a href="#pyramid" class="scrollactive-item nav-link">{{ translations['pyramids.title'] }}</a>
                     <a href="#deactivateUsers" class="scrollactive-item nav-link">{{ translations['users.deactivate'] }}</a>
                     <a href="#reactivateUsers" class="scrollactive-item nav-link">{{ translations['users.reactivate'] }}</a>
                     <a href="#addSeason" class="scrollactive-item nav-link">{{ translations['season.add'] }}</a>
@@ -314,11 +379,15 @@
     import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
     import Form from "../Form.js";
     import moment from 'moment';
+    import draggable from "vuedraggable";
 
     export default {
         name: "Manager",
         props: ['translations', 'can_deactivate_users', 'can_reactivate_users', 'edit_posts', 'season',
-            'not_available_dates', 'today', 'time_zone'],
+            'not_available_dates', 'today', 'time_zone', 'current_matches', 'users'],
+        components: {
+            draggable
+        },
         data: () => {
             return {
                 editor: ClassicEditor,
@@ -349,7 +418,8 @@
                 axiosNotAvailableDates: '',
                 canAddPost: true,
                 successAddedPost: false,
-                successAddedPostMessage: ''
+                successAddedPostMessage: '',
+                newUsers: [],
             }
         },
         computed: {
@@ -413,6 +483,14 @@
             },
             minEndDateSeason() {
                 return this.today < this.formSeason.start ? this.formSeason.start : this.today;
+            },
+            dragOptions() {
+                return {
+                    animation: 0,
+                    group: "description",
+                    disabled: false,
+                    ghostClass: "ghost"
+                };
             }
         },
         methods: {
@@ -467,6 +545,23 @@
                 axios.post('/not_available_dates/' + notAvailableDate.id + '/destroy').then(response => {
                     this.axiosNotAvailableDates = response['data']['notAvailableDates'];
                 }).catch(e => {});
+            },
+            sort() {
+                this.newUsers = this.newUsers.sort((a, b) => a.position - b.position);
+            },
+            saveUsers() {
+
+            },
+            isLastInLevel(index) {
+                return Math.ceil(Math.sqrt(index)) === Math.floor(Math.sqrt(index));
+            }
+        },
+        mounted() {
+            if (this.users && this.users.length) {
+                for (let i = 0; i < this.users.length; i++) {
+                    console.log(this.users[i]);
+                    this.newUsers.push(this.users[i]);
+                }
             }
         }
     }

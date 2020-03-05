@@ -31,4 +31,6 @@ return [
     'cancel_match_purpose' => 'Dôvod na zrušenie zápasu',
     'cancel_match_modal_text' => 'Požiadavka bude odoslaná emailom na potvrdenie.',
     'cancel_match_modal_send' => 'Odoslať',
+    'title' => 'Aktuálne zápasy',
+    'btnShow' => 'Zobraziť',
 ];

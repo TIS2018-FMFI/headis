@@ -25,6 +25,8 @@ return [
     'September' => 'September',
     'October' => 'Október',
     'November' => 'November',
-    'December' => 'December'
-
+    'December' => 'December',
+    'title' => 'Rebríčková pyramída',
+    'reset' => 'Resetovať',
+    'save' => 'Uožiť',
 ];
