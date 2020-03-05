@@ -221,23 +221,27 @@ class UserController extends Controller
 
     public function updatePosition(Request $request)
     {
-        $users = $request['users'];
+        $userIDsString = $request['users'];
         try {
-            DB::transaction(function () use ($users) {
-                for ($i = 0; $i < count($users); $i++) {
-                    $users[$i]->position = $i + 1;
-                    $users[$i]->save();
+            DB::transaction(function () use ($userIDsString) {
+                $userIDs = explode(',', $userIDsString);
+                for ($i = 0; $i < count($userIDs); $i++) {
+                    /** @var User $user */
+                    $user = User::find($userIDs[$i]);
+                    $user->position = $i + 1;
+                    $user->save();
                 }
             });
         } catch (\Exception $exception){
-            return back()->withErrors([
+            return response()->json([
                 'status' => 'failed',
                 'error' => $exception->getMessage()
             ]);
         }
 
-        return back()->with([
-            'status' => 'success'
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Test'
         ]);
     }
 }

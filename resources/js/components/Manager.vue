@@ -91,6 +91,8 @@
                         <div class="card" id="pyramid">
                             <div class="card-header"><h2 class="mb-0">{{ translations['pyramids.title'] }}</h2></div>
                             <div class="card-body">
+                                <div class="alert alert-success" v-if="successUsersUpdate" v-html="successUsersUpdateMessage"></div>
+                                <field-error :form="formUsers" field="users"></field-error>
                                 <div class="row mb-5">
                                     <div class="offset-sm-3 col-sm-6 col-12">
                                         <draggable
@@ -378,7 +380,6 @@
 <script>
     import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
     import Form from "../Form.js";
-    import moment from 'moment';
     import draggable from "vuedraggable";
 
     export default {
@@ -410,6 +411,9 @@
                 formNotAvailableDates: new Form({
                    date: ''
                 }),
+                formUsers: new Form({
+                    users: ''
+                }),
                 axiosCanDeactivateUsers: '',
                 searchCanDeactivateUsers: '',
                 axiosCanReactivateUsers: '',
@@ -420,6 +424,8 @@
                 successAddedPost: false,
                 successAddedPostMessage: '',
                 newUsers: [],
+                successUsersUpdate: '',
+                successUsersUpdateMessage: '',
             }
         },
         computed: {
@@ -550,7 +556,19 @@
                 this.newUsers = this.newUsers.sort((a, b) => a.position - b.position);
             },
             saveUsers() {
-
+                let result = '';
+                for (let i = 0; i < this.newUsers.length; i++) {
+                    result += i > 0 ? ',' : '';
+                    result += this.newUsers[i]['id'];
+                }
+                this.formUsers.users = result;
+                this.formUsers.post('/users/updatePosition').then(response => {
+                    this.successUsersUpdate = true;
+                    this.successUsersUpdateMessage = response['message'];
+                    setTimeout(() => {
+                        this.successUsersUpdate = false;
+                    }, 3000);
+                });
             },
             isLastInLevel(index) {
                 return Math.ceil(Math.sqrt(index)) === Math.floor(Math.sqrt(index));
