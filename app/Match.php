@@ -12,6 +12,8 @@ class Match extends Model
     public $timestamps = false;
     protected $guarded = [];
 
+    protected $appends = ['finished'];
+
     public function challenge()
     {
         return $this->belongsTo(Challenge::class);
@@ -98,8 +100,11 @@ class Match extends Model
 
     public static function allCurrentMatches()
     {
-        return Match::where('confirmed',null)->get();
+        return Match::where('confirmed', null)->orWhere('confirmed', 0)->get();
     }
 
-
+    public function getFinishedAttribute()
+    {
+        return $this->finished();
+    }
 }

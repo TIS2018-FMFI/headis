@@ -5,7 +5,7 @@
                 <h1>{{ translations['matches.match'] }}</h1>
                 <p>{{ match.date.date | moment("DD.MM.YYYY HH:mm") }}</p>
                 <div v-if="current_user.isRedactor">
-                    <button @click.prevent="redactorCancelMatchRequest(true)" class="btn btn-success">{{ translations['matches.cancel_match_accept'] }}</button>
+                    <button v-if="match.type === 'requestCancel'" @click.prevent="redactorCancelMatchRequest(true)" class="btn btn-success">{{ translations['matches.cancel_match_accept'] }}</button>
                     <button v-if="match.type === 'requestCancel'" @click.prevent="redactorCancelMatchRequest(false)" class="btn btn-danger">{{ translations['matches.cancel_match_reject'] }}</button>
                 </div>
             </div>

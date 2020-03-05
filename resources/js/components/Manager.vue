@@ -65,9 +65,9 @@
                         <div class="card" id="currentMatches">
                             <div class="card-header"><h2 class="mb-0">{{ translations['matches.title'] }}</h2></div>
                             <div class="card-body">
-                                <div class="row mb-3" v-for="match in current_matches">
+                                <div class="row mb-4" v-for="match in current_matches">
                                     <div class="col">
-                                        <div class="card text-center" :class="{'border-danger': match.type === 'requestCancel'}">
+                                        <div class="card text-center" :class="{'border-danger': match.type === 'requestCancel' || match.confirmed === 0, 'border-secondary': !match.finished, 'border-blue': match.finished}">
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-sm-6 align-self-center">
@@ -78,6 +78,15 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="col">
+                                        <div class="d-flex justify-content-around">
+                                            <span class="badge badge-secondary">{{ translations['matches.waitingAddSets'] }}</span>
+                                            <span class="badge badge-blue">{{ translations['matches.waitingConfirm'] }}</span>
+                                            <span class="badge badge-danger">{{ translations['matches.waitingRequest'] }}</span>
                                         </div>
                                     </div>
                                 </div>
