@@ -241,7 +241,8 @@ class UserController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Test'
+            'message' => 'Test',
+            'users' => User::where('isRedactor',0)->orderBy('position')->get(['id', 'user_name', 'position'])
         ]);
     }
 }

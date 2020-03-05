@@ -568,6 +568,7 @@
                     setTimeout(() => {
                         this.successUsersUpdate = false;
                     }, 3000);
+                    this.newUsers = response['users'];
                 });
             },
             isLastInLevel(index) {
