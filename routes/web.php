@@ -26,6 +26,7 @@ Route::post('/users/{user}/destroy', 'UserController@destroy');
 Route::post('/users/{user}/update', 'UserController@update');
 Route::get('/users/{user}/edit', 'UserController@edit');
 Route::post('/users/activate', 'UserController@activate');
+Route::post('/users/updatePosition', 'UserController@updatePosition');
 
 Route::get('/challenges/{challenge}', 'ChallengeController@show');
 Route::post('/challenges/store', 'ChallengeController@store');

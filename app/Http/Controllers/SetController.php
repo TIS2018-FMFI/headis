@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MatchConfirmSets;
 use App\Match;
 use App\Rules\AllSetsValidator;
 use App\Rules\SetValidator;
@@ -10,6 +11,7 @@ use App\User;
 use http\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use function PHPSTORM_META\type;
 
 class SetController extends Controller
@@ -50,8 +52,13 @@ class SetController extends Controller
             }
         });
 
+        /** @var Match $match */
         $match = Match::find($request['match_id']);
         $sets = $match->sets;
+
+        if ($match->finished()) {
+            Mail::send(new MatchConfirmSets($match));
+        }
 
         return response()->json([
             'sets' => $sets,

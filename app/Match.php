@@ -12,6 +12,8 @@ class Match extends Model
     public $timestamps = false;
     protected $guarded = [];
 
+    protected $appends = ['finished'];
+
     public function challenge()
     {
         return $this->belongsTo(Challenge::class);
@@ -94,5 +96,15 @@ class Match extends Model
         }
 
         return $user->id === $this->challenge->challenger->id ? $sets['challenger'] . ':' . $sets['asked'] : $sets['asked'] . ':' . $sets['challenger'];
+    }
+
+    public static function allCurrentMatches()
+    {
+        return Match::where('confirmed', null)->orWhere('confirmed', 0)->get();
+    }
+
+    public function getFinishedAttribute()
+    {
+        return $this->finished();
     }
 }

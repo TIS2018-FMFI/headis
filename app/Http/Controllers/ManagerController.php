@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Date;
+use App\Match;
 use App\NotAvailableDate;
 use App\Season;
 use App\User;
@@ -58,6 +59,14 @@ class ManagerController extends Controller
         $translations['not_available_dates.noFoundDates'] = __('not_available_dates.noFoundDates');
         $translations['not_available_dates.addNotInCurrentSeason'] = __('not_available_dates.addNotInCurrentSeason');
         $translations['not_available_dates.destroyNotInCurrentSeason'] = __('not_available_dates.destroyNotInCurrentSeason');
+        $translations['matches.title'] = __('matches.title');
+        $translations['matches.btnShow'] = __('matches.btnShow');
+        $translations['matches.waitingRequest'] = __('matches.waitingRequest');
+        $translations['matches.waitingConfirm'] = __('matches.waitingConfirm');
+        $translations['matches.waitingAddSets'] = __('matches.waitingAddSets');
+        $translations['pyramids.title'] = __('pyramids.title');
+        $translations['pyramids.reset'] = __('pyramids.reset');
+        $translations['pyramids.save'] = __('pyramids.save');
 
         $season = [];
 
@@ -90,7 +99,9 @@ class ManagerController extends Controller
             'canDeactivateUsers' => User::canDeactivate(['id', 'user_name']),
             'canReactivateUsers' => User::canActivate(['id', 'user_name']),
             'season' => $season,
-            'notAvailableDates' => $notAvailableDates
+            'notAvailableDates' => $notAvailableDates,
+            'currentMatches' => Match::allCurrentMatches()->load(['challenge', 'challenge.asked', 'challenge.challenger']),
+            'users' => User::where('isRedactor',0)->orderBy('position')->get(['id', 'user_name', 'position'])
         ]);
     }
 }
