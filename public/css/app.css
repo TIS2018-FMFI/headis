@@ -12799,6 +12799,28 @@ body {
   text-decoration: none;
 }
 
+.badge-danger {
+  background-color: white;
+  border: 1px solid red;
+  color: red;
+}
+
+.badge-blue {
+  background-color: white;
+  border: 1px solid #007bff;
+  color: #007bff;
+}
+
+.badge-secondary {
+  background-color: white;
+  border: 1px solid #6c757d;
+  color: #6c757d;
+}
+
+.border-blue {
+  border-color: #007bff;
+}
+
 .navbar-laravel {
   background-color: #fff;
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);

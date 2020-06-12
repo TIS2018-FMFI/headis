@@ -61,6 +61,9 @@ class ManagerController extends Controller
         $translations['not_available_dates.destroyNotInCurrentSeason'] = __('not_available_dates.destroyNotInCurrentSeason');
         $translations['matches.title'] = __('matches.title');
         $translations['matches.btnShow'] = __('matches.btnShow');
+        $translations['matches.waitingRequest'] = __('matches.waitingRequest');
+        $translations['matches.waitingConfirm'] = __('matches.waitingConfirm');
+        $translations['matches.waitingAddSets'] = __('matches.waitingAddSets');
         $translations['pyramids.title'] = __('pyramids.title');
         $translations['pyramids.reset'] = __('pyramids.reset');
         $translations['pyramids.save'] = __('pyramids.save');
