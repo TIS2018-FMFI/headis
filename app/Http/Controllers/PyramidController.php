@@ -43,8 +43,9 @@ class PyramidController extends Controller
 
         $statisticPoints = [];
         foreach ($statistic as $items) {
-            $statisticPoints[] = Point::hydrate($items)[0];
-
+            if ($items) {
+                $statisticPoints[] = Point::hydrate($items)[0];
+            }
         }
         //dd($statisticPoints);
 
