@@ -63,7 +63,11 @@ class Season extends Model
 
     public function isCurrent()
     {
-        return $this->id === self::current()->id;
+        $season = self::current();
+        if ($season) {
+            return $this->id === $season->id;
+        }
+        return false;
     }
 
 }

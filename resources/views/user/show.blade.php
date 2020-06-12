@@ -81,62 +81,64 @@
                         </div>
                     </div>
                 @else
-                <div class="col-md-8 pre-scrollable">
-                    <div class="row">
-                        <div class="col-12 text-center">
-                            <h3>Sezóna {{ $season->getCurrentLabel() }}</h3>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="text-center col-12">
+                    @isset($season)
+                        <div class="col-md-8 pre-scrollable">
                             <div class="row">
-                                <div class="col-4 font-weight-bold">{{ __('users.Opponent') }}</div>
-                                <div class="col-8">
-                                    <div class="row mb-4">
-                                        <div class="col-4 font-weight-bold">{{ __('users.Challenge date') }}</div>
-                                        <div class="col-2 font-weight-bold d-none d-sm-block">{{ __('users.Set') }}1</div>
-                                        <div class="col-2 font-weight-bold d-none d-sm-block">{{ __('users.Set') }}2</div>
-                                        <div class="col-2 font-weight-bold d-none d-sm-block">{{ __('users.Set') }}3</div>
-                                        <div class="col-2 font-weight-bold">{{ __('users.Result') }}</div>
-                                    </div>
+                                <div class="col-12 text-center">
+                                    <h3>Sezóna {{ $season->getCurrentLabel() }}</h3>
                                 </div>
                             </div>
-                            @foreach($matches as $match)
-                                <div class="row mb-4">
-                                    <div class="col-4">
-                                        @if($user->id == $match->challenge->challenger->id)
-                                            <a href="/users/{{$match->challenge->asked->id}}">{{$match->challenge->asked->user_name}}</a>
-                                        @else
-                                            <a href="/users/{{$match->challenge->challenger->id}}">{{$match->challenge->challenger->user_name}}</a>
-                                        @endif
-                                    </div>
-                                    <div class="col-8">
-                                        @if($currentAuthUser && $currentAuthUser->isRedactor)
-                                            <a href="/matches/{{ $match->id }}" class="text-decoration-none">
-                                        @endif
-                                            <div class="row">
-                                                <div class="col-4">{{ \Carbon\Carbon::parse($match->date->date)->format('d.m.Y')}}</div>
-                                                @foreach($match->sets as $set)
-                                                    @if($user->id == $match->challenge->challenger->id)
-                                                        <div class="col-2 d-none d-sm-block">{{$set->score_1}}:{{$set->score_2}}</div>
-                                                    @else
-                                                        <div class="col-2 d-none d-sm-block">{{$set->score_2}}:{{$set->score_1}}</div>
-                                                    @endif
-                                                @endforeach
-                                                @if(sizeof($match->sets) == 2)
-                                                    <div class="col-2 d-none d-sm-block">0:0</div>
-                                                @endif
-                                                <div class="col-2">{{ $match->result($user) }}</div>
+                            <div class="row">
+                                <div class="text-center col-12">
+                                    <div class="row">
+                                        <div class="col-4 font-weight-bold">{{ __('users.Opponent') }}</div>
+                                        <div class="col-8">
+                                            <div class="row mb-4">
+                                                <div class="col-4 font-weight-bold">{{ __('users.Challenge date') }}</div>
+                                                <div class="col-2 font-weight-bold d-none d-sm-block">{{ __('users.Set') }}1</div>
+                                                <div class="col-2 font-weight-bold d-none d-sm-block">{{ __('users.Set') }}2</div>
+                                                <div class="col-2 font-weight-bold d-none d-sm-block">{{ __('users.Set') }}3</div>
+                                                <div class="col-2 font-weight-bold">{{ __('users.Result') }}</div>
                                             </div>
-                                        @if($currentAuthUser && $currentAuthUser->isRedactor)
-                                            </a>
-                                        @endif
+                                        </div>
                                     </div>
+                                    @foreach($matches as $match)
+                                        <div class="row mb-4">
+                                            <div class="col-4">
+                                                @if($user->id == $match->challenge->challenger->id)
+                                                    <a href="/users/{{$match->challenge->asked->id}}">{{$match->challenge->asked->user_name}}</a>
+                                                @else
+                                                    <a href="/users/{{$match->challenge->challenger->id}}">{{$match->challenge->challenger->user_name}}</a>
+                                                @endif
+                                            </div>
+                                            <div class="col-8">
+                                                @if($currentAuthUser && $currentAuthUser->isRedactor)
+                                                    <a href="/matches/{{ $match->id }}" class="text-decoration-none">
+                                                @endif
+                                                    <div class="row">
+                                                        <div class="col-4">{{ \Carbon\Carbon::parse($match->date->date)->format('d.m.Y')}}</div>
+                                                        @foreach($match->sets as $set)
+                                                            @if($user->id == $match->challenge->challenger->id)
+                                                                <div class="col-2 d-none d-sm-block">{{$set->score_1}}:{{$set->score_2}}</div>
+                                                            @else
+                                                                <div class="col-2 d-none d-sm-block">{{$set->score_2}}:{{$set->score_1}}</div>
+                                                            @endif
+                                                        @endforeach
+                                                        @if(sizeof($match->sets) == 2)
+                                                            <div class="col-2 d-none d-sm-block">0:0</div>
+                                                        @endif
+                                                        <div class="col-2">{{ $match->result($user) }}</div>
+                                                    </div>
+                                                @if($currentAuthUser && $currentAuthUser->isRedactor)
+                                                    </a>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endforeach
                                 </div>
-                            @endforeach
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    @endisset
                 @endif
         </div>
     </div>

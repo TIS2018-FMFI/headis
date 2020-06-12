@@ -57,11 +57,16 @@ class UserController extends Controller
 
         $season = $season ?: Season::current();
 
-        $matches = $user->matches($season->id);
         $countOfWins = 0;
-        foreach ($matches as $match){
-            if ($match->winner->id == $user->id){
-                $countOfWins++;
+        $matches = [];
+
+        if ($season) {
+            $matches = $user->matches($season->id);
+
+            foreach ($matches as $match) {
+                if ($match->winner->id == $user->id) {
+                    $countOfWins++;
+                }
             }
         }
 
