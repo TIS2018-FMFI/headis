@@ -85,7 +85,7 @@
                         <div class="col-md-8 pre-scrollable">
                             <div class="row">
                                 <div class="col-12 text-center">
-                                    <h3>Sezóna {{ $season->getCurrentLabel() }}</h3>
+                                    <h3>Sezóna {{ $season->getLabel() }}</h3>
                                 </div>
                             </div>
                             <div class="row">
