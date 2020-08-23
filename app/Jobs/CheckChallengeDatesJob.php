@@ -57,7 +57,7 @@ class CheckChallengeDatesJob implements ShouldQueue
                     'type' => 'notPenalized',
                     'season_id' => Season::current()->id
                 ]);
-                $matchesWhereNotPenalized = $this->challenge->asked->matchWithNotPenalized;
+                $matchesWhereNotPenalized = $this->challenge->asked->matchWithNotPenalized();
                 if (sizeof($matchesWhereNotPenalized) == 3){
                     foreach ($matchesWhereNotPenalized as $match){
                         $match->type = 'penalized';
